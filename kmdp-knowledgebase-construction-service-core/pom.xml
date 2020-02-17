@@ -7,12 +7,16 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-knowledgebase-construction-service</artifactId>
-    <version>3.6.0</version>
+    <version>3.6.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>kmdp-knowledgebase-construction-service-core</artifactId>
 
   <name>KMDP :: Server :: KnowledgeBase Construction Service (Internal)</name>
+
+  <properties>
+    <kmdp.servers.version>3.6.1-SNAPSHOT</kmdp.servers.version>
+  </properties>
 
   <dependencies>
 
