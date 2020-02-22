@@ -4,6 +4,7 @@ import static edu.mayo.ontology.taxonomies.api4kp.knowledgeoperations.KnowledgeP
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import edu.mayo.kmdp.id.VersionedIdentifier;
+import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import edu.mayo.kmdp.knowledgebase.v3.server.CompositionalApiInternal;
 import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.repository.asset.v3.server.KnowledgeAssetRetrievalApiInternal;
@@ -79,11 +80,10 @@ public class GraphBasedAssembler implements CompositionalApiInternal._assembleCo
       throw new UnsupportedOperationException(
           "Unable to detect a single root asset in the structure, which is expected to be tree-based");
     }
-    String tag = roots.iterator().next().getURI().replace(ASSET_BASE_URI,"");
-    // TODO FIXME Handle the version properly
+    VersionedIdentifier vid = DatatypeHelper.toVersionIdentifier(roots.iterator().next().getURI());
     return new VersionIdentifier()
-        .withTag(tag)
-        .withVersion("1.0.0");
+        .withTag(vid.getTag())
+        .withVersion(vid.getVersion());
   }
 
   private Set<Resource> getResources(Model graph) {

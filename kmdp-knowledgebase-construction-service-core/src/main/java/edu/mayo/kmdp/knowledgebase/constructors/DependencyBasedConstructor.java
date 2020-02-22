@@ -80,10 +80,10 @@ public class DependencyBasedConstructor implements KnowledgeBaseApiInternal._get
 
               return m;
             })
-//        .map(m -> {
-//          System.out.println(JenaUtil.asString(m));
-//          return m;
-//        })
+        .map(m -> {
+          System.out.println(JenaUtil.asString(m));
+          return m;
+        })
         // And we return it
         // TODO This is really RDF, but RDF is not yet registered !! :
         .map(m -> ofAst(m, rep(OWL_2))
@@ -95,12 +95,12 @@ public class DependencyBasedConstructor implements KnowledgeBaseApiInternal._get
   private void structure(URIIdentifier rootAssetId, KnowledgeAsset componentAsset, Model m) {
     // TODO Use the versionUris when proper set in the XML
     m.add(JenaUtil.objA(
-        rootAssetId.getUri().toString(),
+        getVersionURI(rootAssetId),
         StructuralPartTypeSeries.Has_Part.getConceptId().toString(),
-        componentAsset.getAssetId().getUri().toString()
+        getVersionURI(componentAsset.getAssetId())
     ));
     m.add(JenaUtil.objA(
-        componentAsset.getAssetId().getUri().toString(),
+        getVersionURI(componentAsset.getAssetId()),
         RDF.type,
         KnowledgeAssetRoleSeries.Component_Knowledge_Asset.getConceptId().toString()
     ));
@@ -126,12 +126,19 @@ public class DependencyBasedConstructor implements KnowledgeBaseApiInternal._get
         .filter(dep -> DependencyTypeSeries.Depends_On.sameAs(dep.getRel()))
         .forEach(dep -> {
               m.add(JenaUtil.objA(
-                  componentAsset.getAssetId().getUri().toString(),
+                  getVersionURI(componentAsset.getAssetId()),
                   DependencyTypeSeries.Depends_On.getConceptId().toString(),
-                  ((KnowledgeAsset) dep.getTgt()).getAssetId().getUri().toString()
+                  getVersionURI(((KnowledgeAsset) dep.getTgt()).getAssetId())
               ));
             }
         );
+  }
+
+  private String getVersionURI(URIIdentifier assetId) {
+    return assetId.getVersionId() != null
+        ? assetId.getVersionId().toString()
+        : assetId.getUri().toString() + DatatypeHelper
+            .getVersionSeparator(assetId.getUri().toString()) + "SNAPSHOT";
   }
 
 }
