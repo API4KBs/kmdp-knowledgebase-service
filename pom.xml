@@ -15,8 +15,11 @@
 
   <name>KMDP :: Server :: KnowledgeBase Construction Service</name>
 
-
   <packaging>pom</packaging>
+
+   <properties>
+    <kmdp.servers.version>3.6.1-SNAPSHOT</kmdp.servers.version>
+  </properties>
 
   <modules>
 <!--    <module>kmdp-knowledgebase-construction-service-impl</module>-->
