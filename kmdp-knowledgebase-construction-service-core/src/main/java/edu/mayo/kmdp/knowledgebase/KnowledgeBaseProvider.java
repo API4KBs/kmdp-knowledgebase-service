@@ -3,11 +3,9 @@ package edu.mayo.kmdp.knowledgebase;
 import static edu.mayo.kmdp.id.helper.DatatypeHelper.toSemanticIdentifier;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.metadata.surrogate.ComputableKnowledgeArtifact;
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
-import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
 import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.Util;
@@ -66,8 +64,6 @@ public class KnowledgeBaseProvider
             .filter(vid -> kbaseId.equals(vid.getUuid()))
             .map(vid -> knowledgeBaseMap.get(vid))
             .map(KnowledgeBase::getKbaseId)
-            .map(DatatypeHelper::toSemanticIdentifier)
-            .map(SemanticIdentifier::toPointer)
             .collect(Collectors.toList()));
   }
 
@@ -111,9 +107,9 @@ public class KnowledgeBaseProvider
         .findFirst());
 
     return artifactRef.flatMap(artifact -> {
+      ResourceIdentifier assetVid = toSemanticIdentifier(asset.getAssetId());
+      ResourceIdentifier artifVid = toSemanticIdentifier(artifact.getArtifactId());
       if (isLocal(artifact)) {
-        ResourceIdentifier assetVid = toSemanticIdentifier(asset.getAssetId());
-        ResourceIdentifier artifVid = toSemanticIdentifier(artifact.getArtifactId());
         return assetRepository.getKnowledgeAssetCarrierVersion(
             assetVid.getUuid(),
             assetVid.getVersionTag(),
@@ -122,8 +118,8 @@ public class KnowledgeBaseProvider
       } else {
         return Answer.of(new BinaryCarrier()
             .withRepresentation(rep(artifact.getRepresentation()))
-            .withArtifactId(artifact.getArtifactId())
-            .withAssetId(asset.getAssetId())
+            .withArtifactId(artifVid)
+            .withAssetId(assetVid)
             .withLabel(asset.getName())
             .withHref(artifact.getLocator()));
       }
@@ -132,7 +128,7 @@ public class KnowledgeBaseProvider
 
   private KnowledgeBase createEmptyKnowledgeBase(ResourceIdentifier vid) {
     KnowledgeBase newKBase = new KnowledgeBase()
-        .withKbaseId(DatatypeHelper.toURIIdentifier(vid));
+        .withKbaseId(vid.toPointer());
     knowledgeBaseMap.put(vid.asKey(), newKBase);
     return newKBase;
   }

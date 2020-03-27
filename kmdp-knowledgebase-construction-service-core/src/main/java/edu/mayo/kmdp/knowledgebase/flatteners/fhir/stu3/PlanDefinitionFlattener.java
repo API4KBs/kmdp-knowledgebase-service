@@ -56,7 +56,7 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
         })).get();
 
     KnowledgeCarrier masterPlan = kc.getComponent().stream()
-        .filter(comp -> comp.getAssetId().getUri().toString().contains(rootAssetId.toString()))
+        .filter(comp -> comp.getAssetId().getResourceId().toString().contains(rootAssetId.toString()))
         .findFirst()
         .orElseThrow(IllegalStateException::new);
 
@@ -65,7 +65,7 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
 
     List<PlanDefinition> subPlans =
         kc.getComponent().stream()
-            .filter(comp -> !comp.getAssetId().getUri().toString().contains(rootAssetId.toString()))
+            .filter(comp -> !comp.getAssetId().getResourceId().toString().contains(rootAssetId.toString()))
             .map(comp -> comp.as(PlanDefinition.class))
             .flatMap(StreamUtil::trimStream)
             .collect(Collectors.toList());

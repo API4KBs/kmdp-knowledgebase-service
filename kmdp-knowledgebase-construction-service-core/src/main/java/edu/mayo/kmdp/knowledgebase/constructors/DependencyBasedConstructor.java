@@ -7,7 +7,6 @@ import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLan
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.ofAst;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.metadata.surrogate.Dependency;
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
@@ -94,7 +93,7 @@ public class DependencyBasedConstructor implements
         // TODO This is really RDF, but RDF is not yet registered !! :
         .map(m -> ofAst(m, rep(OWL_2))
             // Need to Generate a new ID for the composite asset just constructed.
-            .withAssetId(DatatypeHelper.toURIIdentifier(compositeAssetVersionedId))
+            .withAssetId(compositeAssetVersionedId)
         );
   }
 
