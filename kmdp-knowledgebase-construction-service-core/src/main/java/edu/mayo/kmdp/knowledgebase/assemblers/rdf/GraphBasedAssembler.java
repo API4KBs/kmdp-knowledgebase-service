@@ -3,12 +3,11 @@ package edu.mayo.kmdp.knowledgebase.assemblers.rdf;
 import static edu.mayo.ontology.taxonomies.api4kp.knowledgeoperations.KnowledgeProcessingOperationSeries.Knowledge_Resource_Composition_Task;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
-import edu.mayo.kmdp.id.VersionedIdentifier;
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
-import edu.mayo.kmdp.knowledgebase.v3.server.CompositionalApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.CompositionalApiInternal;
 import edu.mayo.kmdp.registry.Registry;
-import edu.mayo.kmdp.repository.asset.v3.server.KnowledgeAssetRetrievalApiInternal;
+import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetRetrievalApiInternal;
 import edu.mayo.ontology.taxonomies.kao.rel.dependencyreltype.DependencyTypeSeries;
+import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -22,7 +21,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.impl.PropertyImpl;
 import org.omg.spec.api4kp._1_0.Answer;
-import org.omg.spec.api4kp._1_0.identifiers.VersionIdentifier;
+import org.omg.spec.api4kp._1_0.id.ResourceIdentifier;
+import org.omg.spec.api4kp._1_0.id.SemanticIdentifier;
 import org.omg.spec.api4kp._1_0.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._1_0.services.KPOperation;
 import org.omg.spec.api4kp._1_0.services.KPSupport;
@@ -34,7 +34,7 @@ import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
 public class GraphBasedAssembler implements CompositionalApiInternal._assembleCompositeArtifact {
 
   // TODO this should be a parameter of the operation
-  private final String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
+  private final static String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
 
   @Inject
   KnowledgeAssetRetrievalApiInternal repo;
@@ -48,15 +48,15 @@ public class GraphBasedAssembler implements CompositionalApiInternal._assembleCo
 
   @Override
   public Answer<KnowledgeCarrier> assembleCompositeArtifact(KnowledgeCarrier struct) {
-    VersionedIdentifier rootAsset = getRootAsset(struct);
-    return repo.getKnowledgeArtifactBundle(UUID.fromString(rootAsset.getTag()), rootAsset.getVersion())
+    ResourceIdentifier rootAsset = getRootAsset(struct);
+    return repo.getKnowledgeArtifactBundle(UUID.fromString(rootAsset.getTag()), rootAsset.getVersionTag())
         .map(parts -> new CompositeKnowledgeCarrier()
             .withAssetId(struct.getAssetId())
             .withStruct(struct)
             .withComponent(parts));
   }
 
-  private VersionedIdentifier getRootAsset(KnowledgeCarrier struct) {
+  private ResourceIdentifier getRootAsset(KnowledgeCarrier struct) {
     Model graph = struct.as(Model.class)
         .orElseThrow(IllegalArgumentException::new);
 
@@ -80,10 +80,7 @@ public class GraphBasedAssembler implements CompositionalApiInternal._assembleCo
       throw new UnsupportedOperationException(
           "Unable to detect a single root asset in the structure, which is expected to be tree-based");
     }
-    VersionedIdentifier vid = DatatypeHelper.toVersionIdentifier(roots.iterator().next().getURI());
-    return new VersionIdentifier()
-        .withTag(vid.getTag())
-        .withVersion(vid.getVersion());
+    return SemanticIdentifier.newVersionId(URI.create(roots.iterator().next().getURI()));
   }
 
   private Set<Resource> getResources(Model graph) {

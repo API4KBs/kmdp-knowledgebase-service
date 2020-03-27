@@ -1,17 +1,14 @@
 package edu.mayo.kmdp.knowledgebase;
 
-import static edu.mayo.kmdp.id.helper.DatatypeHelper.toVersionIdentifier;
-import static edu.mayo.kmdp.id.helper.DatatypeHelper.uri;
-import static edu.mayo.kmdp.id.helper.DatatypeHelper.vid;
+import static edu.mayo.kmdp.id.helper.DatatypeHelper.toSemanticIdentifier;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
-import edu.mayo.kmdp.id.VersionedIdentifier;
 import edu.mayo.kmdp.id.helper.DatatypeHelper;
-import edu.mayo.kmdp.knowledgebase.v3.server.KnowledgeBaseApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.metadata.surrogate.ComputableKnowledgeArtifact;
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.registry.Registry;
-import edu.mayo.kmdp.repository.asset.v3.server.KnowledgeAssetRepositoryApiInternal;
+import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
 import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
@@ -22,8 +19,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Named;
 import org.omg.spec.api4kp._1_0.Answer;
-import org.omg.spec.api4kp._1_0.identifiers.Pointer;
-import org.omg.spec.api4kp._1_0.identifiers.VersionIdentifier;
+import org.omg.spec.api4kp._1_0.id.IdentifierConstants;
+import org.omg.spec.api4kp._1_0.id.KeyIdentifier;
+import org.omg.spec.api4kp._1_0.id.Pointer;
+import org.omg.spec.api4kp._1_0.id.ResourceIdentifier;
+import org.omg.spec.api4kp._1_0.id.SemanticIdentifier;
 import org.omg.spec.api4kp._1_0.services.BinaryCarrier;
 import org.omg.spec.api4kp._1_0.services.KPServer;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
@@ -37,7 +37,7 @@ public class KnowledgeBaseProvider
 
   private KnowledgeAssetRepositoryApiInternal assetRepository;
 
-  private Map<VersionedIdentifier, KnowledgeBase> knowledgeBaseMap = new HashMap<>();
+  private Map<KeyIdentifier, KnowledgeBase> knowledgeBaseMap = new HashMap<>();
 
   @Autowired
   public KnowledgeBaseProvider(
@@ -46,27 +46,29 @@ public class KnowledgeBaseProvider
   }
 
   @Override
-  public Answer<Void> deleteKnowledgeBase(UUID kbaseId) {
+  public Answer<Void> deleteKnowledgeBase(final UUID kbaseId) {
     knowledgeBaseMap.keySet().stream()
-        .filter(vid -> kbaseId.equals(Util.toUUID(vid.getTag())))
+        .filter(vid -> kbaseId.equals(vid.getUuid()))
         .forEach(knowledgeBaseMap::remove);
     return Answer.succeed();
   }
 
   @Override
   public Answer<KnowledgeBase> getKnowledgeBase(UUID kbaseId, String versionTag) {
-    VersionedIdentifier vid = new VersionIdentifier()
-        .withTag(kbaseId.toString())
-        .withVersion(versionTag);
-    return Answer.ofNullable(knowledgeBaseMap.get(vid));
+    ResourceIdentifier vid = SemanticIdentifier.newId(kbaseId,versionTag);
+    return Answer.ofNullable(knowledgeBaseMap.get(vid.asKey()));
   }
 
   @Override
   public Answer<List<Pointer>> getKnowledgeBaseSeries(UUID kbaseId) {
-    return Answer.of(knowledgeBaseMap.keySet().stream()
-        .filter(vid -> kbaseId.equals(Util.toUUID(vid.getTag())))
-        .map(this::toPointer)
-        .collect(Collectors.toList()));
+    return Answer.of(
+        knowledgeBaseMap.keySet().stream()
+            .filter(vid -> kbaseId.equals(vid.getUuid()))
+            .map(vid -> knowledgeBaseMap.get(vid))
+            .map(KnowledgeBase::getKbaseId)
+            .map(DatatypeHelper::toSemanticIdentifier)
+            .map(SemanticIdentifier::toPointer)
+            .collect(Collectors.toList()));
   }
 
   @Override
@@ -76,31 +78,31 @@ public class KnowledgeBaseProvider
 
   @Override
   public Answer<Pointer> initKnowledgeBase() {
-    VersionedIdentifier vid = vid(UUID.randomUUID().toString(), "0.0.0");
+    Pointer vid = SemanticIdentifier.newIdAsPointer(UUID.randomUUID(), IdentifierConstants.VERSION_ZERO);
     createEmptyKnowledgeBase(vid);
-    return Answer.of(toPointer(vid));
+    return Answer.of(vid);
   }
 
   @Override
   public Answer<Pointer> initKnowledgeBase(KnowledgeAsset asset) {
-    VersionedIdentifier kbaseId = toVersionIdentifier(asset.getAssetId());
+    Pointer kbaseId = toSemanticIdentifier(asset.getAssetId()).toPointer();
 
     if (! knowledgeBaseMap.containsKey(kbaseId)) {
       createEmptyKnowledgeBase(kbaseId);
     } else {
       return Answer.failed(
           new IllegalStateException("The KB with ID " + kbaseId.getTag()  + ":"
-              + kbaseId.getVersion() + " is already initialized"));
+              + kbaseId.getVersionTag() + " is already initialized"));
     }
 
     getCanonicalArtifact(asset)
         .ifPresent(artf -> populateKnowledgeBase(
-            Util.toUUID(kbaseId.getTag()),
-            kbaseId.getVersion(),
+            kbaseId.getUuid(),
+            kbaseId.getVersionTag(),
             artf
       ));
 
-    return Answer.of(toPointer(kbaseId));
+    return Answer.of(kbaseId);
   }
 
   private Answer<KnowledgeCarrier> getCanonicalArtifact(KnowledgeAsset asset) {
@@ -110,13 +112,13 @@ public class KnowledgeBaseProvider
 
     return artifactRef.flatMap(artifact -> {
       if (isLocal(artifact)) {
-        VersionedIdentifier assetVid = toVersionIdentifier(asset.getAssetId());
-        VersionedIdentifier artifVid = toVersionIdentifier(artifact.getArtifactId());
+        ResourceIdentifier assetVid = toSemanticIdentifier(asset.getAssetId());
+        ResourceIdentifier artifVid = toSemanticIdentifier(artifact.getArtifactId());
         return assetRepository.getKnowledgeAssetCarrierVersion(
-            Util.toUUID(assetVid.getTag()),
-            assetVid.getVersion(),
-            Util.toUUID(artifVid.getTag()),
-            artifVid.getVersion());
+            assetVid.getUuid(),
+            assetVid.getVersionTag(),
+            artifVid.getUuid(),
+            artifVid.getVersionTag());
       } else {
         return Answer.of(new BinaryCarrier()
             .withRepresentation(rep(artifact.getRepresentation()))
@@ -128,10 +130,10 @@ public class KnowledgeBaseProvider
     });
   }
 
-  private KnowledgeBase createEmptyKnowledgeBase(VersionedIdentifier vid) {
+  private KnowledgeBase createEmptyKnowledgeBase(ResourceIdentifier vid) {
     KnowledgeBase newKBase = new KnowledgeBase()
-        .withKbaseId(DatatypeHelper.uri(Registry.BASE_UUID_URN, vid.getTag(), vid.getVersion()));
-    knowledgeBaseMap.put(vid, newKBase);
+        .withKbaseId(DatatypeHelper.toURIIdentifier(vid));
+    knowledgeBaseMap.put(vid.asKey(), newKBase);
     return newKBase;
   }
 
@@ -139,12 +141,12 @@ public class KnowledgeBaseProvider
   @Override
   public Answer<Pointer> populateKnowledgeBase(UUID kbaseId, String versionTag,
       KnowledgeCarrier sourceArtifact) {
-    VersionedIdentifier versionedId = vid(kbaseId.toString(), versionTag);
-    knowledgeBaseMap.computeIfPresent(versionedId,
+    Pointer versionedId = SemanticIdentifier.newIdAsPointer(kbaseId, versionTag);
+    knowledgeBaseMap.computeIfPresent(versionedId.asKey(),
         (id, kb) -> isLocal(sourceArtifact)
             ? configureAsLocalKB(kb, sourceArtifact)
             : configureAsRemoteKB(kb, sourceArtifact.getHref()));
-    return Answer.of(toPointer(versionedId));
+    return Answer.of(versionedId);
   }
 
   protected KnowledgeBase configureAsRemoteKB(KnowledgeBase kBase, URI endpoint) {
@@ -172,15 +174,6 @@ public class KnowledgeBaseProvider
 
   protected KnowledgeAssetRepositoryApiInternal getAssetRepository() {
     return assetRepository;
-  }
-
-  protected Pointer toPointer(VersionedIdentifier versionedIdentifier) {
-    return new Pointer()
-        .withName("KBase " + versionedIdentifier.getTag() + ":" + versionedIdentifier.getVersion())
-        .withEntityRef(uri(
-            Registry.BASE_UUID_URN,
-            versionedIdentifier.getTag(),
-            versionedIdentifier.getVersion()));
   }
 
 }

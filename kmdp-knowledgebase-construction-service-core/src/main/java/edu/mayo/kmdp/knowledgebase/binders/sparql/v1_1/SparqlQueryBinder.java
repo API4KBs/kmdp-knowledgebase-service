@@ -16,8 +16,8 @@ package edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
 
 import edu.mayo.kmdp.id.helper.DatatypeHelper;
-import edu.mayo.kmdp.knowledgebase.v3.server.BindingApiInternal._bind;
-import edu.mayo.kmdp.knowledgebase.v3.server.KnowledgeBaseApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.BindingApiInternal._bind;
+import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.util.Util;
@@ -28,7 +28,7 @@ import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.omg.spec.api4kp._1_0.Answer;
 import org.omg.spec.api4kp._1_0.datatypes.Bindings;
-import org.omg.spec.api4kp._1_0.identifiers.Pointer;
+import org.omg.spec.api4kp._1_0.id.Pointer;
 import org.omg.spec.api4kp._1_0.services.DocumentCarrier;
 import org.omg.spec.api4kp._1_0.services.KPSupport;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
@@ -51,10 +51,8 @@ public class SparqlQueryBinder implements _bind {
         .flatMap(paramQuery -> bind(paramQuery, bindings))
         .flatMap(boundCarrier ->
             kbManager.initKnowledgeBase(new KnowledgeAsset().withAssetId(boundCarrier.getAssetId()))
-                .map(DatatypeHelper::deRef)
                 .flatMap(boundKbId ->
-                    kbManager.populateKnowledgeBase(
-                        Util.toUUID(boundKbId.getTag()), boundKbId.getVersion(), boundCarrier))
+                    kbManager.populateKnowledgeBase(boundKbId.getUuid(), boundKbId.getVersionTag(), boundCarrier))
         );
   }
 

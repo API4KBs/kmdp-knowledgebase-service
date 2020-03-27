@@ -3,7 +3,7 @@ package edu.mayo.kmdp.knowledgebase.flatteners.fhir.stu3;
 import static edu.mayo.ontology.taxonomies.api4kp.knowledgeoperations.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
-import edu.mayo.kmdp.knowledgebase.v3.server.CompositionalApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.CompositionalApiInternal;
 import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
@@ -23,11 +23,15 @@ import org.omg.spec.api4kp._1_0.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._1_0.services.KPOperation;
 import org.omg.spec.api4kp._1_0.services.KPSupport;
 import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @KPOperation(Knowledge_Resource_Flattening_Task)
 @KPSupport(FHIR_STU3)
 @Named
 public class PlanDefinitionFlattener implements CompositionalApiInternal._flattenArtifact {
+  
+  private static Logger logger = LoggerFactory.getLogger(PlanDefinitionFlattener.class);
 
   // TODO root Asset ID should be marked inside the struct, not passed as an argument.
   //  Need a 'rootComponent' or something..
@@ -105,7 +109,7 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
       URI ref = URI.create(actionReference.getDefinition().getReference());
       String artifactRef = URIUtil.normalizeURIString(ref);
       String fragmentId = actionReference.getDefinition().getIdentifier().getValue();
-      System.out.println("Found action pure reference " + ref);
+      logger.info("Found action pure reference {}", ref);
       Optional<PlanDefinition> referredPlan = component.stream()
           .map(kc -> kc.as(PlanDefinition.class))
           .flatMap(StreamUtil::trimStream)
@@ -115,16 +119,15 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
 
       if (referredPlan.isPresent()) {
         PlanDefinition target = referredPlan.get();
-        System.out.println("Resolved into " + target.getName());
+        logger.info("Resolved into {}", target.getName());
         Optional<PlanDefinitionActionComponent> referredAction = lookupDefinedAction(target,
             fragmentId);
 
-        System.out.println("Resolved  " + referredAction.isPresent());
+        logger.info("Resolved {}", referredAction.isPresent());
         if (referredAction.isPresent()) {
 
           subPlan.getAction().remove(actionReference);
           subPlan.addAction(referredAction.get());
-          //referredAction.get().addAction(actionReference);
           actionReference.getDefinition().setReference(target.getId());
 
           if (!masterPlan.getContained().contains(target)) {
@@ -133,14 +136,13 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
         }
 
       } else {
-        System.err.println(
-            "WARNING Unable to resolve referred action " + actionReference.getDefinition()
+        logger.warn(
+            "WARNING Unable to resolve referred action {}", actionReference.getDefinition()
                 .getDisplay());
       }
     } else {
       if (action.getDefinition().getReference() != null) {
-        System.err
-            .println("WARNING : UNRESOLVED REFERENCE " + action.getDefinition().getReference());
+        logger.warn("WARNING : UNRESOLVED REFERENCE {}", action.getDefinition().getReference());
       }
     }
     new ArrayList<>(action.getAction())
@@ -168,14 +170,13 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
 
 
   private void flattenInto(PlanDefinition subPlan, PlanDefinition masterPlan) {
-    System.out
-        .println(">>>>>>>>>> Flattening " + subPlan.getName() + " into " + masterPlan.getName());
+    logger.info(">>>>>>>>>> Flattening {} into {}", subPlan.getName(), masterPlan.getName());
 
     if (masterPlan.getType().getCodingFirstRep()
         .equalsDeep(subPlan.getType().getCodingFirstRep())) {
       // won't happen here, but TODO
     } else {
-      System.out.println(
+      logger.info(
           "--  Merging " + subPlan.getName() + ", a " + subPlan.getType().getCodingFirstRep()
               .getDisplay()
               + " into a " + masterPlan.getType().getCodingFirstRep().getDisplay());
@@ -200,7 +201,6 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
         .forEach(act -> {
           if (act.getDefinition().getReference() != null
               && !act.getDefinition().getReference().startsWith("#")) {
-//        System.out.println("Found external reference in " + act.getLabel() + " to " + act.getDefinition().getDisplay());
             if (act.getDefinition().getReference().contains(mergedPlan.getId().replace("#", ""))) {
               act.getDefinition().setReference(mergedPlan.getId());
             }
