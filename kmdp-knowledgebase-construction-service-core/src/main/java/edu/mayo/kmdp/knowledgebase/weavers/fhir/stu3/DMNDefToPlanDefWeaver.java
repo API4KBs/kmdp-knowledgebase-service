@@ -4,9 +4,8 @@ import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLan
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import edu.mayo.kmdp.id.Term;
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
-import edu.mayo.kmdp.knowledgebase.v3.server.BindingApiInternal;
-import edu.mayo.kmdp.knowledgebase.v3.server.KnowledgeBaseApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.BindingApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.metadata.annotations.SimpleAnnotation;
 import edu.mayo.kmdp.terms.v4.server.TermsApiInternal;
 import edu.mayo.kmdp.util.StreamUtil;
@@ -23,7 +22,7 @@ import javax.inject.Named;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import org.omg.spec.api4kp._1_0.Answer;
-import org.omg.spec.api4kp._1_0.identifiers.Pointer;
+import org.omg.spec.api4kp._1_0.id.Pointer;
 import org.omg.spec.api4kp._1_0.services.KPOperation;
 import org.omg.spec.api4kp._1_0.services.KPSupport;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
@@ -33,6 +32,8 @@ import org.omg.spec.dmn._20180521.model.TDecision;
 import org.omg.spec.dmn._20180521.model.TDecisionService;
 import org.omg.spec.dmn._20180521.model.TDefinitions;
 import org.omg.spec.dmn._20180521.model.TInputData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -40,6 +41,8 @@ import org.w3c.dom.Element;
 @KPSupport({FHIR_STU3,DMN_1_2})
 @KPOperation(KnowledgeProcessingOperationSeries.Injection_Task) //TODO FIXME add 'weaving' to the ontology
 public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
+
+  static Logger logger = LoggerFactory.getLogger(DMNDefToPlanDefWeaver.class);
 
   @Inject
   KnowledgeBaseApiInternal kbaseManager;
@@ -63,10 +66,9 @@ public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
 
     // TODO FIXME neeed a way to set the new version of the KB
     return kbaseManager.initKnowledgeBase()
-        .map(DatatypeHelper::deRef)
         .flatMap(vid -> kbaseManager.populateKnowledgeBase(
             UUID.fromString(vid.getTag()),
-            vid.getVersion(),
+            vid.getVersionTag(),
             woven.get()
         ))
     ;
@@ -103,12 +105,12 @@ public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
   private void weaveDecision(JAXBElement<? extends TDRGElement> decElement,
       TDefinitions dictionary, TDefinitions sourceDecisionModel) {
     TDecision dec = (TDecision) decElement.getValue();
-    System.out.println("Checking for dictionary refs " + dec.getName());
+    logger.info("Checking for dictionary refs {}", dec.getName());
     dec.getInformationRequirement().stream()
         .filter(info -> info.getRequiredInput() != null)
         .filter(info -> info.getRequiredInput().getHref().startsWith(getDictionaryURI()))
         .forEach(info -> {
-          System.out.println("Found dictionary reference " + info.getRequiredInput().getHref());
+          logger.info("Found dictionary reference {}",  info.getRequiredInput().getHref());
           String refUUID = URI.create(info.getRequiredInput().getHref()).getFragment();
           info.getRequiredInput().setHref("#" + refUUID);
           JAXBElement<TInputData> resolvedInput = new JAXBElement<>(
@@ -126,7 +128,7 @@ public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
         .flatOpt(vocabs -> vocabs.stream()
             //.filter() // TODO there should be a filter based on an operation parameter
             .findFirst()
-            .map(Pointer::getHref)
+            .map(p -> p.getHref())
             .map(URI::toString)
         )
         .orElseThrow(IllegalStateException::new);
@@ -157,16 +159,16 @@ public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
 
   private void addResolvedInput(JAXBElement<TInputData> resolvedInput,
       TDefinitions sourceDecisionModel) {
-    System.out.println("Trying to weave resolved input " + resolvedInput.getValue().getName());
+    logger.info("Trying to weave resolved input {}", resolvedInput.getValue().getName());
     boolean alreadyExisting = sourceDecisionModel.getDrgElement().stream()
         .map(JAXBElement::getValue)
         .flatMap(StreamUtil.filterAs(TInputData.class))
         .anyMatch(in -> in.getId().equals(resolvedInput.getValue().getId()));
     if (! alreadyExisting) {
-      System.out.println("Adding " + resolvedInput.getValue().getName());
+      logger.info(("Adding " + resolvedInput.getValue().getName()));
       sourceDecisionModel.getDrgElement().add(resolvedInput);
     } else {
-      System.out.println("Already present - no need to add");
+      logger.info("Already present - no need to add");
     }
   }
 

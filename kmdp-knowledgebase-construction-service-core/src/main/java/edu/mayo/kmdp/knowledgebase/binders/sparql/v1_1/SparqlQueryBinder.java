@@ -16,11 +16,10 @@ package edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
 
 import edu.mayo.kmdp.id.helper.DatatypeHelper;
-import edu.mayo.kmdp.knowledgebase.v3.server.BindingApiInternal._bind;
-import edu.mayo.kmdp.knowledgebase.v3.server.KnowledgeBaseApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.BindingApiInternal._bind;
+import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.registry.Registry;
-import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.UUID;
 import javax.inject.Inject;
@@ -28,7 +27,9 @@ import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.omg.spec.api4kp._1_0.Answer;
 import org.omg.spec.api4kp._1_0.datatypes.Bindings;
-import org.omg.spec.api4kp._1_0.identifiers.Pointer;
+import org.omg.spec.api4kp._1_0.id.IdentifierConstants;
+import org.omg.spec.api4kp._1_0.id.Pointer;
+import org.omg.spec.api4kp._1_0.id.SemanticIdentifier;
 import org.omg.spec.api4kp._1_0.services.DocumentCarrier;
 import org.omg.spec.api4kp._1_0.services.KPSupport;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
@@ -50,11 +51,10 @@ public class SparqlQueryBinder implements _bind {
         .map(KnowledgeBase::getManifestation)
         .flatMap(paramQuery -> bind(paramQuery, bindings))
         .flatMap(boundCarrier ->
-            kbManager.initKnowledgeBase(new KnowledgeAsset().withAssetId(boundCarrier.getAssetId()))
-                .map(DatatypeHelper::deRef)
+            kbManager.initKnowledgeBase(new KnowledgeAsset()
+                .withAssetId(DatatypeHelper.toURIIdentifier(boundCarrier.getAssetId())))
                 .flatMap(boundKbId ->
-                    kbManager.populateKnowledgeBase(
-                        Util.toUUID(boundKbId.getTag()), boundKbId.getVersion(), boundCarrier))
+                    kbManager.populateKnowledgeBase(boundKbId.getUuid(), boundKbId.getVersionTag(), boundCarrier))
         );
   }
 
@@ -69,7 +69,10 @@ public class SparqlQueryBinder implements _bind {
       }
     });
     return Answer.of(new DocumentCarrier()
-        .withAssetId(DatatypeHelper.uri(Registry.BASE_UUID_URN, UUID.randomUUID().toString(),"0.0.0"))
+        .withAssetId(SemanticIdentifier.newId(
+            Registry.BASE_UUID_URN_URI,
+            UUID.randomUUID(),
+            IdentifierConstants.VERSION_ZERO))
         .withStructuredExpression(paramQ.asQuery())
         .withRepresentation(paramQuery.getRepresentation()));
   }
