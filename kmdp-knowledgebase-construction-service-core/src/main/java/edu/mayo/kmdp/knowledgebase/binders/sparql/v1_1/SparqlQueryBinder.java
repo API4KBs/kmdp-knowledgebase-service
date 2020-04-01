@@ -15,10 +15,9 @@ package edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1;
 
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
 
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import edu.mayo.kmdp.knowledgebase.v4.server.BindingApiInternal._bind;
 import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
+import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.registry.Registry;
 import java.net.URI;
 import java.util.UUID;
@@ -52,7 +51,7 @@ public class SparqlQueryBinder implements _bind {
         .flatMap(paramQuery -> bind(paramQuery, bindings))
         .flatMap(boundCarrier ->
             kbManager.initKnowledgeBase(new KnowledgeAsset()
-                .withAssetId(DatatypeHelper.toURIIdentifier(boundCarrier.getAssetId())))
+                .withAssetId(boundCarrier.getAssetId()))
                 .flatMap(boundKbId ->
                     kbManager.populateKnowledgeBase(boundKbId.getUuid(), boundKbId.getVersionTag(), boundCarrier))
         );

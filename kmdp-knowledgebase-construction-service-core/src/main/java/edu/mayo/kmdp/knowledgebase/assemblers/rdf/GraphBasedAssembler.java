@@ -34,7 +34,7 @@ import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
 public class GraphBasedAssembler implements CompositionalApiInternal._assembleCompositeArtifact {
 
   // TODO this should be a parameter of the operation
-  private final static String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
+  private static final String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
 
   @Inject
   KnowledgeAssetRetrievalApiInternal repo;

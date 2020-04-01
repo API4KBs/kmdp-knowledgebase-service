@@ -1,6 +1,5 @@
 package edu.mayo.kmdp.knowledgebase.constructors;
 
-import static edu.mayo.kmdp.id.helper.DatatypeHelper.toSemanticIdentifier;
 import static edu.mayo.ontology.taxonomies.api4kp.knowledgeoperations.KnowledgeProcessingOperationSeries.Knowledge_Resource_Construction_Task;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
@@ -8,8 +7,8 @@ import static org.omg.spec.api4kp._1_0.AbstractCarrier.ofAst;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import edu.mayo.kmdp.metadata.surrogate.Dependency;
-import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
+import edu.mayo.kmdp.metadata.v2.surrogate.Dependency;
+import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.StreamUtil;
@@ -102,10 +101,10 @@ public class DependencyBasedConstructor implements
     m.add(JenaUtil.objA(
         getVersionURI(rootAssetId),
         StructuralPartTypeSeries.Has_Part.getConceptId().toString(),
-        getVersionURI(toSemanticIdentifier(componentAsset.getAssetId()))
+        getVersionURI(componentAsset.getAssetId())
     ));
     m.add(JenaUtil.objA(
-        getVersionURI(toSemanticIdentifier(componentAsset.getAssetId())),
+        getVersionURI(componentAsset.getAssetId()),
         RDF.type,
         KnowledgeAssetRoleSeries.Component_Knowledge_Asset.getConceptId().toString()
     ));
@@ -113,7 +112,7 @@ public class DependencyBasedConstructor implements
     componentAsset.getFormalType()
         .forEach(type -> {
               m.add(JenaUtil.objA(
-                  componentAsset.getAssetId().getUri().toString(),
+                  componentAsset.getAssetId().getResourceId().toString(),
                   RDF.type,
                   type.getConceptId().toString())
               );
@@ -126,14 +125,13 @@ public class DependencyBasedConstructor implements
             }
         );
 
-    componentAsset.getRelated().stream()
+    componentAsset.getLinks().stream()
         .flatMap(StreamUtil.filterAs(Dependency.class))
         .filter(dep -> DependencyTypeSeries.Depends_On.sameAs(dep.getRel()))
         .forEach(dep -> m.add(JenaUtil.objA(
-            getVersionURI(toSemanticIdentifier(componentAsset.getAssetId())),
+            getVersionURI(componentAsset.getAssetId()),
             DependencyTypeSeries.Depends_On.getConceptId().toString(),
-            getVersionURI(toSemanticIdentifier(((KnowledgeAsset) dep.getTgt()).getAssetId())))
-        ));
+            getVersionURI(dep.getHref()))));
   }
 
   private String getVersionURI(ResourceIdentifier assetId) {

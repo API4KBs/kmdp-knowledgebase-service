@@ -1,11 +1,10 @@
 package edu.mayo.kmdp.knowledgebase;
 
-import static edu.mayo.kmdp.id.helper.DatatypeHelper.toSemanticIdentifier;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import edu.mayo.kmdp.metadata.surrogate.ComputableKnowledgeArtifact;
-import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
+import edu.mayo.kmdp.metadata.v2.surrogate.ComputableKnowledgeArtifact;
+import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
 import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.Util;
@@ -81,9 +80,9 @@ public class KnowledgeBaseProvider
 
   @Override
   public Answer<Pointer> initKnowledgeBase(KnowledgeAsset asset) {
-    Pointer kbaseId = toSemanticIdentifier(asset.getAssetId()).toPointer();
+    Pointer kbaseId = asset.getAssetId().toPointer();
 
-    if (! knowledgeBaseMap.containsKey(kbaseId)) {
+    if (! knowledgeBaseMap.containsKey(kbaseId.asKey())) {
       createEmptyKnowledgeBase(kbaseId);
     } else {
       return Answer.failed(
@@ -107,8 +106,8 @@ public class KnowledgeBaseProvider
         .findFirst());
 
     return artifactRef.flatMap(artifact -> {
-      ResourceIdentifier assetVid = toSemanticIdentifier(asset.getAssetId());
-      ResourceIdentifier artifVid = toSemanticIdentifier(artifact.getArtifactId());
+      ResourceIdentifier assetVid = asset.getAssetId();
+      ResourceIdentifier artifVid = artifact.getArtifactId();
       if (isLocal(artifact)) {
         return assetRepository.getKnowledgeAssetCarrierVersion(
             assetVid.getUuid(),
@@ -128,7 +127,7 @@ public class KnowledgeBaseProvider
 
   private KnowledgeBase createEmptyKnowledgeBase(ResourceIdentifier vid) {
     KnowledgeBase newKBase = new KnowledgeBase()
-        .withKbaseId(vid.toPointer());
+        .withKbaseId(vid.toInnerPointer());
     knowledgeBaseMap.put(vid.asKey(), newKBase);
     return newKBase;
   }
