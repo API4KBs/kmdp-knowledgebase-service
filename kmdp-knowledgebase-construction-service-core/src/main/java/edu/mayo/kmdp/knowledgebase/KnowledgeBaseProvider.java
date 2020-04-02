@@ -21,7 +21,7 @@ import org.omg.spec.api4kp._1_0.id.KeyIdentifier;
 import org.omg.spec.api4kp._1_0.id.Pointer;
 import org.omg.spec.api4kp._1_0.id.ResourceIdentifier;
 import org.omg.spec.api4kp._1_0.id.SemanticIdentifier;
-import org.omg.spec.api4kp._1_0.services.BinaryCarrier;
+import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._1_0.services.KPServer;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
 import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
@@ -115,7 +115,7 @@ public class KnowledgeBaseProvider
             artifVid.getUuid(),
             artifVid.getVersionTag());
       } else {
-        return Answer.of(new BinaryCarrier()
+        return Answer.of(new KnowledgeCarrier()
             .withRepresentation(rep(artifact.getRepresentation()))
             .withArtifactId(artifVid)
             .withAssetId(assetVid)

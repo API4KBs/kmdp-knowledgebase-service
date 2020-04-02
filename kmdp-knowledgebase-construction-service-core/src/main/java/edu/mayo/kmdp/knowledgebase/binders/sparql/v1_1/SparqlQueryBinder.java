@@ -24,12 +24,12 @@ import java.util.UUID;
 import javax.inject.Inject;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.ResourceFactory;
+import org.omg.spec.api4kp._1_0.AbstractCarrier;
 import org.omg.spec.api4kp._1_0.Answer;
 import org.omg.spec.api4kp._1_0.datatypes.Bindings;
 import org.omg.spec.api4kp._1_0.id.IdentifierConstants;
 import org.omg.spec.api4kp._1_0.id.Pointer;
 import org.omg.spec.api4kp._1_0.id.SemanticIdentifier;
-import org.omg.spec.api4kp._1_0.services.DocumentCarrier;
 import org.omg.spec.api4kp._1_0.services.KPSupport;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
 import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
@@ -58,8 +58,8 @@ public class SparqlQueryBinder implements _bind {
   }
 
   public Answer<KnowledgeCarrier> bind(KnowledgeCarrier paramQuery, Bindings bindings) {
-    ParameterizedSparqlString paramQ = (ParameterizedSparqlString) ((DocumentCarrier) paramQuery)
-        .getStructuredExpression();
+    ParameterizedSparqlString paramQ = paramQuery.as(ParameterizedSparqlString.class)
+        .orElseThrow(IllegalArgumentException::new);
     bindings.forEach((key, value) -> {
       if (value instanceof URI) {
         paramQ.setParam(key, ResourceFactory.createResource(value.toString()));
@@ -67,13 +67,13 @@ public class SparqlQueryBinder implements _bind {
         paramQ.setLiteral(key, value.toString());
       }
     });
-    return Answer.of(new DocumentCarrier()
-        .withAssetId(SemanticIdentifier.newId(
-            Registry.BASE_UUID_URN_URI,
-            UUID.randomUUID(),
-            IdentifierConstants.VERSION_ZERO))
-        .withStructuredExpression(paramQ.asQuery())
-        .withRepresentation(paramQuery.getRepresentation()));
+    return Answer.of(
+        AbstractCarrier.ofAst(paramQ.asQuery())
+            .withAssetId(SemanticIdentifier.newId(
+                Registry.BASE_UUID_URN_URI,
+                UUID.randomUUID(),
+                IdentifierConstants.VERSION_ZERO))
+            .withRepresentation(paramQuery.getRepresentation()));
   }
 
 }
