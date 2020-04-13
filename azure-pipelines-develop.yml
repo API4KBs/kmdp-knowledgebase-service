@@ -2,7 +2,7 @@
 ### Develop Snapshot Branch X.X.X-SNAPSHOT
 ### Project :: KMDP KNOWLEDGEBASE SERVICE
 
-# !! Downstream Build: kmdp-knowledge-asset-repository-service; develop !!
+# !! Downstream Build: kmdp-inference-broker; develop !!
 
 trigger:
 - develop
