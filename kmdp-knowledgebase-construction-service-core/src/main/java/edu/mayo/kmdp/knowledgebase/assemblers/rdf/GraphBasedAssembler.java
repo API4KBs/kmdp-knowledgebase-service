@@ -5,12 +5,12 @@ import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLan
 
 import edu.mayo.kmdp.knowledgebase.v4.server.CompositionalApiInternal;
 import edu.mayo.kmdp.registry.Registry;
-import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetRetrievalApiInternal;
+import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
 import edu.mayo.ontology.taxonomies.kao.rel.dependencyreltype.DependencyTypeSeries;
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,10 +37,10 @@ public class GraphBasedAssembler implements CompositionalApiInternal._assembleCo
   private static final String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
 
   @Inject
-  KnowledgeAssetRetrievalApiInternal repo;
+  KnowledgeAssetRepositoryApiInternal repo;
 
   public static CompositionalApiInternal._assembleCompositeArtifact newInstance(
-      KnowledgeAssetRetrievalApiInternal repo) {
+      KnowledgeAssetRepositoryApiInternal repo) {
     GraphBasedAssembler assembler = new GraphBasedAssembler();
     assembler.repo = repo;
     return assembler;
@@ -48,12 +48,31 @@ public class GraphBasedAssembler implements CompositionalApiInternal._assembleCo
 
   @Override
   public Answer<KnowledgeCarrier> assembleCompositeArtifact(KnowledgeCarrier struct) {
-    ResourceIdentifier rootAsset = getRootAsset(struct);
-    return repo.getKnowledgeArtifactBundle(UUID.fromString(rootAsset.getTag()), rootAsset.getVersionTag())
-        .map(parts -> new CompositeKnowledgeCarrier()
+    Set<ResourceIdentifier> componentIds = getComponentAssets(struct);
+
+    Set<KnowledgeCarrier> components = componentIds.stream()
+        .map(cid -> repo.getCanonicalKnowledgeAssetCarrier(cid.getUuid(),cid.getVersionTag()))
+        .collect(Answer.toSet())
+        .orElse(Collections.emptySet())
+        ;
+
+    return Answer.of(new CompositeKnowledgeCarrier()
             .withAssetId(struct.getAssetId())
             .withStruct(struct)
-            .withComponent(parts));
+            .withComponent(components));
+  }
+
+  private Set<ResourceIdentifier> getComponentAssets(KnowledgeCarrier struct) {
+    Model graph = struct.as(Model.class)
+        .orElseThrow(IllegalArgumentException::new);
+
+    Set<Resource> resources = getResources(graph);
+
+    return resources.stream()
+        .filter(res -> res.getURI().startsWith(ASSET_BASE_URI))
+        .map(Resource::getURI)
+        .map(SemanticIdentifier::newId)
+        .collect(Collectors.toSet());
   }
 
   private ResourceIdentifier getRootAsset(KnowledgeCarrier struct) {
