@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.constructors;
 
+import static edu.mayo.kmdp.registry.Registry.MAYO_ASSETS_BASE_URI_URI;
 import static edu.mayo.ontology.taxonomies.api4kp.knowledgeoperations.KnowledgeProcessingOperationSeries.Knowledge_Resource_Construction_Task;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
@@ -57,8 +58,9 @@ public class DependencyBasedConstructor implements
 
     UUID compositeAssetId = Util.uuid(seedAssetId.toString());
     String compositeAssetVersion = seedAssetVersionTag;
+    // need to specify asset base otherwise will default to urn:uuid
     ResourceIdentifier compositeAssetVersionedId = SemanticIdentifier
-        .newId(seedAssetId, seedAssetVersionTag);
+        .newId(MAYO_ASSETS_BASE_URI_URI, seedAssetId, seedAssetVersionTag);
 
     // TODO Rather than getting ALL the assets,
     // there should be a query based on the assetId, or 'bundle' should be used
