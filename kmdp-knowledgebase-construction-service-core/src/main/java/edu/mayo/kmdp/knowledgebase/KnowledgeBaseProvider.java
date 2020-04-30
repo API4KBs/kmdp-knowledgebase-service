@@ -163,7 +163,8 @@ public class KnowledgeBaseProvider
   }
   protected boolean isLocal(KnowledgeCarrier carrier) {
     return carrier.getHref() == null
-        || Util.isEmpty(carrier.getHref().getScheme());
+        || Util.isEmpty(carrier.getHref().getScheme())
+        || "localhost".equals(carrier.getHref().getHost());
   }
 
   protected KnowledgeAssetRepositoryApiInternal getAssetRepository() {
