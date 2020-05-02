@@ -71,7 +71,8 @@ public class GraphBasedAssembler implements CompositionalApiInternal._assembleCo
     return resources.stream()
         .filter(res -> res.getURI().startsWith(ASSET_BASE_URI))
         .map(Resource::getURI)
-        .map(SemanticIdentifier::newId)
+        .map(URI::create)
+        .map(SemanticIdentifier::newVersionId)
         .collect(Collectors.toSet());
   }
 
