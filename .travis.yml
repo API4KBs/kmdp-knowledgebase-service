@@ -1,32 +1,32 @@
 language: java
 jdk:
-  - oraclejdk11
+- oraclejdk11
 dist: trusty
 install: true
-
 branches:
   only:
-    - master
-    - develop
+  - master
+  - develop
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=API4KBs_kmdp-knowledgebase-service -Ppublic -q
-
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=API4KBs_kmdp-knowledgebase-service
+  -Ppublic -q
 deploy:
-  - provider: script
-    script: mvn deploy -DskipTests -Ppublic -s .travis.settings.xml
-    skip_cleanup: true
-    on:
-      branch: master
-  - provider: script
-    script: mvn deploy -DskipTests -Ppublic -s .travis.settings.xml
-    skip_cleanup: true
-    on:
-      branch: develop
-
+- provider: script
+  script: mvn deploy -DskipTests -Ppublic -s .travis.settings.xml
+  skip_cleanup: true
+  on:
+    branch: master
+- provider: script
+  script: mvn deploy -DskipTests -Ppublic -s .travis.settings.xml
+  skip_cleanup: true
+  on:
+    branch: develop
 addons:
   sonarcloud:
     organization: "api4kbs"
     token:
-      secure: "DOfsdz11tFi+0+5TqnpH6xf1xxq2xl5lFO0udnYi66ZiDqAl3yfFFHUhvKvZSSMnEk7TFkvSEQszANjJ0jXgXlWAVxA324y6TSxpB52KyJB80BMDSYuft/JLXpF+p7VJLrzGtYiS8022CGxj/aSQgt0/y2coN8YdgYIfrPvXsQYa1uwgZ0jRL7X5g2Lx7B6wC5YCZmnLUSd8IeLz512ae8iV6AWJfnTN79j2p8tPI7Ly6s6TQTNSKKNc9gDhGU40LEdw0gi8iOG7blbxwaWI72npW66DfmLJiMbsJzOd5p1tk1A9ExjqqLJbdnCfF86eGAbx3bV8rIyQAWl6nZnLGB+4SHKWNsuMFpscgNrLVmYYDNnMojZETF20VWsXoeu+CpV5KRfgiVHFEwR0F5f5orhP43sy/Atx2J/GQ/TqwIUaiUdQ7rwEmg9skTgIdw2Ktoup6lXdkfS/un82gYrGHeRe1ORn+G+vrtyp08yM1ZlWhI6ou1cUQbdMlA2nwemBndi+Yo6xi0ckZJQc3gJ7x/6IibovkdmTHwbmkV0a1I9//3VnKGCByp0jgRF/CFfblXRG0rz2BG9PW+xRbI0gNoyFuUl9CSC9y3ImJaN55nltUD72Bs1lZNJqFvuYQ+xQb8fsam4A5eAR/zArDehoXQkAXbJ3reQZAU9ASIiR9OI="
-
+      secure: "I3CbdCuOqA9iW0hsoE9LBap7Nb6BFqWd4jCWt1+iWNyYSsc+fZ9IPKcJxSAblmxMW/Rua/9q+Q0uEo57JeHBASC2c6VJLAnnGpaSg/f27NqmCZ8XLD1jVhQDCX2w0uw146s0vbg5syoEL6K80X/z9hvTN6RTd/IA6Sff4hVQP40mMfiWeySYTsaXq6a/KbE7doVRd8xjrXsFB0LND+PKN1qAtTOLt8reD99b/+DfaiG81eukyrBOKs+Wb0PERAXoKcKo6ya0Ke9rIYywjEkLpqauwP7tmBKBxS4r3laYSUROjtwZOkKDnj+AhD3k+XZo+3Xo0qEYiTClJoG3ot1haS6E6Rv1jJHozqQTUf08C84RKUfTw5gA+xPULpG/dmFw+xYlnSO/7NOxc8Zmim0511bGRUj8wm5pacGfsrvstoHEUH4jyBM3DW5HTmo/3jlAzgD9zzBJezoQo5jP+iHGKOtUCDqlfOSARDjbJOssH7lKrQGBHMTKayYOQfZk6ZiFcPSPIwb4Pqn6hd1E2NMWTI2vzSYBAFdHL1BLJ2ijPa6NrzvAxmLVrirWuQn8Di4UxzEZlAyk0eRSNyZUk67pNTCofMPoR809HcmnVKM0enxj1w4uRpe1Q8U+WdgM/eGjEdKLHQWsiCEU+JmkaT0LPQsor7Bw19inkg8qaYqKUNM="
 env:
+  global:
+  - secure: "jzz8097SdmgRVsfT7NpGRK/xM3/XT1BJBnB821j0r3JBju/5cI6VIG7We//nTGeSQj+IpJEyFsAAyNyuP7a/wOdOTBPVMSPzbUdt/pnbd2uyUhjINQ2bYt0aMhLVNS6xOA6Fp3GNegunT+w+EXcTRr4tV7yHYb9x8mZ0tKygd/XKZNN5QQnGZCo0jCmUXAv0wdTyeIv8HfWycDn6fhBDuW31pKzGFoVRAIv9slp4s8jYfp+UDicNrsF6pHkCkaf+67ixMO3v3HNpHTkB6WwnUwfTuYcEd049D8OZ5ODso8V5Gq7rjfH+PG0J33yCoWY0re8P8Ir8FX50KA/YoEy6Z8NnyLssJabA5hhOzsZlhoBC/u+MHfCj+7ewAI5dfeO9ZjPZ4eWnwXxXJilrmx5V53T4fD0lH3Lj8IkBASUEtMCS6Q8aaWAbWF2XCVP/0TNlqDMHZriDjX1FkC+4ti0NCh8mJLupzg1O+fRgXEw1UxERdg8jme65odYnUO0TxFiSeuucUTiKm8Sgu+5IEWTGSU3gF0sjH/OIr1s3fFrRPCdMLFYaOnV8yxEJl2JyhGXCaEazog8u5HmMqNSZIogQ6sCgKURJf/LBb3PeMe0yUs51M5gk3EoIa9J4ueK6jFPYU8HZvQ4AFfUJqG/cPIFOph3ZnSMrxcEKsdUmg2UxrRo="
+  - secure: "VqLFYAJ+E6/T/rmdKy3gcTQT9DWKgI/UPcIjLPSAYSOm3C00s0mM1QPRE2Mla1L1chs3nylJBup6JD4Mz8k8d+0zJdQuUsd/KI9R4f0ZwcqHQ8RIgW1yITLxRskdWUte38+bYIoCKRxC0zySooS58jtO92LehVQsLmm8//5MJcu1BPkXrMpOV/sKQ4hjHOSXWWjZEPC3Sxo4eazUNbvM+Awb1rVRG+d0t1bhPkggku3Ipujs47x2nc9l0oVFHwr7q4U6ub/WyOJPBzqSUZhfaQg54l59IKym7ch5RLcO9WwXNesI58DHimJnWHjwmiPbdzk7hP/cFXHa9nEYCfBiWDOEWU9rrnHmIJmIgFSEmyQWMs/ICvDZ26T9H07y2mvxE1C9MZ0HzjLf/EvuoCTYJwYf1+GcDG8k12qytPBfrxOfSzxSOK8/oy/YecA0gHL5uVLs3/bAdQVEt8iS3VHZZ5TJGgKi5L1JUE6G0RKOHJKk6uqSKADblz4uXdXd7ItIjYPorcdYLSGJnJh2GREGBSvJwj/3giHvraqtQRU0T654Zpx0UvGo6sYlek6z67E26gA3bih9m/JunGyVy/o5WYooAPjYq62tx1mLeAkLHVpM8BxEYyvmAvn2hPygYdQbPLjCux6Jz1s/lv1zn3t9eWqv4Fur2niSgJuO14/DNyw="
