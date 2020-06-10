@@ -9,14 +9,14 @@
   </parent>
 
   <artifactId>kmdp-knowledgebase-construction-service</artifactId>
-  <version>3.7.1-SNAPSHOT</version>
+  <version>3.7.2-SNAPSHOT</version>
 
   <name>KMDP :: Server :: KnowledgeBase Construction Service</name>
 
   <packaging>pom</packaging>
 
    <properties>
-    <kmdp.servers.version>3.7.1-SNAPSHOT</kmdp.servers.version>
+    <kmdp.servers.version>3.7.2-SNAPSHOT</kmdp.servers.version>
   </properties>
 
   <modules>
