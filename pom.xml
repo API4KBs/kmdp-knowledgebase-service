@@ -11,7 +11,7 @@
   <artifactId>kmdp-knowledgebase-construction-service</artifactId>
   <version>3.7.2-SNAPSHOT</version>
 
-  <name>KMDP :: Server :: KnowledgeBase Construction Service</name>
+  <name>KMDP :: Service :: KnowledgeBase Construction Service</name>
 
   <packaging>pom</packaging>
 

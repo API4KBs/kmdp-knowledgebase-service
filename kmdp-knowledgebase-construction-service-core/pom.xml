@@ -12,7 +12,7 @@
 
   <artifactId>kmdp-knowledgebase-construction-service-core</artifactId>
 
-  <name>KMDP :: Server :: KnowledgeBase Construction Service (Internal)</name>
+  <name>KMDP :: Service :: KnowledgeBase Construction Service :: Impl</name>
 
  
 
