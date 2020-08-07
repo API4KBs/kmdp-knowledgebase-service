@@ -3,10 +3,9 @@ package edu.mayo.kmdp.knowledgebase.weavers.fhir.stu3;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_2;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
-import edu.mayo.kmdp.id.Term;
 import edu.mayo.kmdp.knowledgebase.v4.server.BindingApiInternal;
 import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import edu.mayo.kmdp.metadata.annotations.SimpleAnnotation;
+import edu.mayo.kmdp.metadata.v2.surrogate.annotations.Annotation;
 import edu.mayo.kmdp.terms.v4.server.TermsApiInternal;
 import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.ontology.taxonomies.api4kp.knowledgeoperations.KnowledgeProcessingOperationSeries;
@@ -23,6 +22,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import org.omg.spec.api4kp._1_0.Answer;
 import org.omg.spec.api4kp._1_0.id.Pointer;
+import org.omg.spec.api4kp._1_0.id.Term;
 import org.omg.spec.api4kp._1_0.services.KPOperation;
 import org.omg.spec.api4kp._1_0.services.KPSupport;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
@@ -187,9 +187,9 @@ public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
         .map(Attr::getValue)
         .map(uri -> resolveId(uri)
             .orElseThrow(() -> new IllegalArgumentException("Unable to resolve concept " + uri)))
-        .map(cs -> new SimpleAnnotation()
-            .withRel(AnnotationRelTypeSeries.In_Terms_Of.asConcept())
-            .withExpr(cs.asConcept())
+        .map(cs -> new Annotation()
+            .withRel(AnnotationRelTypeSeries.In_Terms_Of.asConceptIdentifier())
+            .withRef(cs.asConceptIdentifier())
         ).findFirst()
         .ifPresent(rewrittenAnnos::add);
 
