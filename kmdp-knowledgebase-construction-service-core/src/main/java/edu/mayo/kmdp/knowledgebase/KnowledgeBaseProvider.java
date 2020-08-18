@@ -1,12 +1,7 @@
 package edu.mayo.kmdp.knowledgebase;
 
-import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
+import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 
-import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import edu.mayo.kmdp.metadata.v2.surrogate.ComputableKnowledgeArtifact;
-import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
-import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
-import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.HashMap;
@@ -15,15 +10,19 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Named;
-import org.omg.spec.api4kp._1_0.Answer;
-import org.omg.spec.api4kp._1_0.id.IdentifierConstants;
-import org.omg.spec.api4kp._1_0.id.KeyIdentifier;
-import org.omg.spec.api4kp._1_0.id.Pointer;
-import org.omg.spec.api4kp._1_0.id.ResourceIdentifier;
-import org.omg.spec.api4kp._1_0.id.SemanticIdentifier;
-import org.omg.spec.api4kp._1_0.services.KPServer;
-import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
-import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
+import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
+import org.omg.spec.api4kp._20200801.id.KeyIdentifier;
+import org.omg.spec.api4kp._20200801.id.Pointer;
+import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
+import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
+import org.omg.spec.api4kp._20200801.services.KPServer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeBase;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
+import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @KPServer
@@ -100,8 +99,7 @@ public class KnowledgeBaseProvider
   }
 
   private Answer<KnowledgeCarrier> getCanonicalArtifact(KnowledgeAsset asset) {
-    Answer<ComputableKnowledgeArtifact> artifactRef = Answer.of(asset.getCarriers().stream()
-        .flatMap(StreamUtil.filterAs(ComputableKnowledgeArtifact.class))
+    Answer<KnowledgeArtifact> artifactRef = Answer.of(asset.getCarriers().stream()
         .findFirst());
 
     return artifactRef.flatMap(artifact -> {
@@ -157,7 +155,7 @@ public class KnowledgeBaseProvider
 
 
 
-  protected boolean isLocal(ComputableKnowledgeArtifact artifactSurrogate) {
+  protected boolean isLocal(KnowledgeArtifact artifactSurrogate) {
     return artifactSurrogate.getLocator() == null
         || Util.isEmpty(artifactSurrogate.getLocator().getScheme());
   }
