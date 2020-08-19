@@ -14,7 +14,7 @@
 package edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1;
 
 
-import static org.omg.spec.api4kp.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
+import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
 
 import edu.mayo.kmdp.registry.Registry;
 import java.net.URI;
