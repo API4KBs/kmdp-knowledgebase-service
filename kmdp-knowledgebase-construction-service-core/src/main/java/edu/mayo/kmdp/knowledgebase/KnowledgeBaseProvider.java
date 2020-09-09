@@ -1,9 +1,8 @@
 package edu.mayo.kmdp.knowledgebase;
 
-import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
-
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,16 +12,18 @@ import javax.inject.Named;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
+import org.omg.spec.api4kp._20200801.datatypes.Bindings;
 import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
 import org.omg.spec.api4kp._20200801.id.KeyIdentifier;
 import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
+import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPServer;
 import org.omg.spec.api4kp._20200801.services.KnowledgeBase;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
-import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @KPServer
@@ -30,14 +31,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class KnowledgeBaseProvider
     implements KnowledgeBaseApiInternal {
 
-  private KnowledgeAssetRepositoryApiInternal assetRepository;
+
+  @Autowired(required = false)
+  private Weaver weaver;
 
   private Map<KeyIdentifier, KnowledgeBase> knowledgeBaseMap = new HashMap<>();
 
-  @Autowired
+  @KPServer @Autowired
+  private KnowledgeAssetRepositoryApiInternal assetRepository;
+
+  public KnowledgeBaseProvider() {
+  }
+
   public KnowledgeBaseProvider(
-      @KPServer KnowledgeAssetRepositoryApiInternal assetRepository) {
+      KnowledgeAssetRepositoryApiInternal assetRepository) {
     this.assetRepository = assetRepository;
+    this.weaver = new Weaver(this, Collections.emptyList());
+  }
+
+  public Weaver getWeaver() {
+    return weaver;
   }
 
   @Override
@@ -55,6 +68,12 @@ public class KnowledgeBaseProvider
   }
 
   @Override
+  public Answer<KnowledgeCarrier> getKnowledgeBaseManifestation(UUID kbaseId, String versionTag) {
+    return getKnowledgeBase(kbaseId,versionTag)
+        .map(KnowledgeBase::getManifestation);
+  }
+
+  @Override
   public Answer<List<Pointer>> getKnowledgeBaseSeries(UUID kbaseId) {
     return Answer.of(
         knowledgeBaseMap.keySet().stream()
@@ -66,7 +85,11 @@ public class KnowledgeBaseProvider
 
   @Override
   public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID kbaseId, String versionTag) {
-    return Answer.unsupported();
+    return getKnowledgeBase(kbaseId,versionTag)
+        .map(KnowledgeBase::getManifestation)
+        .filter(CompositeKnowledgeCarrier.class::isInstance)
+        .map(CompositeKnowledgeCarrier.class::cast)
+        .map(CompositeKnowledgeCarrier::getStruct);
   }
 
   @Override
@@ -77,8 +100,8 @@ public class KnowledgeBaseProvider
   }
 
   @Override
-  public Answer<Pointer> initKnowledgeBase(KnowledgeAsset asset) {
-    Pointer kbaseId = asset.getAssetId().toPointer();
+  public Answer<Pointer> initKnowledgeBase(KnowledgeCarrier initialComponent) {
+    ResourceIdentifier kbaseId = initialComponent.getAssetId();
 
     if (! knowledgeBaseMap.containsKey(kbaseId.asKey())) {
       createEmptyKnowledgeBase(kbaseId);
@@ -88,38 +111,37 @@ public class KnowledgeBaseProvider
               + kbaseId.getVersionTag() + " is already initialized"));
     }
 
-    getCanonicalArtifact(asset)
-        .ifPresent(artf -> populateKnowledgeBase(
-            kbaseId.getUuid(),
-            kbaseId.getVersionTag(),
-            artf
-      ));
+    if (initialComponent.getExpression() == null
+        && initialComponent.getArtifactId() != null) {
+      getCanonicalArtifact(initialComponent)
+          .ifPresent(resolvedComponent
+              -> populateKnowledgeBase(
+              kbaseId.getUuid(),
+              kbaseId.getVersionTag(),
+              resolvedComponent));
+    } else {
+      populateKnowledgeBase(
+          kbaseId.getUuid(),
+          kbaseId.getVersionTag(),
+          initialComponent);
+    }
 
-    return Answer.of(kbaseId);
+    return Answer.of(kbaseId.toPointer());
   }
 
-  private Answer<KnowledgeCarrier> getCanonicalArtifact(KnowledgeAsset asset) {
-    Answer<KnowledgeArtifact> artifactRef = Answer.of(asset.getCarriers().stream()
-        .findFirst());
+  private Answer<KnowledgeCarrier> getCanonicalArtifact(KnowledgeCarrier kc) {
+    ResourceIdentifier assetVid = kc.getAssetId();
+    ResourceIdentifier artifVid = kc.getArtifactId();
 
-    return artifactRef.flatMap(artifact -> {
-      ResourceIdentifier assetVid = asset.getAssetId();
-      ResourceIdentifier artifVid = artifact.getArtifactId();
-      if (isLocal(artifact)) {
-        return assetRepository.getKnowledgeAssetCarrierVersion(
-            assetVid.getUuid(),
-            assetVid.getVersionTag(),
-            artifVid.getUuid(),
-            artifVid.getVersionTag());
-      } else {
-        return Answer.of(new KnowledgeCarrier()
-            .withRepresentation(rep(artifact.getRepresentation()))
-            .withArtifactId(artifVid)
-            .withAssetId(assetVid)
-            .withLabel(asset.getName())
-            .withHref(artifact.getLocator()));
-      }
-    });
+    if (isLocal(kc)) {
+      return assetRepository.getKnowledgeAssetCarrierVersion(
+          assetVid.getUuid(),
+          assetVid.getVersionTag(),
+          artifVid.getUuid(),
+          artifVid.getVersionTag());
+    } else {
+      return Answer.of(kc);
+    }
   }
 
   private KnowledgeBase createEmptyKnowledgeBase(ResourceIdentifier vid) {
@@ -154,6 +176,27 @@ public class KnowledgeBaseProvider
   }
 
 
+  @Override
+  public Answer<Pointer> bind(UUID kbaseId, String versionTag, Bindings bindings) {
+    return null;
+  }
+
+  @Override
+  public Answer<Pointer> namedBind(UUID kbaseId, String versionTag, UUID operatorId,
+      Bindings bindings) {
+    return null;
+  }
+
+  @Override
+  public Answer<Pointer> namedWeave(UUID kbaseId, String versionTag, UUID operatorId,
+      KnowledgeCarrier aspects) {
+    return weaver.namedWeave(kbaseId,versionTag,operatorId,aspects);
+  }
+
+  @Override
+  public Answer<Pointer> weave(UUID kbaseId, String versionTag, KnowledgeCarrier aspects) {
+    return weaver.weave(kbaseId,versionTag,aspects);
+  }
 
   protected boolean isLocal(KnowledgeArtifact artifactSurrogate) {
     return artifactSurrogate.getLocator() == null

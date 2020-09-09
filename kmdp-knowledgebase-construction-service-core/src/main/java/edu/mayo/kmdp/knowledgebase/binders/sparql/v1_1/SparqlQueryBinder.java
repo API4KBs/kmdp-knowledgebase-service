@@ -24,12 +24,13 @@ import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.BindingApiInternal._bind;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._bind;
 import org.omg.spec.api4kp._20200801.datatypes.Bindings;
 import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
 import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
+import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeBase;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
@@ -37,6 +38,7 @@ import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.springframework.stereotype.Component;
 
 @Component
+@KPComponent
 @KPSupport(SPARQL_1_1)
 public class SparqlQueryBinder implements _bind {
 
@@ -51,11 +53,7 @@ public class SparqlQueryBinder implements _bind {
         .map(KnowledgeBase::getManifestation)
         .flatMap(paramQuery -> bind(paramQuery, bindings))
         .flatMap(boundCarrier ->
-            kbManager.initKnowledgeBase(new KnowledgeAsset()
-                .withAssetId(boundCarrier.getAssetId()))
-                .flatMap(boundKbId ->
-                    kbManager.populateKnowledgeBase(boundKbId.getUuid(), boundKbId.getVersionTag(), boundCarrier))
-        );
+            kbManager.initKnowledgeBase(boundCarrier));
   }
 
   public Answer<KnowledgeCarrier> bind(KnowledgeCarrier paramQuery, Bindings bindings) {

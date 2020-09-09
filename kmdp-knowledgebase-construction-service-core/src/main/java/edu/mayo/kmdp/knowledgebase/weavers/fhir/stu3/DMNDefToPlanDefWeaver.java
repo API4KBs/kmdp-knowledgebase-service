@@ -2,12 +2,12 @@ package edu.mayo.kmdp.knowledgebase.weavers.fhir.stu3;
 
 
 import static edu.mayo.ontology.taxonomies.kmdo.semanticannotationreltype.SemanticAnnotationRelTypeSeries.In_Terms_Of;
-import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Injection_Task;
+import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Weaving_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_2;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
+import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.util.StreamUtil;
-import edu.mayo.ontology.taxonomies.kmdo.annotationreltype.AnnotationRelTypeSeries;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,16 +19,23 @@ import javax.inject.Named;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import org.omg.spec.api4kp._20200801.Answer;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.BindingApiInternal;
+import org.omg.spec.api4kp._20200801.KnowledgePlatformOperator;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._namedWeave;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._weave;
 import org.omg.spec.api4kp._20200801.api.terminology.v4.server.TermsApiInternal;
 import org.omg.spec.api4kp._20200801.id.Pointer;
+import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
+import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.id.Term;
+import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeBase;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.KnowledgeProcessingOperator;
 import org.omg.spec.api4kp._20200801.surrogate.Annotation;
+import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.omg.spec.dmn._20180521.model.TDRGElement;
 import org.omg.spec.dmn._20180521.model.TDecision;
 import org.omg.spec.dmn._20180521.model.TDecisionService;
@@ -41,39 +48,74 @@ import org.w3c.dom.Element;
 
 @Named
 @KPSupport({FHIR_STU3,DMN_1_2})
-@KPOperation(Injection_Task) //TODO FIXME add 'weaving' to the ontology
-public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
+@KPComponent
+@KPOperation(Weaving_Task)
+public class DMNDefToPlanDefWeaver implements _weave, _namedWeave,
+    KnowledgePlatformOperator<KnowledgeProcessingOperator> {
 
   static Logger logger = LoggerFactory.getLogger(DMNDefToPlanDefWeaver.class);
 
-  @Inject
-  KnowledgeBaseApiInternal kbaseManager;
+  public static final UUID id = UUID.fromString("1a43a134-0cb9-4ac5-a468-241744f89fcb");
+  public static final String version = "1.0.0";
+
+  private ResourceIdentifier operatorId;
 
   @Inject
   TermsApiInternal terminologyProvider;
 
-  public static BindingApiInternal._weave newInstance(KnowledgeBaseApiInternal kbaseManager,
-      TermsApiInternal terminologyProvider) {
-    DMNDefToPlanDefWeaver weaver = new DMNDefToPlanDefWeaver();
-    weaver.kbaseManager = kbaseManager;
-    weaver.terminologyProvider = terminologyProvider;
-    return weaver;
+  @Inject
+  KnowledgeBaseApiInternal kbManager;
+
+  public static _namedWeave newInstance(KnowledgeBaseProvider kbManager, TermsApiInternal terminologyProvider) {
+    DMNDefToPlanDefWeaver weaverComponent = new DMNDefToPlanDefWeaver();
+    weaverComponent.terminologyProvider = terminologyProvider;
+    weaverComponent.kbManager = kbManager;
+    kbManager.getWeaver().addNamedWeaver(weaverComponent);
+    return weaverComponent;
+  }
+
+  protected DMNDefToPlanDefWeaver() {
+    this.operatorId = SemanticIdentifier.newId(id,version);
+  }
+
+  @Override
+  public ResourceIdentifier getOperatorId() {
+    return operatorId;
+  }
+
+  @Override
+  public KnowledgeProcessingOperator getDescriptor() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public KnowledgeRepresentationLanguage getSupportedLanguage() {
+    return FHIR_STU3;
+  }
+
+
+  @Override
+  public Answer<Pointer> namedWeave(UUID kbaseId, String versionTag, UUID operatorId,
+      KnowledgeCarrier aspects) {
+    if (!getOperatorId().getUuid().equals(operatorId)) {
+      return Answer.failed();
+    }
+    return weave(kbaseId,versionTag,aspects);
   }
 
   @Override
   public Answer<Pointer> weave(UUID kbaseId, String versionTag, KnowledgeCarrier aspects) {
-    Answer<KnowledgeCarrier> woven = kbaseManager.getKnowledgeBase(kbaseId,versionTag)
+    Answer<KnowledgeCarrier> woven = kbManager.getKnowledgeBase(kbaseId,versionTag)
         .map(KnowledgeBase::getManifestation)
         .flatMap(kc -> weave(kc, aspects));
 
     // TODO FIXME neeed a way to set the new version of the KB
-    return kbaseManager.initKnowledgeBase()
-        .flatMap(vid -> kbaseManager.populateKnowledgeBase(
+    return kbManager.initKnowledgeBase()
+        .flatMap(vid -> kbManager.populateKnowledgeBase(
             UUID.fromString(vid.getTag()),
             vid.getVersionTag(),
             woven.get()
-        ))
-    ;
+        ));
 
   }
 
@@ -213,4 +255,5 @@ public class DMNDefToPlanDefWeaver implements BindingApiInternal._weave {
         .orElseThrow(() -> new IllegalStateException("Unable to find " + refUUID));
     return (X) element;
   }
+
 }

@@ -56,7 +56,7 @@ public class PlanDefinitionFlattener implements CompositionalApiInternal._flatte
         })).get();
 
     KnowledgeCarrier masterPlan = kc.getComponent().stream()
-        .filter(comp -> comp.getAssetId().getResourceId().toString().contains(rootAssetId.toString()))
+        .filter(comp -> comp.getAssetId().getUuid().equals(rootAssetId))
         .findFirst()
         .orElseThrow(IllegalStateException::new);
 
