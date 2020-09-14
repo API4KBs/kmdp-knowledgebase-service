@@ -1,30 +1,36 @@
 package edu.mayo.kmdp.knowledgebase.constructors;
 
-import static edu.mayo.kmdp.registry.Registry.MAYO_ASSETS_BASE_URI_URI;
-import static org.omg.spec.api4kp._20200801.AbstractCarrier.ofAst;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Construction_Task;
-import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.StreamUtil;
-import edu.mayo.kmdp.util.Util;
 import java.net.URI;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
-import javax.inject.Inject;
+import java.util.stream.Stream;
 import javax.inject.Named;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._getKnowledgeBaseStructure;
-import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
+import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
@@ -38,75 +44,60 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @KPOperation(Knowledge_Resource_Construction_Task)
-@KPSupport(FHIR_STU3)
+@KPSupport(OWL_2)
 @Named
-public class DependencyBasedConstructor
+public class JenaOwlImportConstructor
   extends AbstractKnowledgeBaseOperator
-    implements _getKnowledgeBaseStructure {
+  implements _getKnowledgeBaseStructure {
 
-  private static final Logger logger = LoggerFactory.getLogger(DependencyBasedConstructor.class);
+  private static final Logger logger = LoggerFactory.getLogger(JenaOwlImportConstructor.class);
 
-  public static final UUID id = UUID.fromString("13881270-6556-4cb1-99b9-5a3dacff96f6");
+  public static final UUID id = UUID.fromString("04bca4bb-edd2-4680-a67a-20684cc8dd97");
   public static final String version = "1.0.0";
 
-  @Inject
-  KnowledgeAssetCatalogApiInternal repo;
+  private KnowledgeBaseApiInternal kbManager;
 
-  public DependencyBasedConstructor() {
+  public JenaOwlImportConstructor(KnowledgeBaseApiInternal kbManager) {
     super(SemanticIdentifier.newId(id,version));
-  }
-
-  public static KnowledgeBaseApiInternal._getKnowledgeBaseStructure newInstance(
-      KnowledgeAssetCatalogApiInternal repo) {
-    DependencyBasedConstructor constructor = new DependencyBasedConstructor();
-    constructor.repo = repo;
-    return constructor;
+    this.kbManager = kbManager;
   }
 
   @Override
-  public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID seedAssetId,
-      String seedAssetVersionTag) {
+  public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID kbId,
+      String kbVersionTag) {
 
-    UUID compositeAssetId = Util.uuid(seedAssetId.toString());
-    String compositeAssetVersion = seedAssetVersionTag;
-    // need to specify asset base otherwise will default to urn:uuid
-    ResourceIdentifier compositeAssetVersionedId = SemanticIdentifier
-        .newId(MAYO_ASSETS_BASE_URI_URI, seedAssetId, seedAssetVersionTag);
+    List<KnowledgeCarrier> components = kbManager.getKnowledgeBaseManifestation(kbId, kbVersionTag)
+        .filter(CompositeKnowledgeCarrier.class::isInstance)
+        .map(CompositeKnowledgeCarrier.class::cast)
+        .map(CompositeKnowledgeCarrier::getComponent)
+        .orElse(Collections.emptyList());
 
-    // TODO Rather than getting ALL the assets,
-    // there should be a query based on the assetId, or 'bundle' should be used
-    // but getAssetBundle, unlike getArtifactBundle, is not implemented yet
-    return repo.listKnowledgeAssets()
-        .flatMap(ptrList ->
-            ptrList.stream()
-                .map(axId -> repo.getKnowledgeAsset(axId.getUuid()))
-                .collect(Answer.toList())
-        )
-        // Now we create a struct based on the analysis of the relationships between the assets
-        .map(
-            list -> {
-              Model m = ModelFactory.createDefaultModel();
+    Model struct = ModelFactory.createDefaultModel();
+    components.stream()
+        .flatMap(this::getDependencies)
+        .forEach(struct::add);
 
-              m.add(JenaUtil.objA(
-                  compositeAssetVersionedId.getResourceId().toString(),
-                  RDF.type,
-                  KnowledgeAssetRoleSeries.Composite_Knowledge_Asset.getConceptId().toString()
-              ));
+    return Answer.of(AbstractCarrier.ofAst(struct,rep(OWL_2)));
+  }
 
-              list.forEach(ax -> structure(compositeAssetVersionedId, ax, m));
-
-              return m;
-            })
-        .map(m -> {
-          logger.info(JenaUtil.asString(m));
-          return m;
-        })
-        // And we return it
-        // TODO This is really RDF, but RDF is not yet registered !! :
-        .map(m -> ofAst(m, rep(OWL_2))
-            // Need to Generate a new ID for the composite asset just constructed.
-            .withAssetId(compositeAssetVersionedId)
-        );
+  private Stream<Statement> getDependencies(KnowledgeCarrier kc) {
+    Optional<Model> m = kc.as(Model.class);
+    if (m.isEmpty()) {
+      return Stream.empty();
+    }
+    Set<Statement> imports = new HashSet<>();
+    if (m.get() instanceof OntModel) {
+      OntModel om = (OntModel) m.get();
+      om.listOntologies()
+          .mapWith(Ontology::getImport)
+          .filterKeep(Objects::nonNull)
+          .mapWith(or -> URI.create(or.toString()))
+          .mapWith(or -> JenaUtil.objA(kc.getAssetId().getVersionId(),
+              DependencyTypeSeries.Imports.getReferentId(),
+              or))
+          .forEachRemaining(imports::add);
+    }
+    return imports.stream();
   }
 
   private void structure(ResourceIdentifier rootAssetId, KnowledgeAsset componentAsset, Model m) {
@@ -157,6 +148,6 @@ public class DependencyBasedConstructor
 
   @Override
   public KnowledgeRepresentationLanguage getSupportedLanguage() {
-    return FHIR_STU3;
+    return OWL_2;
   }
 }

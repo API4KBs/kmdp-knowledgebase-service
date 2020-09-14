@@ -3,12 +3,14 @@ package edu.mayo.kmdp.knowledgebase.assemblers.rdf;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Composition_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
+import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.ontology.taxonomies.kao.rel.dependencyreltype.DependencyTypeSeries;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,17 +29,32 @@ import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 
 @KPOperation(Knowledge_Resource_Composition_Task)
 @KPSupport(FHIR_STU3)
 @Named
-public class GraphBasedAssembler implements CompositionalApiInternal._assembleCompositeArtifact {
+public class GraphBasedAssembler
+    extends AbstractKnowledgeBaseOperator
+    implements CompositionalApiInternal._assembleCompositeArtifact {
+
+  public static final UUID id = UUID.fromString("284e63d4-84ff-42a1-b4ea-5e27a434d3c0");
+  public static final String version = "1.0.0";
 
   // TODO this should be a parameter of the operation
   private static final String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
 
   @Inject
   KnowledgeAssetRepositoryApiInternal repo;
+
+  public GraphBasedAssembler() {
+    super(SemanticIdentifier.newId(id,version));
+  }
+
+  public GraphBasedAssembler(KnowledgeAssetRepositoryApiInternal repo) {
+    this();
+    this.repo = repo;
+  }
 
   public static CompositionalApiInternal._assembleCompositeArtifact newInstance(
       KnowledgeAssetRepositoryApiInternal repo) {
@@ -109,4 +126,8 @@ public class GraphBasedAssembler implements CompositionalApiInternal._assembleCo
     return resources;
   }
 
+  @Override
+  public KnowledgeRepresentationLanguage getSupportedLanguage() {
+    return FHIR_STU3;
+  }
 }

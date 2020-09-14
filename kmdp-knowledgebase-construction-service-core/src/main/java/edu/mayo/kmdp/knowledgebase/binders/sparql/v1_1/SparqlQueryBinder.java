@@ -16,44 +16,59 @@ package edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1;
 
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
 
+import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.registry.Registry;
 import java.net.URI;
 import java.util.UUID;
-import javax.inject.Inject;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._bind;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedBind;
 import org.omg.spec.api4kp._20200801.datatypes.Bindings;
 import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
-import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
-import org.omg.spec.api4kp._20200801.services.KnowledgeBase;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
-import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
+import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.springframework.stereotype.Component;
 
 @Component
 @KPComponent
 @KPSupport(SPARQL_1_1)
-public class SparqlQueryBinder implements _bind {
+public class SparqlQueryBinder
+    extends AbstractKnowledgeBaseOperator
+    implements _applyNamedBind {
 
-  public static final UUID OPERATOR_ID = UUID.fromString("73d9abfb-5192-45e8-8368-3ac7f5067e9b");
+  public static final UUID id = UUID.fromString("73d9abfb-5192-45e8-8368-3ac7f5067e9b");
+  public static final String version = "1.0.0";
 
-  @Inject
-  KnowledgeBaseApiInternal kbManager;
+  private KnowledgeBaseApiInternal kbManager;
+
+  public SparqlQueryBinder() {
+    super(SemanticIdentifier.newId(id,version));
+  }
+
+  protected SparqlQueryBinder(KnowledgeBaseApiInternal kbManager) {
+    this();
+    this.kbManager = kbManager;
+  }
 
   @Override
-  public Answer<Pointer> bind(UUID kbaseId, String versionTag, Bindings bindings) {
-    return kbManager.getKnowledgeBase(kbaseId, versionTag)
-        .map(KnowledgeBase::getManifestation)
-        .flatMap(paramQuery -> bind(paramQuery, bindings))
-        .flatMap(boundCarrier ->
-            kbManager.initKnowledgeBase(boundCarrier));
+  public KnowledgeRepresentationLanguage getSupportedLanguage() {
+    return SPARQL_1_1;
+  }
+
+  @Override
+  public Answer<KnowledgeCarrier> applyNamedBind(UUID operatorId, Bindings bindings, UUID kbaseId,
+      String versionTag, String xParams) {
+    if (!getOperatorId().getUuid().equals(operatorId)) {
+      return Answer.failed();
+    }
+    return kbManager.getKnowledgeBaseManifestation(kbaseId,versionTag)
+        .flatMap(paramQuery -> bind(paramQuery, bindings));
   }
 
   public Answer<KnowledgeCarrier> bind(KnowledgeCarrier paramQuery, Bindings bindings) {
