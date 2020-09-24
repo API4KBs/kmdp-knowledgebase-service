@@ -45,8 +45,6 @@ public class SparqlQueryBinder
   public static final UUID id = UUID.fromString("73d9abfb-5192-45e8-8368-3ac7f5067e9b");
   public static final String version = "1.0.0";
 
-  private KnowledgeBaseApiInternal kbManager;
-
   public SparqlQueryBinder() {
     super(SemanticIdentifier.newId(id,version));
   }
@@ -71,7 +69,7 @@ public class SparqlQueryBinder
         .flatMap(paramQuery -> bind(paramQuery, bindings));
   }
 
-  public Answer<KnowledgeCarrier> bind(KnowledgeCarrier paramQuery, Bindings bindings) {
+  public Answer<KnowledgeCarrier> bind(KnowledgeCarrier paramQuery, Bindings<String,?> bindings) {
     ParameterizedSparqlString paramQ = paramQuery.as(ParameterizedSparqlString.class)
         .orElseThrow(IllegalArgumentException::new);
     bindings.forEach((key, value) -> {

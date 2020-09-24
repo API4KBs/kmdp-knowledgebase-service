@@ -25,6 +25,7 @@ import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseAp
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
+import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
@@ -36,9 +37,11 @@ import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentation
 import org.omg.spec.api4kp._20200801.taxonomy.structuralreltype.StructuralPartTypeSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @KPOperation(Knowledge_Resource_Construction_Task)
 @KPSupport(FHIR_STU3)
+@KPComponent
 @Named
 public class DependencyBasedConstructor
   extends AbstractKnowledgeBaseOperator
@@ -49,7 +52,7 @@ public class DependencyBasedConstructor
   public static final UUID id = UUID.fromString("13881270-6556-4cb1-99b9-5a3dacff96f6");
   public static final String version = "1.0.0";
 
-  @Inject
+  @Autowired(required = false)
   KnowledgeAssetCatalogApiInternal repo;
 
   public DependencyBasedConstructor() {

@@ -42,6 +42,7 @@ import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentation
 import org.omg.spec.api4kp._20200801.taxonomy.structuralreltype.StructuralPartTypeSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @KPOperation(Knowledge_Resource_Construction_Task)
 @KPSupport(OWL_2)
@@ -55,10 +56,12 @@ public class JenaOwlImportConstructor
   public static final UUID id = UUID.fromString("04bca4bb-edd2-4680-a67a-20684cc8dd97");
   public static final String version = "1.0.0";
 
-  private KnowledgeBaseApiInternal kbManager;
+  public JenaOwlImportConstructor() {
+    super(SemanticIdentifier.newId(id,version));
+  }
 
   public JenaOwlImportConstructor(KnowledgeBaseApiInternal kbManager) {
-    super(SemanticIdentifier.newId(id,version));
+    this();
     this.kbManager = kbManager;
   }
 

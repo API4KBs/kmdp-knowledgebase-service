@@ -38,6 +38,7 @@ import org.omg.spec.dmn._20180521.model.TDefinitions;
 import org.omg.spec.dmn._20180521.model.TInputData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -54,10 +55,8 @@ public class DMNDefToPlanDefWeaver
   public static final UUID id = UUID.fromString("1a43a134-0cb9-4ac5-a468-241744f89fcb");
   public static final String version = "1.0.0";
 
-  @Inject
+  @Autowired(required = false)
   TermsApiInternal terminologyProvider;
-
-  private KnowledgeBaseApiInternal kbManager;
 
   public DMNDefToPlanDefWeaver() {
     super(SemanticIdentifier.newId(id,version));

@@ -1,6 +1,8 @@
 package edu.mayo.kmdp.knowledgebase.selectors.sparql.v1_1;
 
+import static edu.mayo.kmdp.terms.util.JenaUtil.addOntologyAxioms;
 import static edu.mayo.kmdp.util.PropertiesUtil.parseProperties;
+import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Selection_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
@@ -14,6 +16,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -24,14 +27,17 @@ import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseAp
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelect;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
+import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.springframework.stereotype.Component;
 
 @Component
 @KPComponent
 @KPSupport(SPARQL_1_1)
+@KPOperation(Selection_Task)
 public class SparqlSelector
     extends AbstractKnowledgeBaseOperator
     implements _applyNamedSelect {
@@ -61,8 +67,6 @@ public class SparqlSelector
       + "GROUP BY ?X "
       + "HAVING ( (?depth >= ?n) && (?depth <= ?m) )";
 
-
-  private KnowledgeBaseApiInternal kbManager;
 
   public SparqlSelector() {
     super(SemanticIdentifier.newId(id, version));
@@ -97,7 +101,7 @@ public class SparqlSelector
 
     System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Selecting from " + ontoModel.getLabel());
     ModelFactory.createDefaultModel();
-    extract(source, rootEntityUri, baseUri, cfg).stream()
+    extract(source, rootEntityUri, baseUri, cfg)
         .forEach(res -> System.out.println("    Adding class " + res));
     System.out.println(">>>>>>>>>>>>>>>>> DONE");
 
@@ -105,6 +109,8 @@ public class SparqlSelector
         .map(x -> fetchResource(source, URI.create(x.getURI()), baseUri, query))
         .flatMap(StreamUtil::trimStream)
         .reduce(ModelFactory.createDefaultModel(), Model::add);
+
+    addOntologyAxioms(result, source);
 
     return Answer.of(AbstractCarrier.ofAst(result)
         .withRepresentation(ontoModel.getRepresentation())

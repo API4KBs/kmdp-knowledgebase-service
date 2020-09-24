@@ -26,13 +26,16 @@ import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAss
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @KPOperation(Knowledge_Resource_Composition_Task)
 @KPSupport(FHIR_STU3)
+@KPComponent
 @Named
 public class GraphBasedAssembler
     extends AbstractKnowledgeBaseOperator
@@ -44,7 +47,7 @@ public class GraphBasedAssembler
   // TODO this should be a parameter of the operation
   private static final String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
 
-  @Inject
+  @Autowired(required = false)
   KnowledgeAssetRepositoryApiInternal repo;
 
   public GraphBasedAssembler() {

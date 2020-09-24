@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.flatteners.rdf;
 
+import static edu.mayo.kmdp.terms.util.JenaUtil.addOntologyAxioms;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.ofAst;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
@@ -59,26 +60,8 @@ public class JenaModelFlattener
       Model root = ModelFactory.createDefaultModel();
       addOntologyAxioms(root, ckc.mainComponentAs(OntModel.class));
 
-//      root.(onto.getURI());
-
-//      System.out.println(">>> FLATTENING " + rootCarrier.getLabel());
-//      ckc.components()
-//          .filter(c -> c.as(Model.class).get() != root)
-//          .forEach(c -> System.out.println("Adding " + c.getLabel()));
-//      System.out.println(">>>>>> FLATTENING " + rootCarrier.getLabel());
-
       ckc.componentsAs(Model.class)
           .forEach(m -> mergeModels(m,root));
-
-      if (rootCarrier.getLabel().contains("test")) {
-        File f = new File("C:\\Users\\M123110\\Projects\\MEA\\knew-terminology-content\\src\\main\\resources\\owl\\edu\\mayo\\kmdp\\vocabs\\LATEST\\CSO\\test.flat.owl");
-        try {
-          FileOutputStream fos = new FileOutputStream(f);
-          root.write(fos);
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
-        }
-      }
 
       KnowledgeCarrier flat = ofAst(root,ckc.getRepresentation())
           .withAssetId(ckc.getAssetId())
@@ -89,13 +72,7 @@ public class JenaModelFlattener
     }
   }
 
-  private void addOntologyAxioms(Model root, OntModel ontologyModel) {
-    Ontology onto = ontologyModel.listOntologies().next();
-    List<Statement> ontos =
-    ontologyModel.listStatements()
-        .filterKeep(st -> st.getSubject().getURI() != null && st.getSubject().getURI().equals(onto.getURI())).toList();
-    root.add(ontos);
-  }
+
 
   private void mergeModels(Model m, Model root) {
     Set<Resource> bannedResources = new HashSet<>();

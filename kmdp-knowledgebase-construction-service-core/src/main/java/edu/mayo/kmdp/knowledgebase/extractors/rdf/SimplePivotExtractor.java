@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.extractors.rdf;
 
+import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Extraction_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
@@ -20,18 +21,19 @@ import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiI
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries;
+import org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 
+@KPOperation(Extraction_Task)
 public class SimplePivotExtractor
     extends AbstractKnowledgeBaseOperator
     implements _applyNamedExtract {
 
   public static final UUID id = UUID.fromString("13881270-6556-4cb1-99b9-5a3dacff96f6");
   public static final String version = "1.0.0";
-
-  private KnowledgeBaseApiInternal kbManager;
 
   public SimplePivotExtractor() {
     super(SemanticIdentifier.newId(id,version));
