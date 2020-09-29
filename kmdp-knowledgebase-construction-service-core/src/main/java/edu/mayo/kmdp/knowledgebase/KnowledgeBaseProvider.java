@@ -214,13 +214,6 @@ public class KnowledgeBaseProvider
         .map(CompositeKnowledgeCarrier::getStruct);
   }
 
-  @Override
-  public Answer<Pointer> initKnowledgeBase() {
-    Pointer vid = SemanticIdentifier
-        .newIdAsPointer(UUID.randomUUID(), IdentifierConstants.VERSION_ZERO);
-    createEmptyKnowledgeBase(vid);
-    return Answer.of(vid);
-  }
 
   @Override
   public Answer<Void> hasKnowledgeBase(UUID kbaseId, String versionTag) {
@@ -231,6 +224,19 @@ public class KnowledgeBaseProvider
 
   @Override
   public Answer<Pointer> initKnowledgeBase(KnowledgeCarrier initialComponent) {
+    return initialComponent != null
+        ? seedKnowledgeBase(initialComponent)
+        : initBlankKnowledgeBase();
+  }
+
+  protected Answer<Pointer> initBlankKnowledgeBase() {
+    Pointer vid = SemanticIdentifier
+        .newIdAsPointer(UUID.randomUUID(), IdentifierConstants.VERSION_ZERO);
+    createEmptyKnowledgeBase(vid);
+    return Answer.of(vid);
+  }
+
+  public Answer<Pointer> seedKnowledgeBase(KnowledgeCarrier initialComponent) {
     ResourceIdentifier kbaseId = initialComponent.getAssetId();
 
     if (!knowledgeBaseMap.containsKey(kbaseId.asKey())) {
