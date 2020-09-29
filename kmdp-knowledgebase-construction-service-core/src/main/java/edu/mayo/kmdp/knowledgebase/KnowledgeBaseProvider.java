@@ -20,7 +20,6 @@ import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.KnowledgePlatformOperator;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._flattenArtifact;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedBind;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedExtract;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedIntrospect;
@@ -41,7 +40,6 @@ import org.omg.spec.api4kp._20200801.services.KPServer;
 import org.omg.spec.api4kp._20200801.services.KnowledgeBase;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
-import org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @KPServer
