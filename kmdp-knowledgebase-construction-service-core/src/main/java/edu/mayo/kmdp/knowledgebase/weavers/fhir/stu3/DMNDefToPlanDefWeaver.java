@@ -55,6 +55,8 @@ public class DMNDefToPlanDefWeaver
   public static final UUID id = UUID.fromString("1a43a134-0cb9-4ac5-a468-241744f89fcb");
   public static final String version = "1.0.0";
 
+  private String dmnDictionaryURI;
+
   @Autowired(required = false)
   TermsApiInternal terminologyProvider;
 
@@ -67,10 +69,12 @@ public class DMNDefToPlanDefWeaver
     this.kbManager = kbManager;
   }
 
-  public DMNDefToPlanDefWeaver(KnowledgeBaseProvider kbManager, TermsApiInternal terminologyProvider) {
+  public DMNDefToPlanDefWeaver(KnowledgeBaseProvider kbManager,
+      TermsApiInternal terminologyProvider, URI dmnDictionaryURI) {
     this();
     this.kbManager = kbManager;
     this.terminologyProvider = terminologyProvider;
+    this.dmnDictionaryURI = dmnDictionaryURI.toString();
     kbManager.withNamedWeaver(this);
   }
 
@@ -136,15 +140,7 @@ public class DMNDefToPlanDefWeaver
   }
 
   private String getDictionaryURI() {
-    // TODO Fixme rewrite once the API is clarified
-    return terminologyProvider.listTerminologies()
-        .flatOpt(vocabs -> vocabs.stream()
-            //.filter() // TODO there should be a filter based on an operation parameter
-            .findFirst()
-            .map(p -> p.getHref())
-            .map(URI::toString)
-        )
-        .orElseThrow(IllegalStateException::new);
+    return dmnDictionaryURI;
   }
 
   private Optional<Term> resolveId(String uri) {

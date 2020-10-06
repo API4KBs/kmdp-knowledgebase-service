@@ -3,13 +3,16 @@ package edu.mayo.kmdp.knowledgebase;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Selection_Task;
+import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Transcreation_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Weaving_Task;
 
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -24,6 +27,7 @@ import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiI
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedExtract;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedIntrospect;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelect;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedTransform;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedWeave;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
 import org.omg.spec.api4kp._20200801.datatypes.Bindings;
@@ -47,6 +51,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class KnowledgeBaseProvider
     implements KnowledgeBaseApiInternal {
 
+  private Set<UUID> componentRegistry = new HashSet<>();
+
   private Map<UUID, _applyNamedWeave> weavers;
 
   private Map<UUID, _applyNamedBind> binders;
@@ -58,6 +64,8 @@ public class KnowledgeBaseProvider
   private Map<UUID, _applyNamedExtract> extractors;
 
   private Map<UUID, _applyNamedIntrospect> introspectors;
+
+  private Map<UUID, _applyNamedTransform> transcreators;
 
   private Map<KeyIdentifier, KnowledgeBase> knowledgeBaseMap = new ConcurrentHashMap<>();
 
@@ -72,6 +80,7 @@ public class KnowledgeBaseProvider
     this.flatteners = new ConcurrentHashMap<>();
     this.extractors = new ConcurrentHashMap<>();
     this.introspectors = new ConcurrentHashMap<>();
+    this.transcreators = new ConcurrentHashMap<>();
   }
 
   @Named
@@ -88,7 +97,9 @@ public class KnowledgeBaseProvider
       @Autowired(required = false) @KPOperation(Knowledge_Resource_Flattening_Task)
           List<_flattenArtifact> flt,
       @Autowired(required = false) @KPOperation(Description_Task) @KPComponent
-          List<_applyNamedIntrospect> inx) {
+          List<_applyNamedIntrospect> inx,
+      @Autowired(required = false) @KPOperation(Transcreation_Task) @KPComponent
+          List<_applyNamedTransform> trx) {
     this(assetRepository);
     if (wvr != null) {
       wvr.forEach(this::withNamedWeaver);
@@ -104,6 +115,9 @@ public class KnowledgeBaseProvider
     }
     if (inx != null) {
       inx.forEach(this::withNamedIntrospector);
+    }
+    if (trx != null) {
+      trx.forEach(this::withNamedTranscreator);
     }
   }
 
@@ -161,11 +175,21 @@ public class KnowledgeBaseProvider
     return withNamedIntrospector(introspector.apply(this));
   }
 
+  public KnowledgeBaseProvider withNamedTranscreator(_applyNamedTransform transcreator) {
+    return register(transcreator,this.transcreators);
+  }
+
+  public KnowledgeBaseProvider withNamedTranscreator(
+      Function<KnowledgeBaseProvider,_applyNamedTransform> transcreator) {
+    return withNamedTranscreator(transcreator.apply(this));
+  }
+
   private <T> KnowledgeBaseProvider register(T comp, Map<UUID, T> map) {
     AbstractKnowledgeBaseOperator op = (AbstractKnowledgeBaseOperator) comp;
     UUID key = op.getOperatorId().getUuid();
     map.put(key, comp);
     op.withKBManager(this);
+    componentRegistry.add(key);
     return this;
   }
 
@@ -597,5 +621,41 @@ public class KnowledgeBaseProvider
                 .map(kb::withManifestation)
                 .or(() -> deleteKnowledgeBaseVersion(kb))
         ).map(KnowledgeBase::getKbaseId);
+  }
+
+
+  @Override
+  public Answer<Pointer> transform(UUID kbaseId, String versionTag, String xParams) {
+    return Answer.anyDo(
+        transcreators.values(),
+        transcreatorComponent ->
+            transform(
+                kbaseId,
+                versionTag,
+                xParams));
+  }
+
+  @Override
+  public Answer<Pointer> namedTransform(UUID kbaseId, String versionTag, UUID operatorId,
+      String xParams) {
+    if (!transcreators.containsKey(operatorId)) {
+      return Answer.unsupported();
+    }
+
+    _applyNamedTransform introspect = transcreators.get(operatorId);
+    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+        .flatMap(kb ->
+            introspect.applyNamedTransform(
+                operatorId,
+                kbaseId,
+                versionTag,
+                xParams)
+                .map(kb::withManifestation)
+                .or(() -> deleteKnowledgeBaseVersion(kb))
+        ).map(KnowledgeBase::getKbaseId);
+  }
+
+  public boolean hasNamedComponent(UUID id) {
+    return componentRegistry.contains(id);
   }
 }

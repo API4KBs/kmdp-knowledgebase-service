@@ -72,13 +72,13 @@ public class DependencyBasedConstructor
 
     UUID compositeAssetId = Util.uuid(seedAssetId.toString());
     String compositeAssetVersion = seedAssetVersionTag;
+
     // need to specify asset base otherwise will default to urn:uuid
     ResourceIdentifier compositeAssetVersionedId = SemanticIdentifier
         .newId(MAYO_ASSETS_BASE_URI_URI, seedAssetId, seedAssetVersionTag);
 
     // TODO Rather than getting ALL the assets,
-    // there should be a query based on the assetId, or 'bundle' should be used
-    // but getAssetBundle, unlike getArtifactBundle, is not implemented yet
+    // there should be a query based on the assetId,
     return repo.listKnowledgeAssets()
         .flatMap(ptrList ->
             ptrList.stream()
