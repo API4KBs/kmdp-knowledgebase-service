@@ -28,6 +28,11 @@
       <artifactId>kmdp-terminology-service-interfaces</artifactId>
       <version>${kmdp.impl.version}</version>
     </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-inference-service-interfaces</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
