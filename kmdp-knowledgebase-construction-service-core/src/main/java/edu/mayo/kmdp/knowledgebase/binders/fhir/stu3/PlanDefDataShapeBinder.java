@@ -3,12 +3,15 @@ package edu.mayo.kmdp.knowledgebase.binders.fhir.stu3;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
+import edu.mayo.kmdp.util.NameUtils;
 import edu.mayo.kmdp.util.StreamUtil;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
+import org.apache.jena.base.Sys;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DataRequirement;
 import org.hl7.fhir.dstu3.model.Enumerations.FHIRAllTypes;
@@ -82,27 +85,30 @@ public class PlanDefDataShapeBinder
   }
 
   private void visit(PlanDefinitionActionComponent act, Bindings bindings) {
-    List<DataRequirement> original = act.getInput();
+    List<DataRequirement> original = new ArrayList<>(act.getInput());
     act.getInput().clear();
 
     for (DataRequirement dr : original) {
       dr.getCodeFilter().stream()
           .flatMap(cf -> cf.getValueCodeableConcept().stream())
           .flatMap(cc -> cc.getCoding().stream())
-          .map(Coding::getCode)
           .map(x -> bindDataRequirement(dr, x, bindings))
           .flatMap(StreamUtil::trimStream)
           .forEach(act::addInput);
     }
+    List<DataRequirement> woven = act.getInput();
+    System.out.println(original.size() - woven.size());
   }
 
-  private Optional<DataRequirement> bindDataRequirement(DataRequirement dr, String x, Bindings bindings) {
+  private Optional<DataRequirement> bindDataRequirement(DataRequirement dr, Coding cd, Bindings bindings) {
+    UUID x = UUID.fromString(cd.getCode().substring(1));
     if (! bindings.containsKey(x)) {
-      return Optional.empty();
+      return Optional.of(dr);
     }
     DataRequirement dr2 = dr.copy();
-    URI typeUri = URI.create((String) bindings.get(dr2));
-    dr2.setType(FHIRAllTypes.valueOf(typeUri.getFragment()).toCode());
+    URI typeUri = (URI) bindings.get(x);
+    dr2.setType(FHIRAllTypes.fromCode(NameUtils.getTrailingPart(typeUri.toString())).toCode());
+    dr2.getProfile().clear();
     dr2.addProfile(typeUri.toString());
 
     return Optional.of(dr2);
