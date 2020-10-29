@@ -6,20 +6,14 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import javax.inject.Named;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -48,22 +42,25 @@ public class JenaModelFlattener
   public static final String version = "1.0.0";
 
   public JenaModelFlattener() {
-    super(SemanticIdentifier.newId(id,version));
+    super(SemanticIdentifier.newId(id, version));
   }
 
   //TO/DO remove rootAssetId from signature
+  @Override
   public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId) {
     if (carrier instanceof CompositeKnowledgeCarrier) {
       CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) carrier;
       KnowledgeCarrier rootCarrier = ckc.mainComponent();
 
       Model root = ModelFactory.createDefaultModel();
-      addOntologyAxioms(root, ckc.mainComponentAs(OntModel.class));
+      ckc.mainComponent()
+          .as(OntModel.class)
+          .ifPresent(om -> addOntologyAxioms(root, om));
 
       ckc.componentsAs(Model.class)
-          .forEach(m -> mergeModels(m,root));
+          .forEach(m -> mergeModels(m, root));
 
-      KnowledgeCarrier flat = ofAst(root,ckc.getRepresentation())
+      KnowledgeCarrier flat = ofAst(root, ckc.getRepresentation())
           .withAssetId(ckc.getAssetId())
           .withLabel(rootCarrier.getLabel());
       return Answer.of(flat);
@@ -71,7 +68,6 @@ public class JenaModelFlattener
       return Answer.of(carrier);
     }
   }
-
 
 
   private void mergeModels(Model m, Model root) {
@@ -83,12 +79,14 @@ public class JenaModelFlattener
 
     m.listStatements()
         .filterDrop(s -> bannedResources.contains(s.getSubject()))
-        .filterDrop(s -> s.getPredicate().equals(RDFS.subClassOf) && s.getSubject().equals(s.getObject()))
-        .filterDrop(s -> s.getPredicate().equals(RDFS.subClassOf) && s.getObject().equals(OWL.Thing))
+        .filterDrop(
+            s -> s.getPredicate().equals(RDFS.subClassOf) && s.getSubject().equals(s.getObject()))
+        .filterDrop(
+            s -> s.getPredicate().equals(RDFS.subClassOf) && s.getObject().equals(OWL.Thing))
         .filterDrop(s -> s.getPredicate().equals(RDF.type) && s.getObject().equals(RDFS.Resource))
         .forEachRemaining(root::add);
 
-   }
+  }
 
   @Override
   public KnowledgeRepresentationLanguage getSupportedLanguage() {
