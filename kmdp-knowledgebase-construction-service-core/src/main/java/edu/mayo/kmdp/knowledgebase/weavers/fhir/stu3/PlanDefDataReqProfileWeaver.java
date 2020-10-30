@@ -9,11 +9,14 @@ import javax.inject.Named;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedWeaveDirect;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
+import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Named
 @KPSupport({FHIR_STU3})
@@ -23,7 +26,15 @@ public class PlanDefDataReqProfileWeaver
     extends AbstractKnowledgeBaseOperator
     implements _applyNamedWeaveDirect {
 
+  static Logger logger = LoggerFactory.getLogger(PlanDefDataReqProfileWeaver.class);
 
+  public static final UUID id = UUID.fromString("e8a49454-ebe7-4bf1-80f4-78a9e218a24e");
+  public static final String version = "1.0.0";
+
+
+  public PlanDefDataReqProfileWeaver() {
+    super(SemanticIdentifier.newId(id,version));
+  }
 
   protected PlanDefDataReqProfileWeaver(ResourceIdentifier opId) {
     super(opId);
