@@ -99,11 +99,9 @@ public class SparqlSelector
     final URI rootEntityUri = cfg.getTyped(MireotParameters.TARGET_URI);
     final Model source = ontoModel.as(Model.class).orElseThrow(IllegalStateException::new);
 
-    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Selecting from " + ontoModel.getLabel());
     ModelFactory.createDefaultModel();
-    extract(source, rootEntityUri, baseUri, cfg)
-        .forEach(res -> System.out.println("    Adding class " + res));
-    System.out.println(">>>>>>>>>>>>>>>>> DONE");
+//    extract(source, rootEntityUri, baseUri, cfg)
+//        .forEach(res -> System.out.println("    Adding class " + res));
 
     Model result = extract(source, rootEntityUri, baseUri, cfg).stream()
         .map(x -> fetchResource(source, URI.create(x.getURI()), baseUri, query))
