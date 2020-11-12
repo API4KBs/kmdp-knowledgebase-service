@@ -113,7 +113,7 @@ public class DMN12ConceptSelector
         .map(ExtensionElements::getAny)
         .forEach(l -> l.stream()
             .flatMap(StreamUtil.filterAs(Annotation.class))
-            .filter(ann -> ann.getRel() != null && In_Terms_Of.isSameEntity(ann.getRel()))
+            .filter(ann -> ann.getRel() != null && In_Terms_Of.sameTermAs(ann.getRel()))
             .map(this::toStatements)
             .forEach(m::add));
     return m;
