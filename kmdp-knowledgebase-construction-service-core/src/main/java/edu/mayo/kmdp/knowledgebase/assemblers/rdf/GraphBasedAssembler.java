@@ -1,18 +1,17 @@
 package edu.mayo.kmdp.knowledgebase.assemblers.rdf;
 
+import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Depends_On;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Composition_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.registry.Registry;
-import edu.mayo.ontology.taxonomies.kao.rel.dependencyreltype.DependencyTypeSeries;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
@@ -107,7 +106,7 @@ public class GraphBasedAssembler
         .collect(Collectors.toSet());
 
     Property dependsOn = new PropertyImpl(
-        DependencyTypeSeries.Depends_On.getConceptId().toString());
+        Depends_On.getConceptId().toString());
     Set<Resource> dependents = getResources(
         graph.query(
             new SimpleSelector(null, dependsOn, (RDFNode) null)
