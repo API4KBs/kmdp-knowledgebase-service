@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/c2e182f5-96a2-4ced-958a-8c43b7469b26"
+  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+  xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
+  xmlns:include1="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  id="_c2e182f5-96a2-4ced-958a-8c43b7469b26"
+  name="Decision Reuse"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/c2e182f5-96a2-4ced-958a-8c43b7469b26"
+  xsi:schemaLocation="https://www.omg.org/spec/API4KP/20200801/surrogate xsd/API4KP/surrogate/surrogate.xsd">
+  <semantic:extensionElements/>
+
+  <semantic:import importType="http://www.omg.org/spec/DMN/20180521/MODEL/"
+    name="Basic Decision Model"
+    namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"/>
+
+  <semantic:decisionService id="_c2e182f5-96a2-4ced-958a-8c43b7469b26_DS"
+    name="Whole Model Decision Service">
+    <semantic:variable id="_c2e182f5-96a2-4ced-958a-8c43b7469b26_DS_VAR"
+      name="Whole Model Decision Service"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_fe5cc942-4756-4ae8-874a-c9f9e7a1f313"/>
+  </semantic:decisionService>
+  <semantic:decisionService id="_850fe8c8-e6fa-4652-a07b-3dab90310e97_DS" name="Diagram Page 1">
+    <semantic:variable id="_850fe8c8-e6fa-4652-a07b-3dab90310e97_DS_VAR"
+      name="Diagram Page 1"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_fe5cc942-4756-4ae8-874a-c9f9e7a1f313"/>
+  </semantic:decisionService>
+  <semantic:decision id="_fe5cc942-4756-4ae8-874a-c9f9e7a1f313" name="Decision Re-use">
+    <semantic:variable id="_d61ee2e2-264d-4aa4-ae64-fd4257469b9d"
+      name="Decision Re-use"
+      typeRef="Any"/>
+    <semantic:informationRequirement id="_3c8db2b4-cbac-494d-879a-a520e51c3eec">
+      <semantic:requiredDecision
+        href="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356#4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+</semantic:definitions>

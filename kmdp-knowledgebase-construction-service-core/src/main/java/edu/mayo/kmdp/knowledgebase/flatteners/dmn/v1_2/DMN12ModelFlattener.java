@@ -90,7 +90,7 @@ public class DMN12ModelFlattener
   private void ensureResolved(TDecision decision, TDefinitions flatRoot,
       Map<String, TDefinitions> comps) {
     decision.getInformationRequirement().forEach(
-        infoReq -> ensureResolved(infoReq,flatRoot,comps));
+        infoReq -> ensureResolved(infoReq, flatRoot,comps));
   }
 
   private void ensureResolved(TInformationRequirement infoReq, TDefinitions flatRoot,
@@ -105,7 +105,10 @@ public class DMN12ModelFlattener
 
         flatRoot.getDrgElement()
             .add(factory.createDecision(subDecision));
-        infoReq.getRequiredDecision().setHref("#_" + ref.getFragment());
+        infoReq.getRequiredDecision().setHref(
+            "#"
+                + (ref.getFragment().startsWith("_") ? "" : "_")
+                + ref.getFragment());
 
         ensureResolved(subDecision, flatRoot, comps);
       }
@@ -124,40 +127,46 @@ public class DMN12ModelFlattener
     }
   }
 
-  private TDecision resolveDecision(TDefinitions tgtModel, URI ref) {
-    TDecision externalDec = streamDecisions(tgtModel)
+  private TDecision resolveDecision(TDefinitions externalModel, URI ref) {
+    TDecision externalDec = streamDecisions(externalModel)
         .filter(dec -> dec.getId().contains(ref.getFragment()))
         .findFirst()
-        .orElseThrow();
+        .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+
+    externalDec = (TDecision) externalDec.clone();
+
     for (TInformationRequirement infoReq : externalDec.getInformationRequirement()) {
       if (infoReq.getRequiredInput() != null) {
         String href = infoReq.getRequiredInput().getHref();
         if (isInternal(href)) {
-          infoReq.getRequiredInput().setHref(tgtModel.getNamespace() + href);
+          infoReq.getRequiredInput().setHref(externalModel.getNamespace() + href);
         }
       }
       if (infoReq.getRequiredDecision() != null) {
         String href = infoReq.getRequiredDecision().getHref();
         if (isInternal(href)) {
-          infoReq.getRequiredDecision().setHref(tgtModel.getNamespace() + href);
+          infoReq.getRequiredDecision().setHref(externalModel.getNamespace() + href);
         }
       }
     }
     return externalDec;
   }
 
-  private TInputData resolveInput(TDefinitions tgtModel, URI ref) {
-    return streamInputs(tgtModel)
+  private TInputData resolveInput(TDefinitions externalModel, URI ref) {
+    TInputData externalInput = streamInputs(externalModel)
         // ignore '#' and '_'
         .filter(input -> input.getId().contains(ref.getFragment()))
         .findFirst()
-        .orElseThrow();
+        .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+
+    return (TInputData) externalInput.clone();
   }
 
   private boolean isInternal(URI ref) {
     // check scheme and path?
     return ref != null && isInternal(ref.toString());
   }
+
   private boolean isInternal(String ref) {
     return ref != null && ref.startsWith("#");
   }

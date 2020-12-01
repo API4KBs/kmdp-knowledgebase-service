@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+  xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
+  xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  name="Basic Decision Model"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  xsi:schemaLocation="https://www.omg.org/spec/API4KP/20200801/surrogate xsd/API4KP/surrogate/surrogate.xsd">
+  <semantic:extensionElements/>
+  <semantic:decisionService id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_DS"
+    name="Whole Model Decision Service">
+    <semantic:variable id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_DS_VAR"
+      name="Whole Model Decision Service"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"/>
+    <semantic:inputData href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
+    <semantic:inputData href="#_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"/>
+  </semantic:decisionService>
+  <semantic:decisionService id="_b1cbbae9-a4c0-4a85-bb26-4c10bf35a750_DS" name="Diagram Page 1">
+    <semantic:variable id="_b1cbbae9-a4c0-4a85-bb26-4c10bf35a750_DS_VAR"
+      name="Diagram Page 1"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"/>
+    <semantic:inputData href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
+    <semantic:inputData href="#_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"/>
+  </semantic:decisionService>
+  <semantic:decision id="_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"
+    name="Basic Decision - History Pertinent to Condition">
+    <semantic:variable id="_55bda1ac-16c0-4a1d-9450-0ee7d32fc632"
+      name="Basic Decision - History Pertinent to Condition"
+      typeRef="boolean"/>
+    <semantic:informationRequirement id="_d6bd23cf-1f09-4b3d-b595-e6a490e6f016">
+      <semantic:requiredInput href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
+    </semantic:informationRequirement>
+    <semantic:informationRequirement id="_4334690b-df9c-49ba-b84b-9127af742d31">
+      <semantic:requiredInput href="#_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+  <semantic:inputData id="_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"
+    name="Test History of Medication Therapy">
+    <semantic:variable id="_c52decf4-65c7-49d3-8cc8-8dda5a2580ce"
+      name="Test History of Medication Therapy"
+      typeRef="boolean"/>
+  </semantic:inputData>
+  <semantic:inputData id="_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"
+    name="Test History of Condition">
+    <semantic:variable id="_5445c35a-23e6-4791-ada7-58ea4311b339"
+      name="Test History of Condition"
+      typeRef="boolean"/>
+  </semantic:inputData>
+</semantic:definitions>
