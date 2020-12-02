@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/12f26cbc-c377-4196-a7cd-0c171439bdf3"
+  xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  id="_12f26cbc-c377-4196-a7cd-0c171439bdf3"
+  name="Sample Decision Service"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/12f26cbc-c377-4196-a7cd-0c171439bdf3"
+  xsi:schemaLocation="https://www.omg.org/spec/API4KP/20200801/surrogate xsd/API4KP/surrogate/surrogate.xsd">
+  <semantic:extensionElements/>
+  <semantic:decision id="_aae8d0c9-0750-48ed-a960-ec3d61eb9a54" name="Sample Score">
+    <semantic:variable id="_22da6f2c-3963-4dd0-850e-7edcc99389a2"
+      name="Sample Score"
+      typeRef="Any"/>
+    <semantic:informationRequirement id="_f074c408-0744-4774-b482-c6ba2ed3fe49">
+      <semantic:requiredDecision href="#_1f2030c3-bcd6-425d-a159-08cf04189a4c"/>
+    </semantic:informationRequirement>
+    <semantic:informationRequirement id="_3e1156bf-8a61-49f3-8ef6-d621b648d30c">
+      <semantic:requiredDecision href="#_d0fb872a-997c-4086-903e-27be7ac4408e"/>
+    </semantic:informationRequirement>
+    <semantic:informationRequirement id="_1bc84ea5-d180-496a-b5b2-dd68ba143071">
+      <semantic:requiredDecision href="#_4b531555-36b0-4b3c-8b9a-40f8c9b5e6a1"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+  <semantic:decision id="_1f2030c3-bcd6-425d-a159-08cf04189a4c"
+    name="Test On Medication - Is">
+    <semantic:variable id="_3f7d55f5-5020-4bd5-99c7-0e0105b5f8cb"
+      name="Test On Medication - Is"
+      typeRef="Any"/>
+    <semantic:informationRequirement id="_bf9cae4f-c5bc-4936-9997-b656ada0e39d">
+      <semantic:requiredInput href="#_12c5c2ca-2e47-49cb-a158-8b880422cfd5"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+  <semantic:decision id="_d0fb872a-997c-4086-903e-27be7ac4408e"
+    name="Test Has Condition - Is">
+    <semantic:variable id="_8dc5ba63-7b67-4bb0-81aa-317b139267b0"
+      name="Test Has Condition - Is"
+      typeRef="Any"/>
+    <semantic:informationRequirement id="_14c8a69f-a61f-4e28-b72a-119294dfd45f">
+      <semantic:requiredInput href="#_a2d09b12-89de-4147-846f-a942c4cc2fb8"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+  <semantic:decision id="_4b531555-36b0-4b3c-8b9a-40f8c9b5e6a1"
+    name="Test Prior Procedure - Is">
+    <semantic:variable id="_9c13ca5c-88b4-49e7-8177-9f62c994056c"
+      name="Test Prior Procedure - Is"
+      typeRef="Any"/>
+    <semantic:informationRequirement id="_a95cc741-a669-4378-951d-b036a54df6b2">
+      <semantic:requiredInput href="#_46598084-5f4d-466c-939c-5e25b718c5fc"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+  <semantic:inputData id="_12c5c2ca-2e47-49cb-a158-8b880422cfd5" name="Test On Medication">
+    <semantic:variable id="_e7a30365-8e12-4799-bcfd-7d63b89e3baa"
+      name="Test On Medication"
+      typeRef="string"/>
+  </semantic:inputData>
+  <semantic:inputData id="_a2d09b12-89de-4147-846f-a942c4cc2fb8" name="Test Has Condition">
+    <semantic:variable id="_9cfebe1e-455e-4bec-a985-1ea5855d0fd7"
+      name="Test Has Condition"
+      typeRef="string"/>
+  </semantic:inputData>
+  <semantic:inputData id="_46598084-5f4d-466c-939c-5e25b718c5fc" name="Test Prior Procedure">
+    <semantic:variable id="_430cf414-c615-41fb-8755-efb9d7970968"
+      name="Test Prior Procedure"
+      typeRef="string"/>
+  </semantic:inputData>
+  <semantic:decisionService id="_65577f8a-1cd9-4ab9-90f2-135412ffe780"
+    name="Sample Decision Service - Infer">
+    <semantic:variable id="_f2c25395-4694-402d-9634-d057e716c98c"
+      name="Sample Decision Service - Infer"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_aae8d0c9-0750-48ed-a960-ec3d61eb9a54"/>
+    <semantic:encapsulatedDecision href="#_1f2030c3-bcd6-425d-a159-08cf04189a4c"/>
+    <semantic:encapsulatedDecision href="#_d0fb872a-997c-4086-903e-27be7ac4408e"/>
+    <semantic:encapsulatedDecision href="#_4b531555-36b0-4b3c-8b9a-40f8c9b5e6a1"/>
+    <semantic:inputData href="#_12c5c2ca-2e47-49cb-a158-8b880422cfd5"/>
+    <semantic:inputData href="#_a2d09b12-89de-4147-846f-a942c4cc2fb8"/>
+    <semantic:inputData href="#_46598084-5f4d-466c-939c-5e25b718c5fc"/>
+  </semantic:decisionService>
+  <semantic:decisionService id="_b390ad33-5bd4-4406-bfda-034fc62b52eb"
+    name="Sample Decision Service Populate">
+    <semantic:variable id="_5e07c9f7-7845-4806-ab55-21a3dc13ee34"
+      name="Sample Decision Service Populate"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_aae8d0c9-0750-48ed-a960-ec3d61eb9a54"/>
+    <semantic:inputDecision href="#_1f2030c3-bcd6-425d-a159-08cf04189a4c"/>
+    <semantic:inputDecision href="#_d0fb872a-997c-4086-903e-27be7ac4408e"/>
+    <semantic:inputDecision href="#_4b531555-36b0-4b3c-8b9a-40f8c9b5e6a1"/>
+  </semantic:decisionService>
+
+</semantic:definitions>

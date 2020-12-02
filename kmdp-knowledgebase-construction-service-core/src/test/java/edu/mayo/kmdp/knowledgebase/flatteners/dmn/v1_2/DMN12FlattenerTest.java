@@ -26,7 +26,9 @@ import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.dmn._20180521.model.TDRGElement;
 import org.omg.spec.dmn._20180521.model.TDecision;
+import org.omg.spec.dmn._20180521.model.TDecisionService;
 import org.omg.spec.dmn._20180521.model.TDefinitions;
 import org.omg.spec.dmn._20180521.model.TInputData;
 
@@ -37,9 +39,10 @@ public class DMN12FlattenerTest {
 
   @Test
   public void testBasicFlatten() {
+    String base = "/flatteners/dmn/v1_2/";
     List<String> files = Arrays.asList(
-        "/Decision Reuse.dmn.xml",
-        "/Basic Decision Model.dmn.xml"
+        base + "Decision Reuse.dmn.xml",
+        base + "Basic Decision Model.dmn.xml"
     );
     List<KnowledgeCarrier> kcs = readDMNModels(files);
     assertEquals(2, kcs.size());
@@ -48,21 +51,74 @@ public class DMN12FlattenerTest {
     TDefinitions basic = kcs.get(1).as(TDefinitions.class).orElseGet(Assertions::fail);
     TDefinitions snap = (TDefinitions) basic.clone();
 
-    TDefinitions flat = flatten(kcs.get(0).getAssetId(),kcs);
-    assertEquals(reuse.getName(),flat.getName());
+    TDefinitions flat = flatten(kcs.get(0).getAssetId(), kcs);
+    assertEquals(reuse.getName(), flat.getName());
     assertNotSame(reuse, flat);
 
     assertEquals(2, streamInputs(flat).count());
     assertEquals(2, streamDecisions(flat).count());
 
-    streamInputs(flat).forEach(clonedInput ->
-        streamInputs(basic).anyMatch(input ->
-            clonedInput.getId().equals(input.getId())
-                && clonedInput.getName().equals(input.getName())
-                && clonedInput != input));
-
+    streamInputs(flat).forEach(clonedInput -> {
+          boolean hasMatch = streamInputs(basic).anyMatch(input ->
+              clonedInput.getId().equals(input.getId())
+                  && clonedInput.getName().equals(input.getName())
+                  && clonedInput != input);
+          assertTrue(hasMatch);
+        }
+    );
     // Flattening did not impact the original models
     assertEquals(snap, basic);
+  }
+
+
+  @Test
+  public void testFlattenDecisionService() {
+    String base = "/flatteners/dmn/v1_2/";
+    List<String> files = Arrays.asList(
+        base + "Decision Client.dmn.xml",
+        base + "Decision Server.dmn.xml"
+    );
+    List<KnowledgeCarrier> kcs = readDMNModels(files);
+    assertEquals(2, kcs.size());
+    TDefinitions flat = flatten(kcs.get(0).getAssetId(), kcs);
+
+    assertEquals(3, streamInputs(flat).count());
+    assertEquals(2, streamDecisions(flat).count());
+    assertEquals(1, streamDecisionServices(flat).count());
+
+    assertTrue(
+        flat.getDrgElement().stream()
+            .map(JAXBElement::getValue)
+            .allMatch(drg -> drg.getId().startsWith("_")));
+
+    assertTrue(
+        streamDecisions(flat)
+            .map(d -> d.getInformationRequirement().stream()
+                .filter(drg -> drg.getRequiredInput() != null)
+                .allMatch(drg -> drg.getRequiredInput().getHref().startsWith("#_")))
+            .reduce(Boolean::logicalAnd)
+            .orElse(false));
+    assertTrue(
+        streamDecisions(flat)
+            .map(d -> d.getInformationRequirement().stream()
+                .filter(drg -> drg.getRequiredDecision() != null)
+                .allMatch(drg -> drg.getRequiredDecision().getHref().startsWith("#_")))
+            .reduce(Boolean::logicalAnd)
+            .orElse(false));
+
+    TDecision client = streamDecisions(flat)
+        .filter(dec -> dec.getName().contains("Sample Clinical"))
+        .findFirst()
+        .orElseGet(Assertions::fail);
+    assertTrue(client.getInformationRequirement().isEmpty());
+    assertEquals(1, client.getKnowledgeRequirement().size());
+
+    TDecision server = streamDecisions(flat)
+        .filter(dec -> dec.getName().contains("Score"))
+        .findFirst()
+        .orElseGet(Assertions::fail);
+    assertEquals(3, server.getInformationRequirement().size());
+    assertTrue(server.getKnowledgeRequirement().isEmpty());
   }
 
   private TDefinitions flatten(ResourceIdentifier assetId, List<KnowledgeCarrier> kcs) {
@@ -94,15 +150,21 @@ public class DMN12FlattenerTest {
 
 
   private Stream<TDecision> streamDecisions(TDefinitions dmn) {
-    return dmn.getDrgElement().stream()
-        .map(JAXBElement::getValue)
-        .flatMap(StreamUtil.filterAs(TDecision.class));
+    return streamDRG(dmn, TDecision.class);
   }
 
   private Stream<TInputData> streamInputs(TDefinitions dmn) {
+    return streamDRG(dmn, TInputData.class);
+  }
+
+  private Stream<TDecisionService> streamDecisionServices(TDefinitions dmn) {
+    return streamDRG(dmn, TDecisionService.class);
+  }
+
+  private <T extends TDRGElement> Stream<T> streamDRG(TDefinitions dmn, Class<T> drgType) {
     return dmn.getDrgElement().stream()
         .map(JAXBElement::getValue)
-        .flatMap(StreamUtil.filterAs(TInputData.class));
+        .flatMap(StreamUtil.filterAs(drgType));
   }
 
 }

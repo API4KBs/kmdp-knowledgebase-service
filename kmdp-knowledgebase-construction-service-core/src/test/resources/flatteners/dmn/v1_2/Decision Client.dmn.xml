@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/c10241fd-02ec-4a73-963c-0fe19d648d2a"
+  id="_c10241fd-02ec-4a73-963c-0fe19d648d2a"
+  name="Decision Client"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/c10241fd-02ec-4a73-963c-0fe19d648d2a"
+>
+  <semantic:import importType="http://www.omg.org/spec/DMN/20180521/MODEL/"
+    name="Decision Server"
+    namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/12f26cbc-c377-4196-a7cd-0c171439bdf3"/>
+  <semantic:decision id="_e0fa848d-50bf-4475-a031-65704b72530d"
+    name="Sample Clinical Decision">
+    <semantic:variable id="_652f532e-c1ff-4fca-82d2-caf44f789b83"
+      name="Sample Clinical Decision"
+      typeRef="Any"/>
+    <semantic:knowledgeRequirement id="_f44a8aba-b09a-4864-a1e1-72ad5fa317d5">
+      <semantic:requiredKnowledge
+        href="https://clinicalknowledgemanagement.mayo.edu/artifacts/12f26cbc-c377-4196-a7cd-0c171439bdf3#_65577f8a-1cd9-4ab9-90f2-135412ffe780"/>
+    </semantic:knowledgeRequirement>
+  </semantic:decision>
+
+</semantic:definitions>

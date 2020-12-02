@@ -8,8 +8,10 @@ import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,10 +27,14 @@ import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.omg.spec.dmn._20180521.model.ObjectFactory;
+import org.omg.spec.dmn._20180521.model.TDMNElementReference;
+import org.omg.spec.dmn._20180521.model.TDRGElement;
 import org.omg.spec.dmn._20180521.model.TDecision;
+import org.omg.spec.dmn._20180521.model.TDecisionService;
 import org.omg.spec.dmn._20180521.model.TDefinitions;
 import org.omg.spec.dmn._20180521.model.TInformationRequirement;
 import org.omg.spec.dmn._20180521.model.TInputData;
+import org.omg.spec.dmn._20180521.model.TKnowledgeRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,13 +53,19 @@ public class DMN12ModelFlattener
   private ObjectFactory factory = new ObjectFactory();
 
   public DMN12ModelFlattener() {
-    super(SemanticIdentifier.newId(id,version));
+    super(SemanticIdentifier.newId(id, version));
   }
 
   public DMN12ModelFlattener(KnowledgeBaseApiInternal kbManager) {
     this();
     this.kbManager = kbManager;
   }
+
+  @Override
+  public KnowledgeRepresentationLanguage getSupportedLanguage() {
+    return DMN_1_2;
+  }
+
 
   public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId) {
     if (carrier instanceof CompositeKnowledgeCarrier) {
@@ -63,15 +75,15 @@ public class DMN12ModelFlattener
       TDefinitions flatRoot = (TDefinitions) rootCarrier.as(TDefinitions.class)
           .orElseThrow().clone();
 
-      Map<String,TDefinitions> comps = ckc.componentsAs(TDefinitions.class)
+      Map<String, TDefinitions> comps = ckc.componentsAs(TDefinitions.class)
           .collect(Collectors.toMap(
               TDefinitions::getNamespace,
               dmn -> dmn
           ));
 
-      mergeModels(flatRoot,comps);
+      mergeModels(flatRoot, comps);
 
-      KnowledgeCarrier flat = ofAst(flatRoot,ckc.getRepresentation())
+      KnowledgeCarrier flat = ofAst(flatRoot, ckc.getRepresentation())
           .withAssetId(ckc.getAssetId())
           .withLabel(rootCarrier.getLabel());
       return Answer.of(flat);
@@ -83,25 +95,111 @@ public class DMN12ModelFlattener
   private void mergeModels(TDefinitions flatRoot, Map<String, TDefinitions> comps) {
     List<TDecision> rootDecisions = streamDecisions(flatRoot).collect(Collectors.toList());
     // copy in a list to prevent concurrent modification exceptions
-    rootDecisions.forEach(decision -> ensureResolved(decision,flatRoot,comps));
+    rootDecisions.forEach(decision -> ensureResolved(decision, flatRoot, comps));
   }
 
 
   private void ensureResolved(TDecision decision, TDefinitions flatRoot,
       Map<String, TDefinitions> comps) {
     decision.getInformationRequirement().forEach(
-        infoReq -> ensureResolved(infoReq, flatRoot,comps));
+        infoReq -> ensureResolved(infoReq, flatRoot, comps));
+    decision.getKnowledgeRequirement().forEach(
+        knowReq -> ensureResolved(knowReq, flatRoot, comps));
+  }
+
+  private void ensureResolved(TKnowledgeRequirement knowReq, TDefinitions flatRoot,
+      Map<String, TDefinitions> comps) {
+    URI ref = URI.create(knowReq.getRequiredKnowledge().getHref());
+    if (!isInternal(ref)) {
+      URI externalModelId = URIUtil.normalizeURI(ref);
+      TDefinitions tgtModel = comps.get(externalModelId.toString());
+
+      Optional<TDecisionService> decisionServiceOpt = resolveDecisionService(tgtModel, ref);
+      if (decisionServiceOpt.isPresent()) {
+        TDecisionService decisionService = decisionServiceOpt.get();
+
+        // do not carry over the hidden decisions
+        decisionService.getEncapsulatedDecision().clear();
+
+        flatRoot.getDrgElement()
+            .add(factory.createDecisionService(decisionService));
+
+        knowReq.getRequiredKnowledge().setHref(
+            "#"
+                + (ref.getFragment().startsWith("_") ? "" : "_")
+                + ref.getFragment());
+
+        List<String> inputRefs = new ArrayList<>();
+        decisionService.getInputData().forEach(inputRef -> {
+          if (!isInternal(inputRef.getHref())) {
+            URI inputUriRef = URI.create(inputRef.getHref());
+            String inputModelId = URIUtil.normalizeURIString(inputUriRef);
+            TDefinitions extTgtModel = comps.get(inputModelId);
+            TInputData input = resolveInput(extTgtModel, inputUriRef);
+
+            flatRoot.getDrgElement()
+                .add(factory.createInputData(input));
+            inputRef.setHref("#"
+                + (inputUriRef.getFragment().startsWith("_") ? "" : "_")
+                + inputUriRef.getFragment());
+            inputRefs.add(inputRef.getHref());
+          }
+        });
+        List<String> inputDecRefs = new ArrayList<>();
+        decisionService.getInputDecision().forEach(inputRef -> {
+          if (!isInternal(inputRef.getHref())) {
+            URI inputUriRef = URI.create(inputRef.getHref());
+            String inputModelId = URIUtil.normalizeURIString(inputUriRef);
+            TDefinitions extTgtModel = comps.get(inputModelId);
+            TDecision input = resolveDecision(extTgtModel, inputUriRef);
+
+            flatRoot.getDrgElement()
+                .add(factory.createDecision(input));
+            inputRef.setHref("#"
+                + (inputUriRef.getFragment().startsWith("_") ? "" : "_")
+                + inputUriRef.getFragment());
+            inputDecRefs.add(inputRef.getHref());
+          }
+        });
+        decisionService.getOutputDecision().forEach(outputRef -> {
+          if (!isInternal(outputRef.getHref())) {
+            URI outputUriRef = URI.create(outputRef.getHref());
+            String outputModelId = URIUtil.normalizeURIString(outputUriRef);
+            TDefinitions extTgtModel = comps.get(outputModelId);
+            TDecision output = resolveDecision(extTgtModel, outputUriRef);
+
+            flatRoot.getDrgElement()
+                .add(factory.createDecision(output));
+            outputRef.setHref("#"
+                + (outputUriRef.getFragment().startsWith("_") ? "" : "_")
+                + outputUriRef.getFragment());
+
+            output.getInformationRequirement().clear();
+            inputRefs.forEach(in ->
+                output.getInformationRequirement().add(
+                    new TInformationRequirement()
+                    .withRequiredInput(new TDMNElementReference().withHref(in))
+                ));
+            inputDecRefs.forEach(in ->
+                output.getInformationRequirement().add(
+                    new TInformationRequirement()
+                    .withRequiredDecision(new TDMNElementReference().withHref(in))
+                ));
+          }
+        });
+      }
+    }
   }
 
   private void ensureResolved(TInformationRequirement infoReq, TDefinitions flatRoot,
       Map<String, TDefinitions> comps) {
     if (infoReq.getRequiredDecision() != null) {
       URI ref = URI.create(infoReq.getRequiredDecision().getHref());
-      if (! isInternal(ref)) {
+      if (!isInternal(ref)) {
         URI externalModelId = URIUtil.normalizeURI(ref);
         TDefinitions tgtModel = comps.get(externalModelId.toString());
 
-        TDecision subDecision = resolveDecision(tgtModel,ref);
+        TDecision subDecision = resolveDecision(tgtModel, ref);
 
         flatRoot.getDrgElement()
             .add(factory.createDecision(subDecision));
@@ -114,11 +212,11 @@ public class DMN12ModelFlattener
       }
     } else if (infoReq.getRequiredInput() != null) {
       URI ref = URI.create(infoReq.getRequiredInput().getHref());
-      if (! isInternal(ref)) {
+      if (!isInternal(ref)) {
         URI externalModelId = URIUtil.normalizeURI(ref);
         TDefinitions tgtModel = comps.get(externalModelId.toString());
 
-        TInputData input = resolveInput(tgtModel,ref);
+        TInputData input = resolveInput(tgtModel, ref);
 
         flatRoot.getDrgElement()
             .add(factory.createInputData(input));
@@ -152,6 +250,41 @@ public class DMN12ModelFlattener
     return externalDec;
   }
 
+
+  private Optional<TDecisionService> resolveDecisionService(TDefinitions externalModel, URI ref) {
+    Optional<TDecisionService> externalDecService = streamDecisionServices(externalModel)
+        .filter(dec -> dec.getId().contains(ref.getFragment()))
+        .findFirst();
+    if (externalDecService.isEmpty()) {
+      return Optional.empty();
+    }
+    TDecisionService clonedService = (TDecisionService) externalDecService.get().clone();
+
+    clonedService.getInputData().forEach(input -> {
+      if (isInternal(input.getHref())) {
+        input.setHref(externalModel.getNamespace() + input.getHref());
+      }
+    });
+    clonedService.getInputDecision().forEach(input -> {
+      if (isInternal(input.getHref())) {
+        input.setHref(externalModel.getNamespace() + input.getHref());
+      }
+    });
+    clonedService.getEncapsulatedDecision().forEach(hidden -> {
+      if (isInternal(hidden.getHref())) {
+        hidden.setHref(externalModel.getNamespace() + hidden.getHref());
+      }
+    });
+    clonedService.getOutputDecision().forEach(output -> {
+      if (isInternal(output.getHref())) {
+        output.setHref(externalModel.getNamespace() + output.getHref());
+      }
+    });
+
+    return Optional.of(clonedService);
+  }
+
+
   private TInputData resolveInput(TDefinitions externalModel, URI ref) {
     TInputData externalInput = streamInputs(externalModel)
         // ignore '#' and '_'
@@ -161,6 +294,7 @@ public class DMN12ModelFlattener
 
     return (TInputData) externalInput.clone();
   }
+
 
   private boolean isInternal(URI ref) {
     // check scheme and path?
@@ -172,20 +306,22 @@ public class DMN12ModelFlattener
   }
 
   private Stream<TDecision> streamDecisions(TDefinitions dmn) {
-    return dmn.getDrgElement().stream()
-        .map(JAXBElement::getValue)
-        .flatMap(StreamUtil.filterAs(TDecision.class));
+    return streamDRG(dmn, TDecision.class);
   }
 
   private Stream<TInputData> streamInputs(TDefinitions dmn) {
-    return dmn.getDrgElement().stream()
-        .map(JAXBElement::getValue)
-        .flatMap(StreamUtil.filterAs(TInputData.class));
+    return streamDRG(dmn, TInputData.class);
   }
 
-  @Override
-  public KnowledgeRepresentationLanguage getSupportedLanguage() {
-    return DMN_1_2;
+  private Stream<TDecisionService> streamDecisionServices(TDefinitions dmn) {
+    return streamDRG(dmn, TDecisionService.class);
   }
+
+  private <T extends TDRGElement> Stream<T> streamDRG(TDefinitions dmn, Class<T> drgType) {
+    return dmn.getDrgElement().stream()
+        .map(JAXBElement::getValue)
+        .flatMap(StreamUtil.filterAs(drgType));
+  }
+
 
 }
