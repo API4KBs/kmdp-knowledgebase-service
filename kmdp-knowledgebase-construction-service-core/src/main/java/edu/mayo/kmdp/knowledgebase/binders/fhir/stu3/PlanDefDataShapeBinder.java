@@ -7,9 +7,11 @@ import edu.mayo.kmdp.util.NameUtils;
 import edu.mayo.kmdp.util.StreamUtil;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DataRequirement;
@@ -84,18 +86,25 @@ public class PlanDefDataShapeBinder
   }
 
   private void visit(PlanDefinitionActionComponent act, Bindings bindings) {
-    List<DataRequirement> original = new ArrayList<>(act.getInput());
-    act.getInput().clear();
+    rewriteRequirements(act.getInput(), bindings, act::addInput);
+    rewriteRequirements(act.getOutput(), bindings, act::addOutput);
+    //System.out.println("Original " + original.size() + " vs woven : " + woven.size());
+  }
+
+  private void rewriteRequirements(
+      List<DataRequirement> list,
+      Bindings bindings,
+      Consumer<DataRequirement> linker) {
+    List<DataRequirement> original = new ArrayList<>(list);
+    list.clear();
 
     for (DataRequirement dr : original) {
       dr.getCodeFilter().stream()
           .flatMap(cf -> cf.getValueCodeableConcept().stream())
           .flatMap(cc -> cc.getCoding().stream())
           .flatMap(x -> bindDataRequirement(dr, x, bindings))
-          .forEach(act::addInput);
+          .forEach(linker);
     }
-    List<DataRequirement> woven = act.getInput();
-    //System.out.println("Original " + original.size() + " vs woven : " + woven.size());
   }
 
   private Stream<DataRequirement> bindDataRequirement(DataRequirement dr, Coding cd, Bindings bindings) {
@@ -112,11 +121,26 @@ public class PlanDefDataShapeBinder
     return typeUris.stream()
         .map(typeUri -> {
           DataRequirement dr2 = dr.copy();
-          dr2.setType(FHIRAllTypes.fromCode(NameUtils.getTrailingPart(typeUri.toString())).toCode());
+          dr2.setType(getFHIRType(typeUri));
           dr2.getProfile().clear();
           dr2.addProfile(typeUri.toString());
           return dr2;
         });
+  }
+
+  private String getFHIRType(URI typeUri) {
+    String str = NameUtils.getTrailingPart(typeUri.toString());
+    int index = str.indexOf('.');
+    if (index > 0) {
+      str = str.substring(0, index);
+    }
+    final String code = str;
+    return Arrays.stream(FHIRAllTypes.values())
+        .map(e -> e.toCode())
+        .map(String::toLowerCase)
+        .filter(e -> e.equals(code))
+        .findFirst()
+        .orElseThrow();
   }
 
 

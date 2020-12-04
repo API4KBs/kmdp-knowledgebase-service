@@ -84,7 +84,7 @@ public class DMN12ModelFlattener
       mergeModels(flatRoot, comps);
 
       KnowledgeCarrier flat = ofAst(flatRoot, ckc.getRepresentation())
-          .withAssetId(ckc.getAssetId())
+          .withAssetId(rootCarrier.getAssetId())
           .withLabel(rootCarrier.getLabel());
       return Answer.of(flat);
     } else {
