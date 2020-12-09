@@ -70,7 +70,7 @@ public class GraphBasedAssembler
     Set<ResourceIdentifier> componentIds = getComponentAssets(struct);
 
     Set<KnowledgeCarrier> components = componentIds.stream()
-        .map(cid -> repo.getCanonicalKnowledgeAssetCarrier(cid.getUuid(),cid.getVersionTag()))
+        .map(cid -> repo.getKnowledgeAssetVersionCanonicalCarrier(cid.getUuid(),cid.getVersionTag()))
         .collect(Answer.toSet())
         .orElse(Collections.emptySet())
         ;
