@@ -4,7 +4,7 @@ import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
-import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.HL7_CQL;
+import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.HL7_CQL_1_3;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.omg.spec.api4kp._20200801.taxonomy.languagerole.KnowledgeRepresentationLanguageRoleSeries.Schema_Language;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
@@ -28,7 +28,7 @@ import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentation
 
 @Named
 @KPOperation(Description_Task)
-@KPSupport(HL7_CQL)
+@KPSupport(HL7_CQL_1_3)
 @KPComponent
 public class CQLMetadataIntrospector
     extends AbstractKnowledgeBaseOperator
@@ -39,7 +39,7 @@ public class CQLMetadataIntrospector
   public static final String version = "1.0.0";
 
   public CQLMetadataIntrospector() {
-    super(SemanticIdentifier.newId(id,version));
+    super(SemanticIdentifier.newId(id, version));
   }
 
   public CQLMetadataIntrospector(KnowledgeBaseApiInternal kbManager) {
@@ -51,7 +51,7 @@ public class CQLMetadataIntrospector
   public Answer<KnowledgeCarrier> applyNamedIntrospect(UUID operatorId, UUID kbaseId,
       String versionTag, String xParams) {
 
-    return kbManager.getKnowledgeBaseManifestation(kbaseId,versionTag)
+    return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
         .map(AbstractCarrier::mainComponent)
         .flatMap(this::doIntrospect);
   }
@@ -61,7 +61,7 @@ public class CQLMetadataIntrospector
         .withName("TODO")
         .withCarriers(new KnowledgeArtifact()
             .withArtifactId(sourceArtifact.getArtifactId())
-            .withRepresentation(rep(HL7_CQL)
+            .withRepresentation(rep(HL7_CQL_1_3)
                 .withSubLanguage(rep(FHIR_STU3).withRole(Schema_Language))));
 
     return Answer.of(
@@ -77,7 +77,7 @@ public class CQLMetadataIntrospector
 
   @Override
   public KnowledgeRepresentationLanguage getSupportedLanguage() {
-    return HL7_CQL;
+    return HL7_CQL_1_3;
   }
 
 }
