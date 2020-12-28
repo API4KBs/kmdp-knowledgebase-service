@@ -1,0 +1,18 @@
+﻿{
+  "resourceType": "Questionnaire",
+  "id": "3aedf7b0-490c-4145-962c-4b1c97232918",
+  "url": "http://clinicalknowledgemanagement.mayo.edu/assets/b6b047aa-0a4b-4cb7-8e4d-45a58280fbea/versions/0.0.0",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://clinicalknowledgemanagement.mayo.edu/assets/",
+      "value": "b6b047aa-0a4b-4cb7-8e4d-45a58280fbea"
+    }
+  ],
+  "version": "1.0.0",
+  "name": "Mock_Questionnaire",
+  "title": "Mock Questionnaire",
+  "status": "active",
+  "experimental": true,
+  "publisher": "Mock"
+}
