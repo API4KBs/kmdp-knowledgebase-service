@@ -86,15 +86,16 @@ public class PlanDefDataShapeBinder
   }
 
   private void visit(PlanDefinitionActionComponent act, Bindings bindings) {
-    rewriteRequirements(act.getInput(), bindings, act::addInput);
-    rewriteRequirements(act.getOutput(), bindings, act::addOutput);
+    rewriteRequirements(act.getInput(), bindings, act::addInput, false);
+    rewriteRequirements(act.getOutput(), bindings, act::addOutput, true);
     //System.out.println("Original " + original.size() + " vs woven : " + woven.size());
   }
 
   private void rewriteRequirements(
       List<DataRequirement> list,
       Bindings bindings,
-      Consumer<DataRequirement> linker) {
+      Consumer<DataRequirement> linker,
+      boolean output) {
     List<DataRequirement> original = new ArrayList<>(list);
     list.clear();
 
@@ -102,18 +103,25 @@ public class PlanDefDataShapeBinder
       dr.getCodeFilter().stream()
           .flatMap(cf -> cf.getValueCodeableConcept().stream())
           .flatMap(cc -> cc.getCoding().stream())
-          .flatMap(x -> bindDataRequirement(dr, x, bindings))
+          .flatMap(x -> bindDataRequirement(dr, x, bindings, output))
           .forEach(linker);
     }
   }
 
-  private Stream<DataRequirement> bindDataRequirement(DataRequirement dr, Coding cd, Bindings bindings) {
-    UUID x = UUID.fromString(cd.getCode().substring(1));
+  private Stream<DataRequirement> bindDataRequirement(DataRequirement dr, Coding cd, Bindings bindings, boolean output) {
+    UUID x = UUID.fromString(cd.getCode());
 
     if (! bindings.containsKey(x)) {
       DataRequirement dr2 = dr.copy();
       dr2.setType(null);
       dr2.getProfile().clear();
+
+      if (output) {
+       // FUTURE Default to Observation for derived data
+        String typeUri = "https://www.hl7.org/fhir/STU3/procedure.profile.xml";
+        dr2.setType(getFHIRType(URI.create(typeUri)));
+        dr2.addProfile(typeUri);
+      }
       return Stream.of(dr2);
     }
     Set<URI> typeUris = (Set<URI>) bindings.get(x);
@@ -146,7 +154,14 @@ public class PlanDefDataShapeBinder
 
   private Stream<PlanDefinitionActionComponent> getNestedActions(PlanDefinition x) {
     return x.getAction().stream()
-        .flatMap(act -> Stream.concat(Stream.of(act),act.getAction().stream()));
+        .flatMap(this::getNestedActions);
+  }
+
+  private Stream<? extends PlanDefinitionActionComponent> getNestedActions(
+      PlanDefinitionActionComponent act) {
+    return Stream.concat(
+        Stream.of(act),
+        act.getAction().stream().flatMap(this::getNestedActions));
   }
 
   private Stream<PlanDefinition> getNestedPlanDefs(PlanDefinition pd) {

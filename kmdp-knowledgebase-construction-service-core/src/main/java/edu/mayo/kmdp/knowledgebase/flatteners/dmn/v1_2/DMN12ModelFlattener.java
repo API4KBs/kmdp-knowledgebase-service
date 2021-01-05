@@ -27,6 +27,7 @@ import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.omg.spec.dmn._20180521.model.ObjectFactory;
+import org.omg.spec.dmn._20180521.model.TBusinessKnowledgeModel;
 import org.omg.spec.dmn._20180521.model.TDMNElementReference;
 import org.omg.spec.dmn._20180521.model.TDRGElement;
 import org.omg.spec.dmn._20180521.model.TDecision;
@@ -188,6 +189,14 @@ public class DMN12ModelFlattener
           }
         });
       }
+    } else {
+      TBusinessKnowledgeModel tbkm = streamBKM(flatRoot)
+          .filter(bkm -> bkm.getId().contains(ref.getFragment()))
+          .findFirst()
+          .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+      tbkm.getKnowledgeRequirement().stream()
+          .filter(kreq -> kreq.getRequiredKnowledge() != null)
+          .forEach(kreq -> ensureResolved(kreq,flatRoot,comps));
     }
   }
 
@@ -303,6 +312,10 @@ public class DMN12ModelFlattener
 
   private boolean isInternal(String ref) {
     return ref != null && ref.startsWith("#");
+  }
+
+  private Stream<TBusinessKnowledgeModel> streamBKM(TDefinitions dmn) {
+    return streamDRG(dmn, TBusinessKnowledgeModel.class);
   }
 
   private Stream<TDecision> streamDecisions(TDefinitions dmn) {
