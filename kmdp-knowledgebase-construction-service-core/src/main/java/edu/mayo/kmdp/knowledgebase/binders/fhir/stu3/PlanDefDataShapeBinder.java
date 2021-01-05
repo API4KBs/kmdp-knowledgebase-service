@@ -1,10 +1,11 @@
 package edu.mayo.kmdp.knowledgebase.binders.fhir.stu3;
 
+import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRUtils.getNestedActions;
+import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRUtils.getNestedPlanDefs;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.util.NameUtils;
-import edu.mayo.kmdp.util.StreamUtil;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -152,23 +153,5 @@ public class PlanDefDataShapeBinder
   }
 
 
-  private Stream<PlanDefinitionActionComponent> getNestedActions(PlanDefinition x) {
-    return x.getAction().stream()
-        .flatMap(this::getNestedActions);
-  }
-
-  private Stream<? extends PlanDefinitionActionComponent> getNestedActions(
-      PlanDefinitionActionComponent act) {
-    return Stream.concat(
-        Stream.of(act),
-        act.getAction().stream().flatMap(this::getNestedActions));
-  }
-
-  private Stream<PlanDefinition> getNestedPlanDefs(PlanDefinition pd) {
-    return Stream.concat(Stream.of(pd),
-        pd.getContained().stream()
-            .flatMap(StreamUtil.filterAs(PlanDefinition.class))
-            .flatMap(this::getNestedPlanDefs));
-  }
 
 }

@@ -1,11 +1,12 @@
 package edu.mayo.kmdp.knowledgebase.selectors.fhir.stu3;
 
+import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRUtils.getNestedActions;
+import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRUtils.getNestedPlanDefs;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Selection_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
-import edu.mayo.kmdp.util.StreamUtil;
 import java.net.URI;
 import java.util.Set;
 import java.util.UUID;
@@ -13,7 +14,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
-import org.hl7.fhir.dstu3.model.PlanDefinition.PlanDefinitionActionComponent;
 import org.hl7.fhir.dstu3.model.ValueSet;
 import org.hl7.fhir.dstu3.model.ValueSet.ConceptSetComponent;
 import org.hl7.fhir.dstu3.model.ValueSet.ConceptSetFilterComponent;
@@ -109,17 +109,6 @@ public class PlanDefSelector
             .flatMap(cf -> cf.getValueCodeableConcept().stream());
   }
 
-  private Stream<PlanDefinitionActionComponent> getNestedActions(PlanDefinition x) {
-    return x.getAction().stream()
-        .flatMap(act -> Stream.concat(Stream.of(act),act.getAction().stream()));
-  }
-
-  private Stream<PlanDefinition> getNestedPlanDefs(PlanDefinition pd) {
-    return Stream.concat(Stream.of(pd),
-        pd.getContained().stream()
-            .flatMap(StreamUtil.filterAs(PlanDefinition.class))
-            .flatMap(this::getNestedPlanDefs));
-  }
 
   public static KnowledgeCarrier pivotQuery(URI... schemes) {
     ValueSet vsDef = new ValueSet();
