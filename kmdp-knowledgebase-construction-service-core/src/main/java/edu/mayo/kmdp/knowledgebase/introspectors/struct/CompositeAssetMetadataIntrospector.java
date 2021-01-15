@@ -1,4 +1,4 @@
-package edu.mayo.kmdp.kbase.introspection.struct;
+package edu.mayo.kmdp.knowledgebase.introspectors.struct;
 
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
