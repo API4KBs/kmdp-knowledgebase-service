@@ -10,17 +10,18 @@ import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.knowledgebase.constructors.JenaOwlImportConstructor;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.StreamUtil;
+import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Named;
+import javax.xml.bind.JAXBElement;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
@@ -32,7 +33,6 @@ import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseAp
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._getKnowledgeBaseStructure;
 import org.omg.spec.api4kp._20200801.id.KeyIdentifier;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
-import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
@@ -43,8 +43,12 @@ import org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSe
 import org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetrole.KnowledgeAssetRoleSeries;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.omg.spec.api4kp._20200801.taxonomy.structuralreltype.StructuralPartTypeSeries;
+import org.omg.spec.dmn._20180521.model.TDMNElementReference;
+import org.omg.spec.dmn._20180521.model.TDRGElement;
+import org.omg.spec.dmn._20180521.model.TDecision;
+import org.omg.spec.dmn._20180521.model.TDecisionService;
 import org.omg.spec.dmn._20180521.model.TDefinitions;
-import org.omg.spec.dmn._20180521.model.TImport;
+import org.omg.spec.dmn._20180521.model.TInputData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,14 +111,40 @@ public class DMN12ImportConstructor
     if (m.isEmpty()) {
       return Stream.empty();
     }
-    Set<Statement> imports = new HashSet<>();
-    m.get().getImport().stream()
-        .map(TImport::getNamespace)
+    return m.stream().flatMap(dmn -> dmn.getDrgElement().stream())
+        .map(JAXBElement::getValue)
+        .flatMap(this::getExternalRequirements)
         .map(imp -> JenaUtil.objA(kc.getAssetId().getVersionId(),
             DependencyTypeSeries.Imports.getReferentId(),
-            resolveArtifactDependency(imp, a2aMap).getVersionId()))
-        .forEach(imports::add);
-    return imports.stream();
+            resolveArtifactDependency(imp, a2aMap).getVersionId()));
+  }
+
+  private Stream<String> getExternalRequirements(TDRGElement tdrgElement) {
+    List<String> refs = new ArrayList<>();
+    if (tdrgElement instanceof TDecision) {
+      TDecision td = (TDecision) tdrgElement;
+      td.getInformationRequirement()
+          .forEach(ir -> {
+            addIfExternal(ir.getRequiredDecision(), refs);
+            addIfExternal(ir.getRequiredInput(), refs);
+          });
+      td.getKnowledgeRequirement()
+          .forEach(kr -> addIfExternal(kr.getRequiredKnowledge(), refs));
+    } else if (tdrgElement instanceof TInputData) {
+      // nothing
+    } else if (tdrgElement instanceof TDecisionService) {
+      TDecisionService td = (TDecisionService) tdrgElement;
+      td.getInputData().forEach(in -> addIfExternal(in,refs));
+      td.getInputDecision().forEach(in -> addIfExternal(in,refs));
+      td.getOutputDecision().forEach(out -> addIfExternal(out,refs));
+    }
+    return refs.stream();
+  }
+
+  private void addIfExternal(TDMNElementReference ref, List<String> refs) {
+    if (ref != null && ! ref.getHref().startsWith("#")) {
+      refs.add(URIUtil.normalizeURIString(URI.create(ref.getHref())));
+    }
   }
 
   private ResourceIdentifier resolveArtifactDependency(String importedUri, Map<KeyIdentifier, ResourceIdentifier> a2aMap) {
