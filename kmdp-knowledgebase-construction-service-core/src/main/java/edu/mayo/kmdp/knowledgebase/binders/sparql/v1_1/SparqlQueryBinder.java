@@ -14,20 +14,21 @@
 package edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1;
 
 
+import static org.omg.spec.api4kp._20200801.AbstractCarrier.codedRep;
+import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.TXT;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.SPARQL_1_1;
+import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel._20200801.ParsingLevel.Abstract_Knowledge_Expression;
+import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel._20200801.ParsingLevel.Concrete_Knowledge_Expression;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
-import edu.mayo.kmdp.registry.Registry;
-import java.net.URI;
+import edu.mayo.kmdp.language.parsers.sparql.SparqlLifter;
 import java.util.UUID;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.ResourceFactory;
-import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedBind;
 import org.omg.spec.api4kp._20200801.datatypes.Bindings;
-import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
@@ -44,6 +45,8 @@ public class SparqlQueryBinder
 
   public static final UUID id = UUID.fromString("73d9abfb-5192-45e8-8368-3ac7f5067e9b");
   public static final String version = "1.0.0";
+
+  private static final SparqlLifter parser = new SparqlLifter();
 
   public SparqlQueryBinder() {
     super(SemanticIdentifier.newId(id,version));
@@ -69,23 +72,28 @@ public class SparqlQueryBinder
         .flatMap(paramQuery -> bind(paramQuery, bindings));
   }
 
-  public Answer<KnowledgeCarrier> bind(KnowledgeCarrier paramQuery, Bindings<String,?> bindings) {
-    ParameterizedSparqlString paramQ = paramQuery.as(ParameterizedSparqlString.class)
-        .orElseThrow(IllegalArgumentException::new);
-    bindings.forEach((key, value) -> {
-      if (value instanceof URI) {
-        paramQ.setParam(key, ResourceFactory.createResource(value.toString()));
-      } else {
-        paramQ.setLiteral(key, value.toString());
-      }
-    });
-    return Answer.of(
-        AbstractCarrier.ofAst(paramQ.asQuery())
-            .withAssetId(SemanticIdentifier.newId(
-                Registry.BASE_UUID_URN_URI,
-                UUID.randomUUID(),
-                IdentifierConstants.VERSION_ZERO))
-            .withRepresentation(paramQuery.getRepresentation()));
+  public Answer<KnowledgeCarrier> bind(KnowledgeCarrier paramQuery, Bindings<String, ?> bindings) {
+    return parser
+        .applyLift(paramQuery, Concrete_Knowledge_Expression, codedRep(SPARQL_1_1, TXT), null)
+        .map(kc -> {
+          kc.as(ParameterizedSparqlString.class)
+              .ifPresent(paramQ ->
+                  bindings.forEach((key, value) -> {
+                    if (isURI(value)) {
+                      paramQ.setParam(key, ResourceFactory.createResource(value.toString()));
+                    } else {
+                      paramQ.setLiteral(key, value.toString());
+                    }
+                  }));
+          return kc;
+        })
+        .flatMap(kc -> parser
+            .applyLift(kc, Abstract_Knowledge_Expression, codedRep(SPARQL_1_1), null));
+  }
+
+  private boolean isURI(Object value) {
+    String s = value.toString();
+    return s.startsWith("http") || s.startsWith("urn");
   }
 
 }
