@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase;
 
+import static org.omg.spec.api4kp._20200801.AbstractCompositeCarrier.ofUniformAggregate;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Selection_Task;
@@ -18,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.inject.Named;
-import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.KnowledgePlatformOperator;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._flattenArtifact;
@@ -360,14 +360,14 @@ public class KnowledgeBaseProvider
     }
     if (kc instanceof CompositeKnowledgeCarrier) {
       CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) kc;
-      if (ckc.getStructType() == CompositeStructType.SET) {
+      if (ckc.getStructType() == CompositeStructType.NONE) {
         ckc.getComponent().add(sourceArtifact);
       } else {
         throw new UnsupportedOperationException();
       }
     } else {
       kBase.setManifestation(
-          AbstractCarrier.ofIdentifiableSet(
+          ofUniformAggregate(
               Arrays.asList(kc, sourceArtifact)));
     }
   }
