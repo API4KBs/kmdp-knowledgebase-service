@@ -1,10 +1,12 @@
 package edu.mayo.kmdp.knowledgebase.introspectors.struct;
 
-import static edu.mayo.kmdp.registry.Registry.KNOWLEDGE_ASSET_URI;
+import static org.apache.jena.rdf.model.ResourceFactory.createProperty;
 import static org.apache.jena.rdf.model.ResourceFactory.createResource;
+import static org.apache.jena.rdf.model.ResourceFactory.createStatement;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newVersionId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
+import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Imports;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetrole._20190801.KnowledgeAssetRole.Composite_Knowledge_Asset;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
@@ -16,10 +18,12 @@ import static org.omg.spec.api4kp._20200801.taxonomy.structuralreltype.Structura
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.language.parsers.rdf.JenaRdfParser;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import javax.inject.Named;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Statement;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
@@ -105,23 +109,36 @@ public class CompositeAssetMetadataIntrospector
             .withRepresentation(struct.getRepresentation())
         );
 
-    graph.listStatements(
-        null,
-        RDF.type,
-        createResource(KNOWLEDGE_ASSET_URI))
-        .mapWith(st -> st.getSubject().asResource().getURI())
-        .mapWith(URI::create)
-        .filterDrop(compUri -> compUri.equals(assetId.getVersionId()))
-        .forEachRemaining(uri -> surrogate.withLinks(
+    List<Statement> partStatements =
+        graph.listStatements(
+            null,
+            createProperty(Imports.getReferentId().toString()),
+            (RDFNode) null).toList();
+    partStatements.addAll(
+        graph.listStatements(
+            createResource(assetId.getVersionId().toString()),
+            createProperty(Has_Structural_Component.getReferentId().toString()),
+            (RDFNode) null).toList());
+    partStatements.add(
+        createStatement(
+            createResource(assetId.getVersionId().toString()),
+            createProperty(Has_Structural_Component.getReferentId().toString()),
+            createResource(carrier.getRootId().getVersionId().toString())));
+
+    partStatements.stream()
+        .map(st -> st.getObject().asResource().getURI())
+        .map(URI::create)
+        .filter(compUri -> ! compUri.equals(assetId.getVersionId()))
+        .distinct()
+        .forEach(uri -> surrogate.withLinks(
             new Component()
                 .withRel(Has_Structural_Component)
                 .withHref(newVersionId(uri))));
 
     surrogate.withLinks(
         new Component()
-        .withRel(Has_Structuring_Component)
-        .withHref(struct.getAssetId())
-    );
+            .withRel(Has_Structuring_Component)
+            .withHref(struct.getAssetId()));
 
     return Answer.of(AbstractCarrier.ofAst(surrogate)
         .withAssetId(carrier.getAssetId())
