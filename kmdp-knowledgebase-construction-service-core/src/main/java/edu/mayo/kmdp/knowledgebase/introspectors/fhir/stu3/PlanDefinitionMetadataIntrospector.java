@@ -1,12 +1,10 @@
 package edu.mayo.kmdp.knowledgebase.introspectors.fhir.stu3;
 
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
-import static org.omg.spec.api4kp._20200801.id.IdentifierConstants.VERSION_ZERO;
-import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultSurrogateUUID;
+import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultSurrogateId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries.Plans_Processes_Pathways_And_Protocol_Definitions;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries.Care_Process_Model;
-import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries.Cognitive_Care_Process_Model;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
@@ -27,8 +25,6 @@ import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
-import org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder;
-import org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries;
 
@@ -92,11 +88,8 @@ public class PlanDefinitionMetadataIntrospector
             .withAssetId(knowledgeCarrier.getAssetId())
             .withLevel(ParsingLevelSeries.Abstract_Knowledge_Expression)
             .withArtifactId(
-                SurrogateBuilder.artifactId(
-                    defaultSurrogateUUID(surrogate.getAssetId(), Knowledge_Asset_Surrogate_2_0),
-                    VERSION_ZERO
-                )
-            ).withRepresentation(rep(Knowledge_Asset_Surrogate_2_0))
+                defaultSurrogateId(surrogate.getAssetId(), Knowledge_Asset_Surrogate_2_0))
+            .withRepresentation(rep(Knowledge_Asset_Surrogate_2_0))
     );
 
   }

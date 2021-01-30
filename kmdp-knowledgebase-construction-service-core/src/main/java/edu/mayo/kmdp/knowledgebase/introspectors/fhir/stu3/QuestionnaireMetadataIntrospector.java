@@ -3,14 +3,11 @@ package edu.mayo.kmdp.knowledgebase.introspectors.fhir.stu3;
 import static edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries.BadRequest;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.codedRep;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
-import static org.omg.spec.api4kp._20200801.id.IdentifierConstants.VERSION_ZERO;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newId;
 import static org.omg.spec.api4kp._20200801.id.VersionIdentifier.toSemVer;
-import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultCarrierUUID;
-import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultSurrogateUUID;
+import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultSurrogateId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries.Structured_Information_And_Data_Capture_Models;
-import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries.Cognitive_Care_Process_Model;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries.Questionnaire;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
@@ -19,8 +16,6 @@ import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSe
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.language.parsers.fhir.stu3.FHIR3Deserializer;
-import edu.mayo.kmdp.registry.Registry;
-import edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries;
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,11 +34,7 @@ import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
-import org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder;
-import org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries;
-import org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
-import org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries;
 
 /**
  * Introspection class for PlanDefinitions. Generates the surrogate (KnowledgeAsset) for the
@@ -59,10 +50,10 @@ public class QuestionnaireMetadataIntrospector
 
   public static final UUID id
       = UUID.fromString("9dec1fce-a567-4c71-b4c1-c75091683c3f");
-  public static final String version = "1.0.0";
+  public static final String VERSION = "1.0.0";
 
   public QuestionnaireMetadataIntrospector() {
-    super(newId(id, version));
+    super(newId(id, VERSION));
   }
 
   public QuestionnaireMetadataIntrospector(KnowledgeBaseApiInternal kbManager) {
@@ -102,9 +93,7 @@ public class QuestionnaireMetadataIntrospector
     assetId.withVersionTag(toSemVer(assetId.getVersionTag()));
 
     ResourceIdentifier artifactId =
-        SurrogateBuilder.artifactId(
-            defaultCarrierUUID(assetId,FHIR_STU3),
-            toSemVer(quest.getVersion()));
+        defaultSurrogateId(assetId, FHIR_STU3, toSemVer(quest.getVersion()));
 
     KnowledgeAsset surrogate = newSurrogate(assetId).get()
         .withName(quest.getName())
