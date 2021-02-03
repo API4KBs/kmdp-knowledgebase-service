@@ -103,11 +103,7 @@ public class CompositeAssetMetadataIntrospector
     KnowledgeAsset surrogate = newSurrogate(assetId)
         .get()
         .withName(carrier.getLabel())
-        .withRole(Composite_Knowledge_Asset)
-        .withCarriers(new KnowledgeArtifact()
-            .withArtifactId(struct.getArtifactId())
-            .withRepresentation(struct.getRepresentation())
-        );
+        .withRole(Composite_Knowledge_Asset);
 
     List<Statement> partStatements =
         graph.listStatements(
