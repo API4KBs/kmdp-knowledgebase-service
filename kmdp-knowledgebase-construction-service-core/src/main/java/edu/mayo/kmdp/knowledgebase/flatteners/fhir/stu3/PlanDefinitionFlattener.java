@@ -53,27 +53,9 @@ public class PlanDefinitionFlattener
     }
 
     CompositeKnowledgeCarrier kc = (CompositeKnowledgeCarrier) carrier;
-    // TODO The struct has all the dependencies between the components
-    // What is missing is the 'composite root = kc.getAssetId  HAS PART  X
-    // With - this being a root-based composite - the picking of the root asset,
-    // so that the effect is that all PlanDefs are injected into the root PlanDef
-//      KnowledgeCarrier root = kc.getAssetId().getVersionId();
 
-    // TODO get the root asset properly..
-    Model x = kc.getStruct().as(Model.class)
-        .map(m -> m.query(new SimpleSelector() {
-          public boolean test(Statement st) {
-            return st.getSubject().getURI().contains(rootAssetId.toString());
-          }
-        })).get();
-
-    KnowledgeCarrier masterPlan = kc.getComponent().stream()
-        .filter(comp -> comp.getAssetId().getUuid().equals(rootAssetId))
-        .findFirst()
-        .orElseThrow(IllegalStateException::new);
-
-    PlanDefinition masterPlanDefinition = masterPlan.as(PlanDefinition.class)
-        .orElseThrow(IllegalStateException::new);
+    KnowledgeCarrier masterPlan = kc.mainComponent();
+    PlanDefinition masterPlanDefinition = kc.mainComponentAs(PlanDefinition.class);
 
     List<PlanDefinition> subPlans =
         kc.getComponent().stream()

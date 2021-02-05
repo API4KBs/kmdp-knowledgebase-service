@@ -1,6 +1,10 @@
 package edu.mayo.kmdp.knowledgebase.assemblers.rdf;
 
+import static org.apache.jena.rdf.model.ResourceFactory.createProperty;
+import static org.apache.jena.rdf.model.ResourceFactory.createResource;
 import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Depends_On;
+import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Imports;
+import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetrole.KnowledgeAssetRoleSeries.Component_Knowledge_Asset;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Composition_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
@@ -19,6 +23,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.impl.PropertyImpl;
+import org.apache.jena.vocabulary.RDF;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
@@ -50,7 +55,7 @@ public class GraphBasedAssembler
   KnowledgeAssetRepositoryApiInternal repo;
 
   public GraphBasedAssembler() {
-    super(SemanticIdentifier.newId(id,version));
+    super(SemanticIdentifier.newId(id, version));
   }
 
   public GraphBasedAssembler(KnowledgeAssetRepositoryApiInternal repo) {
@@ -70,15 +75,35 @@ public class GraphBasedAssembler
     Set<ResourceIdentifier> componentIds = getComponentAssets(struct);
 
     Set<KnowledgeCarrier> components = componentIds.stream()
-        .map(cid -> repo.getKnowledgeAssetVersionCanonicalCarrier(cid.getUuid(),cid.getVersionTag()))
+        .map(cid -> repo
+            .getKnowledgeAssetVersionCanonicalCarrier(cid.getUuid(), cid.getVersionTag()))
         .collect(Answer.toSet())
-        .orElse(Collections.emptySet())
-        ;
+        .orElse(Collections.emptySet());
+
+    Model m = struct.as(Model.class).orElseThrow();
+    ResourceIdentifier rootId = m.listSubjects()
+        .filterKeep(
+            s -> m.contains(
+                s,
+                RDF.type,
+                createResource(Component_Knowledge_Asset.getReferentId().toString())))
+        .filterDrop(
+            s -> m.contains(
+                null,
+                createProperty(Imports.getReferentId().toString()),
+                s))
+        .toList().stream()
+        .map(Resource::getURI)
+        .map(URI::create)
+        .map(SemanticIdentifier::newVersionId)
+        .findFirst()
+        .orElseThrow();
 
     return Answer.of(new CompositeKnowledgeCarrier()
-            .withAssetId(struct.getAssetId())
-            .withStruct(struct)
-            .withComponent(components));
+        .withAssetId(struct.getAssetId())
+        .withRootId(rootId)
+        .withStruct(struct)
+        .withComponent(components));
   }
 
   private Set<ResourceIdentifier> getComponentAssets(KnowledgeCarrier struct) {
@@ -124,7 +149,11 @@ public class GraphBasedAssembler
 
   private Set<Resource> getResources(Model graph) {
     Set<Resource> resources = new HashSet<>();
-    graph.listObjects().forEachRemaining(node -> { if (node.canAs(Resource.class)) { resources.add(node.asResource()); }});
+    graph.listObjects().forEachRemaining(node -> {
+      if (node.canAs(Resource.class)) {
+        resources.add(node.asResource());
+      }
+    });
     return resources;
   }
 
