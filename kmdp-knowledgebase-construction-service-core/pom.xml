@@ -7,7 +7,7 @@
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
     <artifactId>kmdp-knowledgebase-construction-service</artifactId>
-    <version>4.9.7</version>
+    <version>4.9.8-SNAPSHOT</version>
   </parent>
 
   <artifactId>kmdp-knowledgebase-construction-service-core</artifactId>
