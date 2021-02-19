@@ -63,6 +63,7 @@ import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @Named
 @KPOperation(Description_Task)
@@ -80,6 +81,7 @@ public class OWLMetadataIntrospector
 
   @Autowired
   @KPSupport(OWL_2)
+  @KPComponent(implementation = "owlapi")
   private _applyLift parser;
 
   OWLParserConfiguration opc = new OWLParserConfiguration()
