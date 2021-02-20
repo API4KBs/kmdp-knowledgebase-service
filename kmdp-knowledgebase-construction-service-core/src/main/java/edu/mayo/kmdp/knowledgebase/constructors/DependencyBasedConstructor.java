@@ -9,11 +9,13 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
+import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.StreamUtil;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import javax.inject.Named;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -54,14 +56,17 @@ public class DependencyBasedConstructor
   @Autowired(required = false)
   KnowledgeAssetCatalogApiInternal repo;
 
+  ResourceIdentifier compositeId;
+
   public DependencyBasedConstructor() {
     super(SemanticIdentifier.newId(id,version));
   }
 
   public static KnowledgeBaseApiInternal._getKnowledgeBaseStructure newInstance(
-      KnowledgeAssetCatalogApiInternal repo) {
+      KnowledgeAssetCatalogApiInternal repo, ResourceIdentifier compositeId) {
     DependencyBasedConstructor constructor = new DependencyBasedConstructor();
     constructor.repo = repo;
+    constructor.compositeId = compositeId;
     return constructor;
   }
 
@@ -74,10 +79,15 @@ public class DependencyBasedConstructor
       return Answer.failed(allAssets);
     }
 
-    ResourceIdentifier compositeAssetVersionedId = allAssets.get().stream()
-        .map(ResourceIdentifier.class::cast)
-        .reduce(SemanticIdentifier::hashIdentifiers)
-        .orElseThrow();
+    ResourceIdentifier compositeAssetVersionedId;
+    if (compositeId != null) {
+      compositeAssetVersionedId = compositeId;
+    } else {
+      compositeAssetVersionedId = allAssets.get().stream()
+          .map(ResourceIdentifier.class::cast)
+          .reduce(SemanticIdentifier::hashIdentifiers)
+          .orElseThrow();
+    }
 
 
     // TODO Rather than getting ALL the assets,
@@ -104,7 +114,10 @@ public class DependencyBasedConstructor
               return m;
             })
         .map(m -> {
-          logger.info(JenaUtil.asString(m));
+          String s = beautifyTuples(JenaUtil.asString(m));
+          if (logger.isInfoEnabled()) {
+            logger.info(s);
+          }
           return m;
         })
         // And we return it
@@ -165,5 +178,21 @@ public class DependencyBasedConstructor
   @Override
   public KnowledgeRepresentationLanguage getSupportedLanguage() {
     return null;
+  }
+
+  static Pattern uuidPattern = Pattern.compile(
+      "^([A-Fa-f0-9]{8})-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{12})$");
+
+  public static String beautifyTuples(String s) {
+    s = s.replace(Registry.BASE_UUID_URN, "");
+    s = s.replace(Registry.MAYO_ARTIFACTS_BASE_URI, "a:");
+    s = s.replace(Registry.MAYO_ASSETS_BASE_URI, "x:");
+    s = s.replace("https://www.omg.org/spec/API4KP/api4kp-kao/", "x:");
+    s = s.replace("https://www.omg.org/spec/API4KP/api4kp-rel/", "x:");
+    s = s.replace("https://www.omg.org/spec/API4KP/api4kp/", "x:");
+    s = s.replaceAll("/versions/\\d+\\.\\d+\\.\\d+", "");
+    s = s.replaceAll("/versions/\\d+\\.\\d+\\.\\d+", "");
+    s = uuidPattern.matcher(s).replaceAll("$1");
+    return s;
   }
 }
