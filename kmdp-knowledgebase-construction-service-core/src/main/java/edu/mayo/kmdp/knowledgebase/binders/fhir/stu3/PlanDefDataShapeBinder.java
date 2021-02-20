@@ -119,7 +119,7 @@ public class PlanDefDataShapeBinder
 
       if (output) {
        // FUTURE Default to Observation for derived data
-        String typeUri = "https://www.hl7.org/fhir/STU3/procedure.profile.xml";
+        String typeUri = "https://www.hl7.org/fhir/STU3/observation.profile.xml";
         dr2.setType(getFHIRType(URI.create(typeUri)));
         dr2.addProfile(typeUri);
       }
@@ -129,10 +129,13 @@ public class PlanDefDataShapeBinder
 
     return typeUris.stream()
         .map(typeUri -> {
+          String fhirTypeCode = getFHIRType(typeUri);
           DataRequirement dr2 = dr.copy();
-          dr2.setType(getFHIRType(typeUri));
+          dr2.setType(fhirTypeCode);
           dr2.getProfile().clear();
-          dr2.addProfile(typeUri.toString());
+          if (! FHIRAllTypes.ANY.toCode().equals(fhirTypeCode)) {
+            dr2.addProfile(typeUri.toString());
+          }
           return dr2;
         });
   }
