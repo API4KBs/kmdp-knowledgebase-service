@@ -1,0 +1,3156 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "id": "#e49af408-a800-44b0-89fe-8d69d5315b86",
+      "name": "6c14a53a-7ce2-34aa-9cf1-a800317bebef"
+    },
+    {
+      "id": "#ef942869-a4a4-4337-a703-498fe525159c",
+      "name": "5eca2194-74dd-384b-af67-da166515a2a5"
+    },
+    {
+      "name": "a492f856-69de-3848-b831-bf665add30d1",
+      "part": [
+        {
+          "id": "#ca50dc7d-9f99-4bf2-91bc-24f3229ac730",
+          "name": "97ce0dfd-73c1-42ed-92c1-fba6175f5ba1"
+        },
+        {
+          "id": "#b36c79d9-5c96-45af-8297-82dad65f686e",
+          "name": "9c20e655-5e6d-4f19-af17-550dc284fdac"
+        }
+      ]
+    },
+    {
+      "name": "1e2a6303-fb74-343a-838c-e0cc8a2ac79f",
+      "part": [
+        {
+          "id": "#dbf22905-8848-4c3c-95fe-99794b6400e5",
+          "name": "00d9cba6-96d6-46ef-8614-1e99dc4d9b54"
+        },
+        {
+          "id": "#5c9525fb-777d-40c2-8009-882d22fd9c15",
+          "name": "3650a9a2-2915-4735-8665-fa9f4b4a88c2",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tfSNJH",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-28T12:37:35-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171899</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: I10 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_171899"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "I10"
+                      }
+                    ],
+                    "text": "Hypertension Essential Primary"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-28",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "861f20db-26f9-3c04-b205-e6d83356f624",
+      "part": [
+        {
+          "id": "#22520bc9-895d-4542-a9bf-e8b9e099a990",
+          "name": "1a57ed04-84a0-416f-89e9-acf143e89ff9"
+        },
+        {
+          "id": "#aac2b992-145b-46e0-a2f4-f46c10399931",
+          "name": "140a0bc1-0232-457e-a2d7-1469c4e2bf92",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tgRHCB",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-09-06T10:18:52-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_172570</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-09-06</p><p><b>code</b>: I63.9 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_172570"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "I63.9"
+                      }
+                    ],
+                    "text": "Infarction Cerebral (HCC)"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-09-06",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "#84c44273-ab16-4f51-849f-55b530d0bfdd",
+      "name": "254c812c-7de4-3b81-90d5-50ef30631f4a"
+    },
+    {
+      "name": "91c1ec61-b2fd-3174-b360-15a3a39450e6",
+      "part": [
+        {
+          "id": "#e778078a-576b-4f5c-afd1-a85e53812106",
+          "name": "f7bdf398-deec-4a76-a66f-270092564d26",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tgOE7y",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-29T13:53:37-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_172203</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-29</p><p><b>code</b>: E08.11 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_172203"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "E08.11"
+                      }
+                    ],
+                    "text": "Diabetes Mellitus Due To Underlying Condition With Ketoacidosis With Coma (HCC)"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-29",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "#08caf788-1e41-4f3c-9b8e-92b39957ce75",
+          "name": "a68f13d3-d0c4-40e8-8132-bbc338d8f1d6"
+        }
+      ]
+    },
+    {
+      "name": "81a30270-a57f-3858-889c-9a500387b727",
+      "part": [
+        {
+          "id": "#54dbc81c-db5d-49e1-bcb7-781a545b47a9",
+          "name": "2034df94-3212-43ca-be2a-da2031bd8c8f"
+        },
+        {
+          "id": "#e7c0b00c-dee8-45f0-9f6e-e41c45fade2a",
+          "name": "8dc272a3-f88e-46f5-88de-727f651d1675",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tfSNHD",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-29T13:52:39-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171897</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: D68.9 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_171897"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "D68.9"
+                      }
+                    ],
+                    "text": "Defect Coagulation (HCC)"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-28",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "#8da7f33f-fe22-4376-bd3b-320d40557cc1",
+      "name": "8ac1a820-2465-4937-a8e1-69d2c131dfaa"
+    },
+    {
+      "id": "#a2bca133-1f85-43a6-96ff-ff0ebb3d6b11",
+      "name": "3998837c-5ea3-3ae7-b8d9-545085e5e2d0",
+      "resource": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Condition",
+              "id": "t891.J1hQCxeSp.8tgOE6w",
+              "meta": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                    "valueUri": "http://terms.mayo.edu/datasource/epic"
+                  }
+                ],
+                "lastUpdated": "2019-08-29T13:52:55-05:00"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_172202</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-29</p><p><b>code</b>: I50.41 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+              },
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11235128_172202"
+                }
+              ],
+              "clinicalStatus": "active",
+              "verificationStatus": "confirmed",
+              "category": [
+                {
+                  "text": "Problem"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "I50.41"
+                  }
+                ],
+                "text": "Acute Combined Systolic (Congestive) And Diastolic (Congestive) Heart Failure (HCC)"
+              },
+              "subject": {
+                "reference": "Patient/11235128"
+              },
+              "assertedDate": "2019-08-29",
+              "asserter": {
+                "reference": "Practitioner/21529744"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "#92491990-c40b-49a9-b373-f1a3d95c65a1",
+      "name": "ffed935c-4a64-3666-880a-aa0d4a2ca507"
+    },
+    {
+      "id": "#969b17d9-805d-433d-b109-26f02ab1d2c3",
+      "name": "e5177821-b325-3862-879a-5f0b21758d31"
+    },
+    {
+      "name": "820fe35c-81ed-39be-8e66-119176bf0bec",
+      "part": [
+        {
+          "id": "#8e596bb1-ca74-4536-bf52-93c32f7dccde",
+          "name": "7ba3e21c-52f2-4027-930f-ceb27080cd79"
+        },
+        {
+          "id": "#1eee56de-0b50-4c9d-84ee-f983cc5f40b9",
+          "name": "1eac6254-3c5d-4388-9789-d63576e7ffc2",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tfSNGB",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-28T12:36:47-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171896</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: I48.91 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_171896"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "I48.91"
+                      }
+                    ],
+                    "text": "Fibrillation Atrial (HCC)"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-28",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "#87080d2b-cb05-4c14-9650-db5498e053aa",
+          "name": "d8ebe808-92b5-4216-bf16-62d5f1b10a6f",
+          "resource": {
+            "resourceType": "Bundle",
+            "total": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "#0f706b39-7532-4c4d-8db4-d4361ce96f09",
+      "name": "e6f273d2-6254-3608-aca1-229ecf97ca71"
+    },
+    {
+      "id": "#01e3a661-a04f-48c8-8c64-ead517d92fbd",
+      "name": "a1f490fa-318d-3267-a724-3e62173301b6"
+    },
+    {
+      "id": "#fbc92f6c-45cb-4321-8d1b-be341ba6e5af",
+      "name": "6cb0bf32-af38-3a90-ba1d-1abd3ebae49e"
+    },
+    {
+      "id": "#f8a92e2b-cc98-4987-82c0-95d937d21ade",
+      "name": "fce8e47c-65c5-321d-8d7e-607856d759a5"
+    },
+    {
+      "id": "#7f5dc511-39a7-4f85-8021-cbc10d1fb99a",
+      "name": "11d54e74-6da4-3a2a-867d-e634d6475a19",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "3C4E3B06E42A4FE7AD5FE5B201B97798",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:04.2587335-06:00"
+        },
+        "type": "searchset",
+        "total": 3,
+        "entry": [
+          {
+            "fullUrl": "https://test.apimc.mayo.edu/eapis_enterpriseapi/v1/fhir/stu3/Observation/t891.L8qd1.KA1omligfYmwhr.znz.GEQ.ecaYWUSR",
+            "resource": {
+              "resourceType": "Observation",
+              "id": "t891.L8qd1.KA1omligfYmwhr.znz.GEQ.ecaYWUSR",
+              "meta": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                    "valueUri": "http://terms.mayo.edu/datasource/epic"
+                  }
+                ]
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: t891.L8qd1.KA1omligfYmwhr.znz.GEQ.ecaYWUSR</p><p><b>identifier</b>: Epic_11235128_ALT_2019-09-05T16:28:00.0000000-05:00</p><p><b>status</b>: Final</p><p><b>category</b>: Laboratory</p><p><b>code</b>: http://terms.mayo.edu/mcfhir/codesystem/epic-mpiid-LRROUT/3418 <span>ALT</span></p><p><b>code</b>: http://terms.mayo.edu/codesystem/LOINC/1743-4 <span>ALT</span></p><p><b>subject</b>: Patient/11235128</p><p><b>effective</b>: 2019-09-05T16:28:00-05:00</p><p><b>value</b>: <span>165 U/L</span></p></div>"
+              },
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11235128_ALT_2019-09-05T16:28:00.0000000-05:00"
+                }
+              ],
+              "status": "final",
+              "category": [
+                {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/observation-category",
+                      "code": "laboratory",
+                      "display": "Laboratory"
+                    }
+                  ],
+                  "text": "Laboratory"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://terms.mayo.edu/mcfhir/codesystem/epic-mpiid-LRROUT",
+                    "code": "3418",
+                    "display": "ALT"
+                  },
+                  {
+                    "system": "http://terms.mayo.edu/codesystem/LOINC",
+                    "code": "1743-4",
+                    "display": "ALT"
+                  }
+                ],
+                "text": "Alanine Aminotransferase (ALT), S"
+              },
+              "subject": {
+                "reference": "Patient/11235128"
+              },
+              "effectiveDateTime": "2019-09-05T16:28:00-05:00",
+              "valueQuantity": {
+                "value": 165,
+                "unit": "U/L"
+              },
+              "interpretation": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/observation-interpretation",
+                    "code": "H",
+                    "display": "High"
+                  }
+                ],
+                "text": "High"
+              },
+              "specimen": {
+                "display": "Blood, Venous"
+              },
+              "referenceRange": [
+                {
+                  "low": {
+                    "value": 7,
+                    "unit": "U/L"
+                  },
+                  "high": {
+                    "value": 55,
+                    "unit": "U/L"
+                  },
+                  "text": "7-55"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "4372f32d-aa80-341b-8e90-ae821b75bc99",
+      "part": [
+        {
+          "id": "#2f666c3b-3a2a-4557-b9b0-63bdac1dde61",
+          "name": "8fc947f9-bb27-46b1-b239-d4692618104a"
+        },
+        {
+          "id": "#f9a0bbe3-773d-4856-82b4-9b9ce6677c30",
+          "name": "9c0589d5-c4a5-4fdc-954a-5e9f748b804b",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tgOE93",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-29T13:57:50-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_172205</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-29</p><p><b>code</b>: F10.10 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_172205"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "F10.10"
+                      }
+                    ],
+                    "text": "Abuse Alcohol"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-29",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "#a777738d-e44c-4f4b-8777-26ff0c406729",
+      "name": "4f2db3a9-556d-3c87-a1c2-70381e12323c"
+    },
+    {
+      "id": "#2f7f6f78-492f-460b-ae79-a44c1cb45d81",
+      "name": "c2ce3d70-be97-3dbd-8f76-b8f7e61a3db4"
+    },
+    {
+      "id": "#27071f92-cda4-47fc-836d-b08d28a6999b",
+      "name": "12ef2aab-8101-39e0-8908-5ca7fa404e08",
+      "resource": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "MedicationStatement",
+              "id": "efNI8ZIGKxRzt-cg9KhlMzQC5NsXWtZlSQcTtnxFS0Sw3",
+              "meta": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                    "valueUri": "http://terms.mayo.edu/datasource/epic"
+                  }
+                ]
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id:</b>efNI8ZIGKxRzt-cg9KhlMzQC5NsXWtZlSQcTtnxFS0Sw3</p><p><b>identifier</b>: 2222003583205 (Official)</p><p><b>patient </b>reference:  Patient/11235128</p><p><b>informationsource </b>display:  Self</p><p><b>status </b>:  Active</p><p><b>effectivePeriod</b> start:  2019-09-26T00:00:00.0000000-05:00</p><p><b>effectivePeriod</b> end:  </p><p><b>medicationResourceReference </b>:  https://peptest.api.mayo.edu/epicfhir/vexternal/api/FHIR/STU3/Medication/eNOtSvvvrKTBIjeZ6KBCATodA57DbPu2u56u264ttcuEoMez.HMqBeuJsk..slhrsJ9k5kOIbPSLw8gDqZvNcqGKeKhzHVGu6wP4tXq2PIpU3</p><p><b>medicationResourceReferenceDisplay </b>:  OXYCODONE-ASPIRIN 4.8355 MG-325 MG TABLET</p></div>"
+              },
+              "contained": [
+                {
+                  "resourceType": "Medication",
+                  "id": "b04796e9-367b-47e2-b21c-addbae2344ef",
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://www.whocc.no/atc",
+                        "code": "N02AJ18"
+                      },
+                      {
+                        "system": "urn:oid:2.16.840.1.113883.6.208",
+                        "code": "60638"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "1191"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "7804"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "82063"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "214256"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "848763"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "848768"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "848769"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "848772"
+                      },
+                      {
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "code": "848928"
+                      }
+                    ],
+                    "text": "OXYCODONE-ASPIRIN 4.8355 MG-325 MG TABLET"
+                  },
+                  "isBrand": false,
+                  "isOverTheCounter": false,
+                  "form": {
+                    "coding": [
+                      {
+                        "system": "urn:oid:1.2.840.114350.1.13.451.3.7.4.698288.310",
+                        "code": "tab",
+                        "display": "tablet"
+                      }
+                    ],
+                    "text": "tablet"
+                  },
+                  "ingredient": [
+                    {
+                      "itemCodeableConcept": {
+                        "coding": [
+                          {
+                            "system": "http://www.whocc.no/atc",
+                            "code": "N02AJ18"
+                          },
+                          {
+                            "system": "urn:oid:2.16.840.1.113883.6.208",
+                            "code": "60638"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "1191"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "7804"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "82063"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "214256"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "848763"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "848768"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "848769"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "848772"
+                          },
+                          {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "848928"
+                          }
+                        ],
+                        "text": "OXYCODONE-ASPIRIN 4.8355 MG-325 MG TABLET"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "identifier": [
+                {
+                  "use": "usual",
+                  "system": "urn:oid:1.2.840.114350.1.13.451.3.7.2.798268",
+                  "value": "2222003583205"
+                }
+              ],
+              "status": "active",
+              "category": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/medication-statement-category",
+                    "code": "patientspecified",
+                    "display": "Patient Specified"
+                  }
+                ],
+                "text": "Patient Specified"
+              },
+              "medicationReference": {
+                "reference": "#b04796e9-367b-47e2-b21c-addbae2344ef"
+              },
+              "effectivePeriod": {
+                "start": "2019-09-26T00:00:00.0000000-05:00"
+              },
+              "dateAsserted": "2019-08-29T18:59:24Z",
+              "informationSource": {
+                "display": "Self"
+              },
+              "subject": {
+                "reference": "Patient/11235128",
+                "display": "MEATesting, DoNotUseSeven"
+              },
+              "taken": "unk",
+              "dosage": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://open.epic.com/fhir/extensions/ordered-dose",
+                      "valueQuantity": {
+                        "value": 1,
+                        "unit": "tablet",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "{tbl}"
+                      }
+                    }
+                  ],
+                  "text": "Take 1 tablet by mouth every 6 (six) hours as needed for pain.",
+                  "patientInstruction": "Take 1 tablet by mouth every 6 (six) hours as needed for pain.",
+                  "timing": {
+                    "repeat": {
+                      "boundsPeriod": {
+                        "start": "2019-09-26"
+                      },
+                      "frequency": 1,
+                      "period": 6,
+                      "periodUnit": "h"
+                    },
+                    "code": {
+                      "text": "every 6 (six) hours as needed"
+                    }
+                  },
+                  "asNeededBoolean": true,
+                  "route": {
+                    "coding": [
+                      {
+                        "system": "urn:oid:1.2.840.114350.1.13.451.3.7.4.798268.7025",
+                        "code": "15",
+                        "display": "oral"
+                      }
+                    ],
+                    "text": "oral"
+                  },
+                  "method": {
+                    "text": "Take"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ec218719-088c-3af5-ad4a-189f3069f8be",
+      "part": [
+        {
+          "id": "#70aaaf9c-0039-4da8-a364-6a5815a3a0fa",
+          "name": "4f5a43f3-b869-4957-87e1-d8c1aa3eb0ce"
+        },
+        {
+          "id": "#9e01ba16-fffa-4124-9505-4c77b032a041",
+          "name": "9a5ebaf3-1dba-4f9f-9b8e-752c5ed02be6",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tfSNJH",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-28T12:37:35-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171899</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: I10 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_171899"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "I10"
+                      }
+                    ],
+                    "text": "Hypertension Essential Primary"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-28",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "#034f583b-9970-414a-b34a-3f3f0c27cdcf",
+      "name": "3e66193e-1832-3a0f-a286-ef8cd79781be"
+    },
+    {
+      "id": "#a75f6d10-0b00-4d5a-8286-4867941c877c",
+      "name": "dc7930b8-4cd1-396e-a19e-562fa40e3888",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "BF0A179677F445588A3FD88B3F5E11ED",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:03.7173054-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "id": "#d3e0b3a8-70f8-4280-81c0-8063f955b24d",
+      "name": "990d710e-cceb-35d5-95ba-2b127f297076",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "4D5E6EDAF5E743E08F0588DA0B286BCC",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:03.463111-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "id": "#0c3c2661-4c16-474d-a734-78679208d8cb",
+      "name": "4bb8b02e-b930-3839-a7c8-819ec18b2b88",
+      "resource": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Condition",
+              "id": "t891.J1hQCxeSp.8tgRHCB",
+              "meta": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                    "valueUri": "http://terms.mayo.edu/datasource/epic"
+                  }
+                ],
+                "lastUpdated": "2019-09-06T10:18:52-05:00"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_172570</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-09-06</p><p><b>code</b>: I63.9 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+              },
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11235128_172570"
+                }
+              ],
+              "clinicalStatus": "active",
+              "verificationStatus": "confirmed",
+              "category": [
+                {
+                  "text": "Problem"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "I63.9"
+                  }
+                ],
+                "text": "Infarction Cerebral (HCC)"
+              },
+              "subject": {
+                "reference": "Patient/11235128"
+              },
+              "assertedDate": "2019-09-06",
+              "asserter": {
+                "reference": "Practitioner/21529744"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "#cadde78d-fa5c-40fe-8fe7-7585bb9f2ac4",
+      "name": "dd4f9e82-b96c-3f5d-8aee-b2c28a52024d"
+    },
+    {
+      "id": "#fed21391-e18b-4d34-b7f7-bc0e8cb54488",
+      "name": "3c0507a5-322e-307e-b3ce-f189af641c82"
+    },
+    {
+      "id": "#596f5144-0763-40f3-b81f-3dc9c49f268e",
+      "name": "9879cc8f-0239-32d1-8ccd-795711c06d97",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "1A5399E79C144DF1BF535ACCB9FAFAED",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:03.6330775-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "name": "2a663858-1002-3122-9add-c72611628354",
+      "part": [
+        {
+          "id": "#6251d416-48f9-49f5-853a-4324826a8da3",
+          "name": "ad45fc6a-83e4-475a-9e5f-4e8b28d3de35",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tfTQH-",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-28T12:41:33-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171903</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: Z94.0 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_171903"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "Z94.0"
+                      }
+                    ],
+                    "text": "Transplant Renal (HCC)"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-28",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "#f7ce1daf-281c-4f66-85f6-482662f561c8",
+          "name": "1defbba3-94be-4fc7-8e25-fca15eeab6a9"
+        }
+      ]
+    },
+    {
+      "id": "#f675a42f-b15f-4fbf-a5de-64af0181ed73",
+      "name": "b867b344-7113-3dda-84a0-2fc5fba77e7e"
+    },
+    {
+      "id": "#3a353ecb-d60e-4eb1-a89b-d08384bc04d5",
+      "name": "aa32f6c5-bd66-31ff-9287-3673e0d12d9d"
+    },
+    {
+      "id": "#d11ee6e0-ea2b-42fa-a5b5-493d4779f6fd",
+      "name": "01eea47f-88bd-36d8-9b01-1cda2dda9fa2",
+      "resource": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Condition",
+              "id": "t891.J1hQCxeSp.8thSEzq",
+              "meta": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                    "valueUri": "http://terms.mayo.edu/datasource/epic"
+                  }
+                ],
+                "lastUpdated": "2020-01-28T14:24:36-06:00"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_173442</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-10-02</p><p><b>code</b>: I73.9 <span></span></p><p><b>clinicalStatus</b>: Inactive</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+              },
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11235128_173442"
+                }
+              ],
+              "clinicalStatus": "inactive",
+              "verificationStatus": "confirmed",
+              "category": [
+                {
+                  "text": "Problem"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "I73.9"
+                  }
+                ],
+                "text": "Peripheral Vascular Disease (HCC)"
+              },
+              "subject": {
+                "reference": "Patient/11235128"
+              },
+              "assertedDate": "2019-10-02",
+              "asserter": {
+                "reference": "Practitioner/1458"
+              }
+            }
+          },
+          {
+            "resource": {
+              "resourceType": "Condition",
+              "id": "t891.J1hQCxeSp.8tgOE81",
+              "meta": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                    "valueUri": "http://terms.mayo.edu/datasource/epic"
+                  }
+                ],
+                "lastUpdated": "2020-01-28T14:24:52-06:00"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_172204</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-29</p><p><b>code</b>: I73.9 <span></span></p><p><b>clinicalStatus</b>: Inactive</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+              },
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11235128_172204"
+                }
+              ],
+              "clinicalStatus": "inactive",
+              "verificationStatus": "confirmed",
+              "category": [
+                {
+                  "text": "Problem"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "I73.9"
+                  }
+                ],
+                "text": "Peripheral Arterial Disease (HCC)"
+              },
+              "subject": {
+                "reference": "Patient/11235128"
+              },
+              "onsetPeriod": {
+                "end": "2019-09-10"
+              },
+              "abatementPeriod": {
+                "end": "2019-09-10"
+              },
+              "assertedDate": "2019-08-29",
+              "asserter": {
+                "reference": "Practitioner/1458"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "#e08b3150-e050-4c43-93cf-884cdc2732c8",
+      "name": "88d67396-c8b6-3665-b75a-7351fac7cc07",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "38C82D6D385B47F8AC4AFCD7842CD80C",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:03.6053038-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "id": "#252f30ac-40e6-433c-bdce-3e961779a835",
+      "name": "1e642920-6ab2-3dad-86d9-d430b59d85f5",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "340B8880EF4E4D3BB7BD4085A09EC4D1",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:03.8982112-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "id": "#c8c07c05-a014-4041-8a8a-30af9cabe1a1",
+      "name": "036f43ee-4b9f-3df4-8106-c0acd065ee7a",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "BD3AA12053764284ABE909DDC5990ADF",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:03.9596913-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "name": "4b790fd2-df8b-317a-bf88-cb82e413f8a3",
+      "part": [
+        {
+          "id": "#7a7c6cc0-87b3-4f3c-9ca0-f0a85cb71bd2",
+          "name": "e3646bd9-2d49-460d-b4e8-bb94156b10d4",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tgOE6w",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2019-08-29T13:52:55-05:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_172202</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-29</p><p><b>code</b>: I50.41 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_172202"
+                    }
+                  ],
+                  "clinicalStatus": "active",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "I50.41"
+                      }
+                    ],
+                    "text": "Acute Combined Systolic (Congestive) And Diastolic (Congestive) Heart Failure (HCC)"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "assertedDate": "2019-08-29",
+                  "asserter": {
+                    "reference": "Practitioner/21529744"
+                  }
+                }
+              },
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tfSNIF",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2020-01-28T14:25:08-06:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171898</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: I50.9 <span></span></p><p><b>clinicalStatus</b>: Inactive</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_171898"
+                    }
+                  ],
+                  "clinicalStatus": "inactive",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "I50.9"
+                      }
+                    ],
+                    "text": "Congestive Heart Failure (HCC)"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "onsetPeriod": {
+                    "end": "2019-08-29"
+                  },
+                  "abatementPeriod": {
+                    "end": "2019-08-29"
+                  },
+                  "assertedDate": "2019-08-28",
+                  "asserter": {
+                    "reference": "Practitioner/1458"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "#a451397a-77f6-4136-b883-36ecfa651fd7",
+          "name": "fd9903b8-b65f-4a74-b3cb-46e9f746ca5e"
+        }
+      ]
+    },
+    {
+      "id": "#47c85556-0884-444d-8ac7-3f9e69430714",
+      "name": "d3112121-c8b4-38d5-9e37-420c34d4405e"
+    },
+    {
+      "id": "#52afd921-9526-4fd3-ae2f-536fd615cf1d",
+      "name": "8f5e549b-5777-3138-9808-1586bf0195e4"
+    },
+    {
+      "name": "bb8fceeb-b5f0-3ec7-b624-59a38bff014a",
+      "part": [
+        {
+          "id": "#ce9db2af-33c5-47b3-8430-b33401d4ed5a",
+          "name": "32835ced-a724-4ddd-97af-8e22d9186a69"
+        },
+        {
+          "id": "#2dadb8b5-578c-47a2-a0f6-51dba90eb314",
+          "name": "8458203c-ff84-4ad9-ae0b-1cc6bef7cc65",
+          "resource": {
+            "resourceType": "Bundle",
+            "entry": [
+              {
+                "resource": {
+                  "resourceType": "Condition",
+                  "id": "t891.J1hQCxeSp.8tfTQG9",
+                  "meta": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                        "valueUri": "http://terms.mayo.edu/datasource/epic"
+                      }
+                    ],
+                    "lastUpdated": "2020-01-28T14:27:11-06:00"
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171902</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: Z86.73 <span></span></p><p><b>clinicalStatus</b>: Inactive</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+                  },
+                  "identifier": [
+                    {
+                      "use": "official",
+                      "value": "Epic_11235128_171902"
+                    }
+                  ],
+                  "clinicalStatus": "inactive",
+                  "verificationStatus": "confirmed",
+                  "category": [
+                    {
+                      "text": "Problem"
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                        "code": "Z86.73"
+                      }
+                    ],
+                    "text": "Stroke Cerebrovascular Accident Personal History"
+                  },
+                  "subject": {
+                    "reference": "Patient/11235128"
+                  },
+                  "onsetPeriod": {
+                    "end": "2019-08-29"
+                  },
+                  "abatementPeriod": {
+                    "end": "2019-08-29"
+                  },
+                  "assertedDate": "2019-08-28",
+                  "asserter": {
+                    "reference": "Practitioner/1458"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "#a6c05b1a-7ad8-4b68-be56-761593dd02f3",
+      "name": "6c0cae1f-feb6-3eee-8259-caa080f453a7",
+      "resource": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Condition",
+              "id": "t891.J1hQCxeSp.8tfSNHD",
+              "meta": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/4.0/StructureDefinition/extension-Meta.source",
+                    "valueUri": "http://terms.mayo.edu/datasource/epic"
+                  }
+                ],
+                "lastUpdated": "2019-08-29T13:52:39-05:00"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>identifier</b>: <span>Epic_11235128_171897</span></p><p><b>patient</b>: Patient/11235128</p><p><b>encounter</b>: </p><p><b>asserter</b>: </p><p><b>dateRecorded</b>: 2019-08-28</p><p><b>code</b>: D68.9 <span></span></p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p></div>"
+              },
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11235128_171897"
+                }
+              ],
+              "clinicalStatus": "active",
+              "verificationStatus": "confirmed",
+              "category": [
+                {
+                  "text": "Problem"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "D68.9"
+                  }
+                ],
+                "text": "Defect Coagulation (HCC)"
+              },
+              "subject": {
+                "reference": "Patient/11235128"
+              },
+              "assertedDate": "2019-08-28",
+              "asserter": {
+                "reference": "Practitioner/21529744"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "#d5f55719-05ef-4a7e-80f6-68f520163936",
+      "name": "008ddae6-1302-3cbc-b0d7-d447285bd3f9"
+    },
+    {
+      "id": "#9b7c4c0f-02d7-4a37-a17d-c63b8f10eef9",
+      "name": "441148f3-b436-3c29-840d-37093caaae3d"
+    },
+    {
+      "id": "#0d2ce884-213e-449a-a149-2be801428734",
+      "name": "ae947155-68c3-372b-b624-69629bf234ed",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "504328F895124848BCE50D2C9426D0D3",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:03.9264684-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "id": "#c260a70a-36a9-4b2d-b13c-d2cf0d4fd8bf",
+      "name": "b95dd55a-2fa3-3e65-a82a-04badac75867"
+    },
+    {
+      "id": "#12faa40e-ffa2-4957-bcbd-e1ef595e61c0",
+      "name": "4540897b-3c0d-4855-9944-3c618b0163b4",
+      "resource": {
+        "resourceType": "Bundle",
+        "id": "2EAB2B9C1B9D485089C2029A869DF2A9",
+        "meta": {
+          "lastUpdated": "2021-03-08T12:43:04.3180865-06:00"
+        },
+        "type": "searchset",
+        "total": 0
+      }
+    },
+    {
+      "id": "#dfca7439-86a5-40e7-9e7a-d7c10bd6351a",
+      "name": "cd514761-986c-3e7d-9809-c0b4bead3f45"
+    },
+    {
+      "id": "#ba4c6df2-7991-4906-a584-0f16d907f9f8",
+      "name": "8f819507-e0f5-3fa8-8d54-b1a09c25b173"
+    },
+    {
+      "id": "#52ecd2ee-3e09-4384-a428-4f5154c74b4d",
+      "name": "5d1664cf-2c7c-3c82-adfb-f94f0d9835f4"
+    },
+    {
+      "name": "ec8b5ae2-ba86-4571-a23d-2d9f6253b9a3",
+      "resource": {
+        "resourceType": "Parameters",
+        "parameter": [
+          {
+            "name": "#22520bc9-895d-4542-a9bf-e8b9e099a990",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#22520bc9-895d-4542-a9bf-e8b9e099a990"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.709-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#861f20db-26f9-3c04-b205-e6d83356f624",
+                "display": "History of Stroke"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/1a57ed04-84a0-416f-89e9-acf143e89ff9/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#f675a42f-b15f-4fbf-a5de-64af0181ed73",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#f675a42f-b15f-4fbf-a5de-64af0181ed73"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.709-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#b867b344-7113-3dda-84a0-2fc5fba77e7e",
+                "display": "History of Central Nervous System Bleeding"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/d7f5358d-8b4d-4d4c-a144-bc67e7a9ed87/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#70aaaf9c-0039-4da8-a364-6a5815a3a0fa",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#70aaaf9c-0039-4da8-a364-6a5815a3a0fa"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.709-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#ec218719-088c-3af5-ad4a-189f3069f8be",
+                "display": "Has Hypertension"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/4f5a43f3-b869-4957-87e1-d8c1aa3eb0ce/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#d5f55719-05ef-4a7e-80f6-68f520163936",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#d5f55719-05ef-4a7e-80f6-68f520163936"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.709-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#008ddae6-1302-3cbc-b0d7-d447285bd3f9",
+                "display": "Prior Surgical Ligation of Left Atrial Appendage"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/a6a7dbe9-1b32-4054-bf80-acc81bbb72ea/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#ef942869-a4a4-4337-a703-498fe525159c",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#ef942869-a4a4-4337-a703-498fe525159c"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.709-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#5eca2194-74dd-384b-af67-da166515a2a5",
+                "display": "Most Recent Smoking Status"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/ebca0562-916a-4489-b4f8-f7d2019517f0/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#84c44273-ab16-4f51-849f-55b530d0bfdd",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#84c44273-ab16-4f51-849f-55b530d0bfdd"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#254c812c-7de4-3b81-90d5-50ef30631f4a",
+                "display": "History of Arterial Thromboembolism"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/7ee46caf-c919-4015-bc09-0cac14f1610e/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#d3e0b3a8-70f8-4280-81c0-8063f955b24d",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#d3e0b3a8-70f8-4280-81c0-8063f955b24d"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#990d710e-cceb-35d5-95ba-2b127f297076",
+                "display": "Most Recent Aspartate Aminostransferase (AST)"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/ab10d9c6-42bd-4142-831f-531fd35f02b4/versions/6.0.1"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#a75f6d10-0b00-4d5a-8286-4867941c877c",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#a75f6d10-0b00-4d5a-8286-4867941c877c"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#dc7930b8-4cd1-396e-a19e-562fa40e3888",
+                "display": "Most Recent Left Ventricular Ejection Fraction"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/1304276d-eda1-4d3b-a049-35b76eca51f4/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#596f5144-0763-40f3-b81f-3dc9c49f268e",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#596f5144-0763-40f3-b81f-3dc9c49f268e"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#9879cc8f-0239-32d1-8ccd-795711c06d97",
+                "display": "Most Recent Blood Potassium"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/cf72be27-2f20-4eb4-9746-6c1e83d71632/versions/6.0.1"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#0d2ce884-213e-449a-a149-2be801428734",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#0d2ce884-213e-449a-a149-2be801428734"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#ae947155-68c3-372b-b624-69629bf234ed",
+                "display": "Most Recent eGFR"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/85eeb0ae-dd48-4b63-9ea2-52c6fe408c58/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#c260a70a-36a9-4b2d-b13c-d2cf0d4fd8bf",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#c260a70a-36a9-4b2d-b13c-d2cf0d4fd8bf"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#b95dd55a-2fa3-3e65-a82a-04badac75867",
+                "display": "Prior Heart Rate"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/b441fbb2-2a3b-4620-9c57-1e3b1737a270/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#ba4c6df2-7991-4906-a584-0f16d907f9f8",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#ba4c6df2-7991-4906-a584-0f16d907f9f8"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#8f819507-e0f5-3fa8-8d54-b1a09c25b173",
+                "display": "Has Asthma"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/5cebf6bd-54ab-43a3-9851-99ebb7a5423c/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#dbf22905-8848-4c3c-95fe-99794b6400e5",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#dbf22905-8848-4c3c-95fe-99794b6400e5"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#1e2a6303-fb74-343a-838c-e0cc8a2ac79f",
+                "display": "History of Hypertension"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/00d9cba6-96d6-46ef-8614-1e99dc4d9b54/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#52afd921-9526-4fd3-ae2f-536fd615cf1d",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#52afd921-9526-4fd3-ae2f-536fd615cf1d"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.710-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#8f5e549b-5777-3138-9808-1586bf0195e4",
+                "display": "Has Sleep Apnea"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/a9f420d5-c64e-4e64-870b-0284a88ebd56/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#e49af408-a800-44b0-89fe-8d69d5315b86",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#e49af408-a800-44b0-89fe-8d69d5315b86"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#6c14a53a-7ce2-34aa-9cf1-a800317bebef",
+                "display": "Most Recent Bilirubin"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/e188e8f4-ff6e-4a1b-8274-3d65a642ba15/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#fbc92f6c-45cb-4321-8d1b-be341ba6e5af",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#fbc92f6c-45cb-4321-8d1b-be341ba6e5af"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#6cb0bf32-af38-3a90-ba1d-1abd3ebae49e",
+                "display": "History of Gastronintestinal Bleed"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/6bfa8c82-649f-4573-9926-4b7b9a099471/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#969b17d9-805d-433d-b109-26f02ab1d2c3",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#969b17d9-805d-433d-b109-26f02ab1d2c3"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#e5177821-b325-3862-879a-5f0b21758d31",
+                "display": "Prior INR"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/fd6070cd-1c15-4148-a510-cd848788a5b9/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#ca50dc7d-9f99-4bf2-91bc-24f3229ac730",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#ca50dc7d-9f99-4bf2-91bc-24f3229ac730"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#a492f856-69de-3848-b831-bf665add30d1",
+                "display": "Has Cirrhosis"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/97ce0dfd-73c1-42ed-92c1-fba6175f5ba1/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#aac2b992-145b-46e0-a2f4-f46c10399931",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#aac2b992-145b-46e0-a2f4-f46c10399931"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#861f20db-26f9-3c04-b205-e6d83356f624",
+                "display": "History of Stroke"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/140a0bc1-0232-457e-a2d7-1469c4e2bf92/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#dfca7439-86a5-40e7-9e7a-d7c10bd6351a",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#dfca7439-86a5-40e7-9e7a-d7c10bd6351a"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#cd514761-986c-3e7d-9809-c0b4bead3f45",
+                "display": "Prior AV Node Ablation"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/42e6173f-4bdb-4c21-ba38-75a64117686a/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#7a7c6cc0-87b3-4f3c-9ca0-f0a85cb71bd2",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#7a7c6cc0-87b3-4f3c-9ca0-f0a85cb71bd2"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#4b790fd2-df8b-317a-bf88-cb82e413f8a3",
+                "display": "History of Congestive Heart Failure"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/e3646bd9-2d49-460d-b4e8-bb94156b10d4/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#47c85556-0884-444d-8ac7-3f9e69430714",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#47c85556-0884-444d-8ac7-3f9e69430714"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#d3112121-c8b4-38d5-9e37-420c34d4405e",
+                "display": "Has Chronic Liver Disease"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/6a604597-f769-468f-9793-41cee1cb565b/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#52ecd2ee-3e09-4384-a428-4f5154c74b4d",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#52ecd2ee-3e09-4384-a428-4f5154c74b4d"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#5d1664cf-2c7c-3c82-adfb-f94f0d9835f4",
+                "display": "Prior Atrial Fibrillation Ablation"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/67a824e3-1a1e-471e-bba4-2b6f1d191ce9/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#034f583b-9970-414a-b34a-3f3f0c27cdcf",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#034f583b-9970-414a-b34a-3f3f0c27cdcf"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#3e66193e-1832-3a0f-a286-ef8cd79781be",
+                "display": "Most Recent INR"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/48f44050-4785-47d3-bd57-cbdabd6195fc/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#2f666c3b-3a2a-4557-b9b0-63bdac1dde61",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#2f666c3b-3a2a-4557-b9b0-63bdac1dde61"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#4372f32d-aa80-341b-8e90-ae821b75bc99",
+                "display": "Has Alcohol Abuse"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/8fc947f9-bb27-46b1-b239-d4692618104a/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#12faa40e-ffa2-4957-bcbd-e1ef595e61c0",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#12faa40e-ffa2-4957-bcbd-e1ef595e61c0"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#4540897b-3c0d-4855-9944-3c618b0163b4",
+                "display": "Most Recent Direct Bilirubin"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/6fdb25e2-c781-47b9-a632-25e11bf53c47/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#0c3c2661-4c16-474d-a734-78679208d8cb",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#0c3c2661-4c16-474d-a734-78679208d8cb"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#4bb8b02e-b930-3839-a7c8-819ec18b2b88",
+                "display": "History of Ischemic Stroke"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/3c655457-ab29-41b2-8c58-41599b9fb3ef/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#a777738d-e44c-4f4b-8777-26ff0c406729",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#a777738d-e44c-4f4b-8777-26ff0c406729"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#4f2db3a9-556d-3c87-a1c2-70381e12323c",
+                "display": "Prior Left Atrial Appendage Closure Device"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/f9a13c9a-86dd-4bf8-b880-3285e49d3f20/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#f9a0bbe3-773d-4856-82b4-9b9ce6677c30",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#f9a0bbe3-773d-4856-82b4-9b9ce6677c30"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.711-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#4372f32d-aa80-341b-8e90-ae821b75bc99",
+                "display": "Has Alcohol Abuse"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/9c0589d5-c4a5-4fdc-954a-5e9f748b804b/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#8e596bb1-ca74-4536-bf52-93c32f7dccde",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#8e596bb1-ca74-4536-bf52-93c32f7dccde"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.712-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#820fe35c-81ed-39be-8e66-119176bf0bec",
+                "display": "Has Atrial Fibrillation"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/7ba3e21c-52f2-4027-930f-ceb27080cd79/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#1eee56de-0b50-4c9d-84ee-f983cc5f40b9",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#1eee56de-0b50-4c9d-84ee-f983cc5f40b9"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.712-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#820fe35c-81ed-39be-8e66-119176bf0bec",
+                "display": "Has Atrial Fibrillation"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/1eac6254-3c5d-4388-9789-d63576e7ffc2/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#f8a92e2b-cc98-4987-82c0-95d937d21ade",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#f8a92e2b-cc98-4987-82c0-95d937d21ade"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.712-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#fce8e47c-65c5-321d-8d7e-607856d759a5",
+                "display": "Has Coronary Artery Disease"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/8b732d35-1561-4ed3-bccf-fdd06a9149d6/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#3a353ecb-d60e-4eb1-a89b-d08384bc04d5",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#3a353ecb-d60e-4eb1-a89b-d08384bc04d5"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.712-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#aa32f6c5-bd66-31ff-9287-3673e0d12d9d",
+                "display": "On Dialysis"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/9002d638-861a-4a21-994d-6c6cd924b551/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#e778078a-576b-4f5c-afd1-a85e53812106",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#e778078a-576b-4f5c-afd1-a85e53812106"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.712-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#91c1ec61-b2fd-3174-b360-15a3a39450e6",
+                "display": "Has Diabetes Mellitus"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/f7bdf398-deec-4a76-a66f-270092564d26/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#87080d2b-cb05-4c14-9650-db5498e053aa",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#87080d2b-cb05-4c14-9650-db5498e053aa"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.712-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#820fe35c-81ed-39be-8e66-119176bf0bec",
+                "display": "Has Atrial Fibrillation"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/d8ebe808-92b5-4216-bf16-62d5f1b10a6f/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#a2bca133-1f85-43a6-96ff-ff0ebb3d6b11",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#a2bca133-1f85-43a6-96ff-ff0ebb3d6b11"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.712-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#3998837c-5ea3-3ae7-b8d9-545085e5e2d0",
+                "display": "Has Heart Failure"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/406ef9ed-5d64-40ff-b3c0-8b4d1058cc74/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#fed21391-e18b-4d34-b7f7-bc0e8cb54488",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#fed21391-e18b-4d34-b7f7-bc0e8cb54488"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.713-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#3c0507a5-322e-307e-b3ce-f189af641c82",
+                "display": "Most Recent Body Mass Index"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/19e27fc7-8b04-47de-8a35-be3c5776b8a7/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#5c9525fb-777d-40c2-8009-882d22fd9c15",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#5c9525fb-777d-40c2-8009-882d22fd9c15"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.713-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#1e2a6303-fb74-343a-838c-e0cc8a2ac79f",
+                "display": "History of Hypertension"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/3650a9a2-2915-4735-8665-fa9f4b4a88c2/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#92491990-c40b-49a9-b373-f1a3d95c65a1",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#92491990-c40b-49a9-b373-f1a3d95c65a1"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.713-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#ffed935c-4a64-3666-880a-aa0d4a2ca507",
+                "display": "Most Recent Blood Pressure"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/ed0398e7-edbe-415e-85ba-8193830de781/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#c8c07c05-a014-4041-8a8a-30af9cabe1a1",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#c8c07c05-a014-4041-8a8a-30af9cabe1a1"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.713-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#036f43ee-4b9f-3df4-8106-c0acd065ee7a",
+                "display": "Most Recent Creatinine Clearance"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/e0c5bc76-3800-406f-aa95-c23593d6968c/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#2f7f6f78-492f-460b-ae79-a44c1cb45d81",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#2f7f6f78-492f-460b-ae79-a44c1cb45d81"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.713-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#c2ce3d70-be97-3dbd-8f76-b8f7e61a3db4",
+                "display": "Has Substance Abuse"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/c98969d8-2ca4-4146-85a8-fb49b6148c1c/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#a451397a-77f6-4136-b883-36ecfa651fd7",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#a451397a-77f6-4136-b883-36ecfa651fd7"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.713-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#4b790fd2-df8b-317a-bf88-cb82e413f8a3",
+                "display": "History of Congestive Heart Failure"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/fd9903b8-b65f-4a74-b3cb-46e9f746ca5e/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#d11ee6e0-ea2b-42fa-a5b5-493d4779f6fd",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#d11ee6e0-ea2b-42fa-a5b5-493d4779f6fd"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#01eea47f-88bd-36d8-9b01-1cda2dda9fa2",
+                "display": "History of Vascular Disease"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/b3d61045-6881-4bc8-9a0b-19f96000671f/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#e08b3150-e050-4c43-93cf-884cdc2732c8",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#e08b3150-e050-4c43-93cf-884cdc2732c8"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#88d67396-c8b6-3665-b75a-7351fac7cc07",
+                "display": "Most Recent Creatinine Blood Level"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/a6e78997-8af5-4b1f-ae8d-c6092dd451a5/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#7f5dc511-39a7-4f85-8021-cbc10d1fb99a",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#7f5dc511-39a7-4f85-8021-cbc10d1fb99a"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#11d54e74-6da4-3a2a-867d-e634d6475a19",
+                "display": "Most Recent Alanine Aminotransferase (GPT)"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/9b8eb4f4-c4db-43bd-be1b-fac3997bb5b1/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#9b7c4c0f-02d7-4a37-a17d-c63b8f10eef9",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#9b7c4c0f-02d7-4a37-a17d-c63b8f10eef9"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#441148f3-b436-3c29-840d-37093caaae3d",
+                "display": "Most Recent Thyroid Stimulating Hormone"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/68064fc0-55b5-4ee0-95c6-6f169e826d33/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#6251d416-48f9-49f5-853a-4324826a8da3",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#6251d416-48f9-49f5-853a-4324826a8da3"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#2a663858-1002-3122-9add-c72611628354",
+                "display": "Has Transplanted Kidney"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/ad45fc6a-83e4-475a-9e5f-4e8b28d3de35/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#ce9db2af-33c5-47b3-8430-b33401d4ed5a",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#ce9db2af-33c5-47b3-8430-b33401d4ed5a"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#bb8fceeb-b5f0-3ec7-b624-59a38bff014a",
+                "display": "History of Transient Ischemic Attack"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/32835ced-a724-4ddd-97af-8e22d9186a69/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#54dbc81c-db5d-49e1-bcb7-781a545b47a9",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#54dbc81c-db5d-49e1-bcb7-781a545b47a9"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#81a30270-a57f-3858-889c-9a500387b727",
+                "display": "Has Bleeding Disorder Excluding Hypercoagulative Disorder"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/2034df94-3212-43ca-be2a-da2031bd8c8f/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#a6c05b1a-7ad8-4b68-be56-761593dd02f3",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#a6c05b1a-7ad8-4b68-be56-761593dd02f3"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#6c0cae1f-feb6-3eee-8259-caa080f453a7",
+                "display": "Has Bleeding Disorder"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/36698e4d-8f46-4cf4-bca4-c3d4c6f5c69b/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#08caf788-1e41-4f3c-9b8e-92b39957ce75",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#08caf788-1e41-4f3c-9b8e-92b39957ce75"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#91c1ec61-b2fd-3174-b360-15a3a39450e6",
+                "display": "Has Diabetes Mellitus"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/a68f13d3-d0c4-40e8-8132-bbc338d8f1d6/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#27071f92-cda4-47fc-836d-b08d28a6999b",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#27071f92-cda4-47fc-836d-b08d28a6999b"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#12ef2aab-8101-39e0-8908-5ca7fa404e08",
+                "display": "On Antiplatelet Agents"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/c8f12027-271c-4757-a7b8-cd66364c0575/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#0f706b39-7532-4c4d-8db4-d4361ce96f09",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#0f706b39-7532-4c4d-8db4-d4361ce96f09"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.714-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#e6f273d2-6254-3608-aca1-229ecf97ca71",
+                "display": "Has Angina Pectoris"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/6a345f05-891a-4472-b8de-d855a0a154f8/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#e7c0b00c-dee8-45f0-9f6e-e41c45fade2a",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#e7c0b00c-dee8-45f0-9f6e-e41c45fade2a"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#81a30270-a57f-3858-889c-9a500387b727",
+                "display": "Has Bleeding Disorder Excluding Hypercoagulative Disorder"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/8dc272a3-f88e-46f5-88de-727f651d1675/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#8da7f33f-fe22-4376-bd3b-320d40557cc1",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#8da7f33f-fe22-4376-bd3b-320d40557cc1"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#8ac1a820-2465-4937-a8e1-69d2c131dfaa",
+                "display": "On NSAIDS Associated With HAS-BLED Score"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/dd612e8a-43a6-43c5-bd3e-dc5a74075843/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#2dadb8b5-578c-47a2-a0f6-51dba90eb314",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#2dadb8b5-578c-47a2-a0f6-51dba90eb314"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#bb8fceeb-b5f0-3ec7-b624-59a38bff014a",
+                "display": "History of Transient Ischemic Attack"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/8458203c-ff84-4ad9-ae0b-1cc6bef7cc65/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#b36c79d9-5c96-45af-8297-82dad65f686e",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#b36c79d9-5c96-45af-8297-82dad65f686e"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#a492f856-69de-3848-b831-bf665add30d1",
+                "display": "Has Cirrhosis"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/9c20e655-5e6d-4f19-af17-550dc284fdac/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#cadde78d-fa5c-40fe-8fe7-7585bb9f2ac4",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#cadde78d-fa5c-40fe-8fe7-7585bb9f2ac4"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#dd4f9e82-b96c-3f5d-8aee-b2c28a52024d",
+                "display": "History of Anticoagulation Therapy for Stroke Prevention in Atrial Fibrillation"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/c3bf9253-c36f-4458-9131-9a39017321fc/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#f7ce1daf-281c-4f66-85f6-482662f561c8",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#f7ce1daf-281c-4f66-85f6-482662f561c8"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#2a663858-1002-3122-9add-c72611628354",
+                "display": "Has Transplanted Kidney"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/1defbba3-94be-4fc7-8e25-fca15eeab6a9/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#9e01ba16-fffa-4124-9505-4c77b032a041",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#9e01ba16-fffa-4124-9505-4c77b032a041"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#ec218719-088c-3af5-ad4a-189f3069f8be",
+                "display": "Has Hypertension"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/9a5ebaf3-1dba-4f9f-9b8e-752c5ed02be6/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#252f30ac-40e6-433c-bdce-3e961779a835",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#252f30ac-40e6-433c-bdce-3e961779a835"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#1e642920-6ab2-3dad-86d9-d430b59d85f5",
+                "display": "Most Recent Alkaline Phosphatase"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/22f5b887-1a1c-48ad-9824-a5dec74a74b4/versions/6.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "#01e3a661-a04f-48c8-8c64-ead517d92fbd",
+            "resource": {
+              "resourceType": "Provenance",
+              "target": [
+                {
+                  "reference": "#01e3a661-a04f-48c8-8c64-ead517d92fbd"
+                }
+              ],
+              "recorded": "2021-03-08T13:43:04.715-05:00",
+              "activity": {
+                "code": "https://ontology.mayo.edu/taxonomies/clinicalsituations#a1f490fa-318d-3267-a724-3e62173301b6",
+                "display": "Prior Electrical Cardioversion"
+              },
+              "agent": [
+                {
+                  "whoUri": "https://clinicalknowledgemanagement.mayo.edu/assets/8696872c-8c3f-46db-b5f0-78d59281b6a9/versions/0.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "name": "outcomes",
+            "resource": {
+              "resourceType": "OperationOutcome",
+              "issue": [
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "0fbd704e-2056-3ece-875d-bd93104c2ec3"
+                  },
+                  "diagnostics": "Bulk request cannot filter by parameter: _source, resource: DocumentReference"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "7652b82c-830d-3078-92f7-4ecb9fbc9ebe"
+                  },
+                  "diagnostics": "Bulk request cannot filter by parameter: _source, resource: DocumentReference"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "c7799626-5afb-3c5c-9117-99c0ebd2dd78"
+                  },
+                  "diagnostics": "Bulk request cannot filter by parameter: _sort, resource: Procedure"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "786ed48f-bf8d-3a7c-8b28-e97830856ac0"
+                  },
+                  "diagnostics": "Bulk request cannot filter by parameter: _source, resource: DiagnosticReport"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "ee1c8b37-a0aa-357f-a016-ec3129b4b5a3"
+                  },
+                  "diagnostics": "Bulk request cannot filter by parameter: _source, resource: MedicationStatement"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "af8dc1fd-2ac5-367e-92d0-dbd56ff567ba"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: af8dc1fd-2ac5-367e-92d0-dbd56ff567ba"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "22bce750-5134-3653-a27c-0d7ff8bc29b5"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 22bce750-5134-3653-a27c-0d7ff8bc29b5"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "a58a1428-a6a2-38ff-ba2a-10cfcff07669"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: a58a1428-a6a2-38ff-ba2a-10cfcff07669"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "0883c944-0303-3919-9af3-0fae1f3d6a38"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 0883c944-0303-3919-9af3-0fae1f3d6a38"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "49089b48-5d7a-3372-b2e8-77353a2ef7b3"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 49089b48-5d7a-3372-b2e8-77353a2ef7b3"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "8c553a7a-0aeb-3e0f-9cee-04401d4a6039"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 8c553a7a-0aeb-3e0f-9cee-04401d4a6039"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "aec0e455-d134-3615-b9a5-86136ccbadde"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: aec0e455-d134-3615-b9a5-86136ccbadde"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "abce7494-c894-3f21-ad30-be17a91d1a49"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: abce7494-c894-3f21-ad30-be17a91d1a49"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "9b09f1e7-ee04-4641-bb21-1ab37ad8ccc4"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 9b09f1e7-ee04-4641-bb21-1ab37ad8ccc4"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "8abd7522-97e4-3324-8c89-8f0b2233dbcb"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 8abd7522-97e4-3324-8c89-8f0b2233dbcb"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "eec8a59e-b8d8-45cf-932d-bcddf088709e"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: eec8a59e-b8d8-45cf-932d-bcddf088709e"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "cf4c4f24-52cf-3674-b1e0-ec166c123e1d"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: cf4c4f24-52cf-3674-b1e0-ec166c123e1d"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "b2485266-216c-32b1-9249-c4176bdb4e59"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: b2485266-216c-32b1-9249-c4176bdb4e59"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "76c06ff4-a57e-3ba9-804d-a495ad25baaf"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 76c06ff4-a57e-3ba9-804d-a495ad25baaf"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "549e89ec-6969-3d20-893d-a37b6a561a9c"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 549e89ec-6969-3d20-893d-a37b6a561a9c"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "cacf53d8-f2f9-3307-aa7c-8fedeccf3a0a"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: cacf53d8-f2f9-3307-aa7c-8fedeccf3a0a"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "670d0478-3fd0-331f-b0b9-01a9ac444ed3"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 670d0478-3fd0-331f-b0b9-01a9ac444ed3"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "c9151f34-aa6d-3150-a6c8-84e7486d9694"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: c9151f34-aa6d-3150-a6c8-84e7486d9694"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "82afd043-2b21-3b31-96ec-d0d0fea3ad3b"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 82afd043-2b21-3b31-96ec-d0d0fea3ad3b"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "d09fd7c8-57c2-3adf-b560-e0fc88bc0db6"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: d09fd7c8-57c2-3adf-b560-e0fc88bc0db6"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "f48b510d-0af2-32d7-807e-55160c41ec56"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: f48b510d-0af2-32d7-807e-55160c41ec56"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "d8927b1f-90b5-45ab-acbc-919b4f5d6635"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: d8927b1f-90b5-45ab-acbc-919b4f5d6635"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "e9097dab-b0ac-3e0b-a0bb-14743659d9ce"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: e9097dab-b0ac-3e0b-a0bb-14743659d9ce"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "7842ae3e-9f8a-3b1b-887a-f031768f0df4"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 7842ae3e-9f8a-3b1b-887a-f031768f0df4"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "734a6f6d-49bb-326f-81f4-6a6c555a316f"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 734a6f6d-49bb-326f-81f4-6a6c555a316f"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "9fb90eda-f0f4-48dc-a1ac-7f057becfe6f"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 9fb90eda-f0f4-48dc-a1ac-7f057becfe6f"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "05395d58-e8d6-3207-a60f-39075578f622"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 05395d58-e8d6-3207-a60f-39075578f622"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "5116e034-ef3c-3537-8d0a-c1a70dcaf9a9"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 5116e034-ef3c-3537-8d0a-c1a70dcaf9a9"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "e81ba228-9108-320e-82f4-909869833b30"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: e81ba228-9108-320e-82f4-909869833b30"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "6aa1ecec-f0a4-41a4-9df1-48f2f983b9a0"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 6aa1ecec-f0a4-41a4-9df1-48f2f983b9a0"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "353475a1-b661-3a7f-b06b-925cb73aec6b"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 353475a1-b661-3a7f-b06b-925cb73aec6b"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "6d49fb4c-65cf-4b71-a2b0-dca325411e06"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 6d49fb4c-65cf-4b71-a2b0-dca325411e06"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "1816a52a-2ae0-4089-bf1c-d8e802077fd6"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 1816a52a-2ae0-4089-bf1c-d8e802077fd6"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "70d67d85-baa1-3228-8aee-1550f8e05bf7"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 70d67d85-baa1-3228-8aee-1550f8e05bf7"
+                },
+                {
+                  "severity": "error",
+                  "details": {
+                    "text": "9296f375-a7ed-3c59-a972-4a7eb40c8820"
+                  },
+                  "diagnostics": "No Glossary Entry found for Concept ID: 9296f375-a7ed-3c59-a972-4a7eb40c8820"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

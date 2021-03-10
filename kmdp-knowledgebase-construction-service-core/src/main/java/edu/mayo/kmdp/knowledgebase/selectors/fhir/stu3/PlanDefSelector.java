@@ -1,7 +1,7 @@
 package edu.mayo.kmdp.knowledgebase.selectors.fhir.stu3;
 
-import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRUtils.getNestedPlanDefs;
-import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRUtils.getSubActions;
+import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRPlanDefinitionUtils.getNestedPlanDefs;
+import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRPlanDefinitionUtils.getSubActions;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Selection_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;

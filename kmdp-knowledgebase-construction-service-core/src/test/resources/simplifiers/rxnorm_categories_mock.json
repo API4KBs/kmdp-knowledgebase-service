@@ -1,0 +1,21 @@
+{
+  "minConceptGroup": {
+    "minConcept": [
+      {
+        "rxcui": "1191",
+        "name": "aspirin",
+        "tty": "IN"
+      },
+      {
+        "rxcui": "1163054",
+        "name": "zuclopenthixol Oral Product",
+        "tty": "SCDG"
+      },
+      {
+        "rxcui": "1163055",
+        "name": "zuclopenthixol Pill",
+        "tty": "SCDG"
+      }
+    ]
+  }
+}
