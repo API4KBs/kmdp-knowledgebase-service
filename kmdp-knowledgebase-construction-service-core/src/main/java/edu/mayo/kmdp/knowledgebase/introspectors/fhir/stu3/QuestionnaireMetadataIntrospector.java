@@ -32,6 +32,7 @@ import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
@@ -68,7 +69,7 @@ public class QuestionnaireMetadataIntrospector
 
     return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
         .map(AbstractCarrier::mainComponent)
-        .flatMap(this::doIntrospect);
+        .flatMap(kc -> this.doIntrospect(kc, kc.getRepresentation()));
   }
 
   @Override
@@ -76,21 +77,28 @@ public class QuestionnaireMetadataIntrospector
       KnowledgeCarrier artifact, String xParams) {
     return new FHIR3Deserializer()
         .applyLift(artifact, Abstract_Knowledge_Expression, codedRep(FHIR_STU3),null)
-        .flatMap(this::doIntrospect);
+        .flatMap(parsed -> doIntrospect(parsed, artifact.getRepresentation()));
   }
 
-  private Answer<KnowledgeCarrier> doIntrospect(KnowledgeCarrier knowledgeCarrier) {
+  private Answer<KnowledgeCarrier> doIntrospect(KnowledgeCarrier knowledgeCarrier,
+      SyntacticRepresentation original) {
     Optional<org.hl7.fhir.dstu3.model.Questionnaire> questOpt = knowledgeCarrier.as(
         org.hl7.fhir.dstu3.model.Questionnaire.class);
     if (questOpt.isEmpty()) {
       return Answer.failed(BadRequest);
     }
-    return doIntrospect(questOpt.get());
+    return doIntrospect(questOpt.get(), original);
   }
 
-  private Answer<KnowledgeCarrier> doIntrospect(Questionnaire quest) {
+  private Answer<KnowledgeCarrier> doIntrospect(Questionnaire quest,
+      SyntacticRepresentation original) {
     ResourceIdentifier assetId = SemanticIdentifier.newVersionId(URI.create(quest.getUrl()));
     assetId.withVersionTag(toSemVer(assetId.getVersionTag()));
+
+    SyntacticRepresentation rep = (SyntacticRepresentation) original.clone();
+    if (rep.getLanguage() == null) {
+      rep.setLanguage(FHIR_STU3);
+    }
 
     ResourceIdentifier artifactId =
         defaultSurrogateId(assetId, FHIR_STU3, toSemVer(quest.getVersion()));
@@ -101,7 +109,7 @@ public class QuestionnaireMetadataIntrospector
         .withFormalType(Questionnaire)
         .withCarriers(new KnowledgeArtifact()
             .withArtifactId(artifactId)
-            .withRepresentation(rep(FHIR_STU3)));
+            .withRepresentation(rep));
 
     return Answer.of(
         AbstractCarrier.ofAst(surrogate)

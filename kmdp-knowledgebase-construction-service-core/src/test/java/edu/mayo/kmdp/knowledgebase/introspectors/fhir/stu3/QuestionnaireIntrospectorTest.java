@@ -20,6 +20,7 @@ import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 
 class QuestionnaireIntrospectorTest {
@@ -47,6 +48,13 @@ class QuestionnaireIntrospectorTest {
         defaultCarrierUUID(surr.getAssetId(), FHIR_STU3),
         surr.getCarriers().get(0).getArtifactId().getUuid()
     );
+
+    SyntacticRepresentation rep = surr.getCarriers().get(0).getRepresentation();
+    assertTrue(FHIR_STU3.sameAs(rep.getLanguage()));
+    assertTrue(JSON.sameAs(rep.getFormat()));
+    assertNotNull(rep.getCharset());
+    assertNotNull(rep.getEncoding());
+
     assertEquals("1.0.0", surr.getCarriers().get(0).getArtifactId().getVersionTag());
     assertTrue(FHIR_STU3
         .sameAs(surr.getCarriers().get(0).getRepresentation().getLanguage()));
