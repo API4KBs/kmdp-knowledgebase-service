@@ -47,7 +47,7 @@ public class PlanDefinitionFlattener
 
   // TODO root Asset ID should be marked inside the struct, not passed as an argument.
   //  Need a 'rootComponent' or something..
-  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId) {
+  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId, String params) {
     if (! (carrier instanceof CompositeKnowledgeCarrier)) {
       return Answer.of(carrier);
     }

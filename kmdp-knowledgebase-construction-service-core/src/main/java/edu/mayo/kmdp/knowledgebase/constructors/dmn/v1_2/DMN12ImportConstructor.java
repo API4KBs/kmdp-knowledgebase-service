@@ -75,7 +75,7 @@ public class DMN12ImportConstructor
 
   @Override
   public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID kbId,
-      String kbVersionTag) {
+      String kbVersionTag, String params) {
 
     Answer<CompositeKnowledgeCarrier> ckc =
         kbManager.getKnowledgeBaseManifestation(kbId, kbVersionTag)

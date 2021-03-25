@@ -67,7 +67,7 @@ public class JenaOwlImportConstructor
 
   @Override
   public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID kbId,
-      String kbVersionTag) {
+      String kbVersionTag, String params) {
 
     List<KnowledgeCarrier> components = kbManager.getKnowledgeBaseManifestation(kbId, kbVersionTag)
         .filter(CompositeKnowledgeCarrier.class::isInstance)

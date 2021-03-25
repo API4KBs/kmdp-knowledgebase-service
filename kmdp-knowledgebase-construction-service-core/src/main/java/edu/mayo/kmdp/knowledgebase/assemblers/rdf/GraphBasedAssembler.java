@@ -71,7 +71,7 @@ public class GraphBasedAssembler
   }
 
   @Override
-  public Answer<KnowledgeCarrier> assembleCompositeArtifact(KnowledgeCarrier struct) {
+  public Answer<KnowledgeCarrier> assembleCompositeArtifact(KnowledgeCarrier struct, String params) {
     Set<ResourceIdentifier> componentIds = getComponentAssets(struct);
 
     Set<KnowledgeCarrier> components = componentIds.stream()

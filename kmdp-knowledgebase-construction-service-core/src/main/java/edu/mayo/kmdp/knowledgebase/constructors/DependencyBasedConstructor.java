@@ -72,7 +72,7 @@ public class DependencyBasedConstructor
 
   @Override
   public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID rootId,
-      String rootVersionTag) {
+      String rootVersionTag, String params) {
 
     Answer<List<Pointer>> allAssets = repo.listKnowledgeAssets();
     if (! allAssets.isSuccess()) {

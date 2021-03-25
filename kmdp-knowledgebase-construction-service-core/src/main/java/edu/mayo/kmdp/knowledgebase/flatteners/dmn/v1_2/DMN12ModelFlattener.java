@@ -68,7 +68,8 @@ public class DMN12ModelFlattener
   }
 
 
-  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId) {
+  @Override
+  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId, String params) {
     if (carrier instanceof CompositeKnowledgeCarrier) {
       CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) carrier;
       KnowledgeCarrier rootCarrier = ckc.mainComponent();

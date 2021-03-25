@@ -56,7 +56,7 @@ class FHIRSimplifierTest {
 
     long l = caseData.as(Parameters.class).map(this::estimateSize).orElse(Long.MAX_VALUE);
 
-    Parameters trimmed = kbp.initKnowledgeBase(ckc)
+    Parameters trimmed = kbp.initKnowledgeBase(ckc, null)
         .flatMap(ptr -> simplifier.applyRedact(ptr.getUuid(), ptr.getVersionTag(), null))
         .flatOpt(kc -> kc.as(Parameters.class))
         .orElseGet(Assertions::fail);

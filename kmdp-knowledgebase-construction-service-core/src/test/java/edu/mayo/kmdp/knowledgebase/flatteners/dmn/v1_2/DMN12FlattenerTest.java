@@ -128,7 +128,7 @@ public class DMN12FlattenerTest {
         ofUniformAnonymousComposite(assetId, kcs);
 
     Answer<KnowledgeCarrier> flatKC =
-        kbManager.initKnowledgeBase(ckc)
+        kbManager.initKnowledgeBase(ckc, null)
             .flatMap(ptr -> kbManager.flatten(ptr.getUuid(), ptr.getVersionTag()))
             .flatMap(
                 ptr -> kbManager.getKnowledgeBaseManifestation(ptr.getUuid(), ptr.getVersionTag()))

@@ -195,7 +195,7 @@ public class KnowledgeBaseProvider
 
 
   @Override
-  public Answer<Void> deleteKnowledgeBase(final UUID kbaseId) {
+  public Answer<Void> deleteKnowledgeBase(final UUID kbaseId, String params) {
     knowledgeBaseMap.keySet().stream()
         .filter(vid -> kbaseId.equals(vid.getUuid()))
         .forEach(knowledgeBaseMap::remove);
@@ -208,19 +208,19 @@ public class KnowledgeBaseProvider
   }
 
   @Override
-  public Answer<KnowledgeBase> getKnowledgeBase(UUID kbaseId, String versionTag) {
+  public Answer<KnowledgeBase> getKnowledgeBase(UUID kbaseId, String versionTag, String params) {
     ResourceIdentifier vid = SemanticIdentifier.newId(kbaseId, versionTag);
     return Answer.ofNullable(knowledgeBaseMap.get(vid.asKey()));
   }
 
   @Override
-  public Answer<KnowledgeCarrier> getKnowledgeBaseManifestation(UUID kbaseId, String versionTag) {
-    return getKnowledgeBase(kbaseId, versionTag)
+  public Answer<KnowledgeCarrier> getKnowledgeBaseManifestation(UUID kbaseId, String versionTag, String params) {
+    return getKnowledgeBase(kbaseId, versionTag, params)
         .map(KnowledgeBase::getManifestation);
   }
 
   @Override
-  public Answer<List<Pointer>> getKnowledgeBaseSeries(UUID kbaseId) {
+  public Answer<List<Pointer>> getKnowledgeBaseSeries(UUID kbaseId, String params) {
     return Answer.of(
         knowledgeBaseMap.keySet().stream()
             .filter(vid -> kbaseId.equals(vid.getUuid()))
@@ -230,7 +230,7 @@ public class KnowledgeBaseProvider
   }
 
   @Override
-  public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID kbaseId, String versionTag) {
+  public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID kbaseId, String versionTag, String params) {
     return getKnowledgeBase(kbaseId, versionTag)
         .map(KnowledgeBase::getManifestation)
         .filter(CompositeKnowledgeCarrier.class::isInstance)
@@ -240,14 +240,14 @@ public class KnowledgeBaseProvider
 
 
   @Override
-  public Answer<Void> hasKnowledgeBase(UUID kbaseId, String versionTag) {
+  public Answer<Void> hasKnowledgeBase(UUID kbaseId, String versionTag, String params) {
     return knowledgeBaseMap.containsKey(SemanticIdentifier.newId(kbaseId,versionTag).asKey())
         ? Answer.succeed()
         : Answer.notFound();
   }
 
   @Override
-  public Answer<Pointer> initKnowledgeBase(KnowledgeCarrier initialComponent) {
+  public Answer<Pointer> initKnowledgeBase(KnowledgeCarrier initialComponent, String params) {
     return initialComponent != null
         ? seedKnowledgeBase(initialComponent)
         : initBlankKnowledgeBase();
@@ -313,7 +313,7 @@ public class KnowledgeBaseProvider
 
   @Override
   public Answer<Pointer> populateKnowledgeBase(UUID kbaseId, String versionTag,
-      KnowledgeCarrier sourceArtifact) {
+      KnowledgeCarrier sourceArtifact, String params) {
     Pointer versionedId = SemanticIdentifier.newIdAsPointer(kbaseId, versionTag)
         .withName(sourceArtifact.getLabel());
 
@@ -331,7 +331,7 @@ public class KnowledgeBaseProvider
 
   @Override
   public Answer<Pointer> setKnowledgeBaseStructure(UUID kbaseId, String versionTag,
-      KnowledgeCarrier struct) {
+      KnowledgeCarrier struct, String params) {
     return getKnowledgeBase(kbaseId,versionTag)
         .map(kb -> {
           if (kb.getManifestation() instanceof CompositeKnowledgeCarrier) {
@@ -344,8 +344,8 @@ public class KnowledgeBaseProvider
   }
 
   @Override
-  public Answer<List<Pointer>> getKnowledgeBaseComponents(UUID kbaseId, String versionTag) {
-    return getKnowledgeBaseManifestation(kbaseId, versionTag)
+  public Answer<List<Pointer>> getKnowledgeBaseComponents(UUID kbaseId, String versionTag, String params) {
+    return getKnowledgeBaseManifestation(kbaseId, versionTag, params)
         .map(kc -> kc.components()
             .map(KnowledgeCarrier::getAssetId)
             .map(SemanticIdentifier::toPointer)
@@ -406,7 +406,7 @@ public class KnowledgeBaseProvider
   }
 
   @Override
-  public Answer<KnowledgeBase> nextKnowledgeBaseVersion(UUID kbaseId, String baseVersionTag) {
+  public Answer<KnowledgeBase> nextKnowledgeBaseVersion(UUID kbaseId, String baseVersionTag, String params) {
     return getKnowledgeBase(kbaseId, baseVersionTag)
         .flatMap(currKB -> {
           Pointer vid = SemanticIdentifier.newIdAsPointer(kbaseId, UUID.randomUUID().toString());
@@ -423,7 +423,7 @@ public class KnowledgeBaseProvider
     }
 
     _applyNamedWeave weaver = weavers.get(operatorId);
-    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+    return nextKnowledgeBaseVersion(kbaseId, versionTag, null)
         .flatMap(kb ->
             weaver.applyNamedWeave(
                 operatorId,
@@ -473,7 +473,7 @@ public class KnowledgeBaseProvider
     }
 
     _applyNamedBind binder = binders.get(operatorId);
-    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+    return nextKnowledgeBaseVersion(kbaseId, versionTag, null)
         .flatMap(kb ->
             binder.applyNamedBind(
                 operatorId,
@@ -509,7 +509,7 @@ public class KnowledgeBaseProvider
     }
 
     _applyNamedSelect binder = selectors.get(operatorId);
-    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+    return nextKnowledgeBaseVersion(kbaseId, versionTag, null)
         .flatMap(kb ->
             binder.applyNamedSelect(
                 operatorId,
@@ -546,11 +546,11 @@ public class KnowledgeBaseProvider
     }
 
     _flattenArtifact flattener = flatteners.get(operatorId);
-    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+    return nextKnowledgeBaseVersion(kbaseId, versionTag, null)
         .flatMap(kb ->
             flattener.flattenArtifact(
                 kb.getManifestation(),
-                null)
+                null, null)
                 .map(kb::withManifestation)
                 .or(() -> deleteKnowledgeBaseVersion(kb))
         ).map(KnowledgeBase::getKbaseId);
@@ -578,7 +578,7 @@ public class KnowledgeBaseProvider
     }
 
     _applyNamedExtract extract = extractors.get(operatorId);
-    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+    return nextKnowledgeBaseVersion(kbaseId, versionTag, null)
         .flatMap(kb ->
             extract.applyNamedExtract(
                 operatorId,
@@ -611,7 +611,7 @@ public class KnowledgeBaseProvider
     }
 
     _applyNamedIntrospect introspect = introspectors.get(operatorId);
-    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+    return nextKnowledgeBaseVersion(kbaseId, versionTag, null)
         .flatMap(kb ->
             introspect.applyNamedIntrospect(
                 operatorId,
@@ -643,7 +643,7 @@ public class KnowledgeBaseProvider
     }
 
     _applyNamedTransform introspect = transcreators.get(operatorId);
-    return nextKnowledgeBaseVersion(kbaseId, versionTag)
+    return nextKnowledgeBaseVersion(kbaseId, versionTag, null)
         .flatMap(kb ->
             introspect.applyNamedTransform(
                 operatorId,

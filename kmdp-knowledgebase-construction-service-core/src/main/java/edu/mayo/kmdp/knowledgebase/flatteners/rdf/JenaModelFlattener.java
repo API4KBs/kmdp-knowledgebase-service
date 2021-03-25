@@ -47,7 +47,7 @@ public class JenaModelFlattener
 
   //TO/DO remove rootAssetId from signature
   @Override
-  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId) {
+  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId, String params) {
     if (carrier instanceof CompositeKnowledgeCarrier) {
       CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) carrier;
       KnowledgeCarrier rootCarrier = ckc.mainComponent();
