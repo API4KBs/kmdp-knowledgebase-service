@@ -27,6 +27,7 @@ import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.omg.spec.dmn._20180521.model.ObjectFactory;
+import org.omg.spec.dmn._20180521.model.TAuthorityRequirement;
 import org.omg.spec.dmn._20180521.model.TBusinessKnowledgeModel;
 import org.omg.spec.dmn._20180521.model.TDMNElementReference;
 import org.omg.spec.dmn._20180521.model.TDRGElement;
@@ -36,6 +37,7 @@ import org.omg.spec.dmn._20180521.model.TDefinitions;
 import org.omg.spec.dmn._20180521.model.TInformationRequirement;
 import org.omg.spec.dmn._20180521.model.TInputData;
 import org.omg.spec.dmn._20180521.model.TKnowledgeRequirement;
+import org.omg.spec.dmn._20180521.model.TKnowledgeSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,6 +109,8 @@ public class DMN12ModelFlattener
         infoReq -> ensureResolved(infoReq, flatRoot, comps));
     decision.getKnowledgeRequirement().forEach(
         knowReq -> ensureResolved(knowReq, flatRoot, comps));
+    decision.getAuthorityRequirement().forEach(
+        authReq -> ensureResolved(authReq, flatRoot, comps));
   }
 
   private void ensureResolved(TKnowledgeRequirement knowReq, TDefinitions flatRoot,
@@ -187,6 +191,9 @@ public class DMN12ModelFlattener
                     new TInformationRequirement()
                     .withRequiredDecision(new TDMNElementReference().withHref(in))
                 ));
+
+            output.getAuthorityRequirement().forEach(
+                authReq -> ensureResolved(authReq, flatRoot, comps));
           }
         });
       }
@@ -235,6 +242,26 @@ public class DMN12ModelFlattener
     }
   }
 
+  private void ensureResolved(TAuthorityRequirement authReq, TDefinitions flatRoot,
+      Map<String, TDefinitions> comps) {
+    if (authReq.getRequiredAuthority() != null) {
+      URI ref = URI.create(authReq.getRequiredAuthority().getHref());
+      if (!isInternal(ref)) {
+        URI externalModelId = URIUtil.normalizeURI(ref);
+        TDefinitions tgtModel = comps.get(externalModelId.toString());
+
+        TKnowledgeSource knowledgeSource = resolveKnowledgeSource(tgtModel, ref);
+
+        flatRoot.getDrgElement()
+            .add(factory.createKnowledgeSource(knowledgeSource));
+        authReq.getRequiredAuthority().setHref(
+            "#"
+                + (ref.getFragment().startsWith("_") ? "" : "_")
+                + ref.getFragment());
+      }
+    }
+  }
+
   private TDecision resolveDecision(TDefinitions externalModel, URI ref) {
     TDecision externalDec = streamDecisions(externalModel)
         .filter(dec -> dec.getId().contains(ref.getFragment()))
@@ -254,6 +281,14 @@ public class DMN12ModelFlattener
         String href = infoReq.getRequiredDecision().getHref();
         if (isInternal(href)) {
           infoReq.getRequiredDecision().setHref(externalModel.getNamespace() + href);
+        }
+      }
+    }
+    for (TAuthorityRequirement authReq : externalDec.getAuthorityRequirement()) {
+      if (authReq.getRequiredAuthority() != null) {
+        String href = authReq.getRequiredAuthority().getHref();
+        if (isInternal(href)) {
+          authReq.getRequiredAuthority().setHref(externalModel.getNamespace() + href);
         }
       }
     }
@@ -305,6 +340,16 @@ public class DMN12ModelFlattener
     return (TInputData) externalInput.clone();
   }
 
+  private TKnowledgeSource resolveKnowledgeSource(TDefinitions externalModel, URI ref) {
+    TKnowledgeSource externalKnowledge = streamKnowledgeSources(externalModel)
+        // ignore '#' and '_'
+        .filter(ks -> ks.getId().contains(ref.getFragment()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+
+    return (TKnowledgeSource) externalKnowledge.clone();
+  }
+
 
   private boolean isInternal(URI ref) {
     // check scheme and path?
@@ -321,6 +366,10 @@ public class DMN12ModelFlattener
 
   private Stream<TDecision> streamDecisions(TDefinitions dmn) {
     return streamDRG(dmn, TDecision.class);
+  }
+
+  private Stream<TKnowledgeSource> streamKnowledgeSources(TDefinitions dmn) {
+    return streamDRG(dmn, TKnowledgeSource.class);
   }
 
   private Stream<TInputData> streamInputs(TDefinitions dmn) {
