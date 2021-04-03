@@ -18,6 +18,7 @@ import org.hl7.fhir.dstu3.model.ValueSet;
 import org.hl7.fhir.dstu3.model.ValueSet.ConceptSetComponent;
 import org.hl7.fhir.dstu3.model.ValueSet.ConceptSetFilterComponent;
 import org.hl7.fhir.dstu3.model.ValueSet.FilterOperator;
+import org.hl7.fhir.dstu3.model.ValueSet.ValueSetExpansionComponent;
 import org.hl7.fhir.dstu3.model.ValueSet.ValueSetExpansionContainsComponent;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
@@ -98,8 +99,16 @@ public class PlanDefSelector
             .setSystem(cd.getSystem())
             .setDisplay(cd.getDisplay())
             .setVersion(cd.getVersion()))
+        .filter(comp -> ! contains(vs.getExpansion(),comp))
         .forEach(comp -> vs.getExpansion().addContains(comp));
     return vs;
+  }
+
+  private boolean contains(ValueSetExpansionComponent expansion,
+      ValueSetExpansionContainsComponent comp) {
+    return expansion.getContains().stream()
+        .anyMatch(c -> c.getSystem().equals(comp.getSystem())
+            && c.getCode().equals(comp.getCode()));
   }
 
   private Stream<? extends CodeableConcept> getConcepts(PlanDefinition x) {
