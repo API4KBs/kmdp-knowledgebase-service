@@ -13,6 +13,10 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
+import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Archived;
+import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Draft;
+import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Published;
+import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Unpublished;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.language.parsers.fhir.stu3.FHIR3Deserializer;
@@ -20,6 +24,7 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 import javax.inject.Named;
+import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Questionnaire;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
@@ -36,6 +41,7 @@ import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
+import org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatus;
 
 /**
  * Introspection class for PlanDefinitions. Generates the surrogate (KnowledgeAsset) for the
@@ -103,7 +109,9 @@ public class QuestionnaireMetadataIntrospector
     ResourceIdentifier artifactId =
         defaultSurrogateId(assetId, FHIR_STU3, toSemVer(quest.getVersion()));
 
-    KnowledgeAsset surrogate = newSurrogate(assetId).get()
+    KnowledgeAsset surrogate = newSurrogate(assetId)
+        .withPublicationStatus(mapStatus(quest.getStatus()))
+        .get()
         .withName(quest.getName())
         .withFormalCategory(Structured_Information_And_Data_Capture_Models)
         .withFormalType(Questionnaire)
@@ -119,6 +127,21 @@ public class QuestionnaireMetadataIntrospector
             .withRepresentation(rep(Knowledge_Asset_Surrogate_2_0))
     );
 
+  }
+
+  private PublicationStatus mapStatus(Enumerations.PublicationStatus status) {
+    switch (status) {
+      case DRAFT:
+        return Draft;
+      case ACTIVE:
+        return Published;
+      case RETIRED:
+        return Archived;
+      case NULL:
+      case UNKNOWN:
+      default:
+        return Unpublished;
+    }
   }
 
   @Override
