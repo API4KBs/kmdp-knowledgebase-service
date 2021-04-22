@@ -400,6 +400,9 @@ public class KnowledgeBaseProvider
   }
 
   protected boolean isLocal(KnowledgeCarrier carrier) {
+    if (carrier.getExpression() != null) {
+      return true;
+    }
     return carrier.getHref() == null
         || Util.isEmpty(carrier.getHref().getScheme())
         || "localhost" .equals(carrier.getHref().getHost());
