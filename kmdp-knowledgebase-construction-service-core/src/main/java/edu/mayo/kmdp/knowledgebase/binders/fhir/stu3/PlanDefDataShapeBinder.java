@@ -141,6 +141,9 @@ public class PlanDefDataShapeBinder
   }
 
   private String getFHIRType(URI typeUri) {
+    if (typeUri == null) {
+      return FHIRAllTypes.ANY.toCode();
+    }
     String str = NameUtils.getTrailingPart(typeUri.toString());
     int index = str.indexOf('.');
     if (index > 0) {
