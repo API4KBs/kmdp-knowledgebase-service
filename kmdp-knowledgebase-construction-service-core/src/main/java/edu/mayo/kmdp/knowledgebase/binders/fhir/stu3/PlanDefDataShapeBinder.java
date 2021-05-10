@@ -6,10 +6,12 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.util.NameUtils;
+import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -110,7 +112,11 @@ public class PlanDefDataShapeBinder
   }
 
   private Stream<DataRequirement> bindDataRequirement(DataRequirement dr, Coding cd, Bindings bindings, boolean output) {
-    UUID x = UUID.fromString(cd.getCode());
+    Optional<UUID> opt = Util.ensureUUID(cd.getCode());
+    if (opt.isEmpty()) {
+      return Stream.empty();
+    }
+    UUID x = opt.get();
 
     if (! bindings.containsKey(x)) {
       DataRequirement dr2 = dr.copy();
