@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns:triso="http://www.trisotech.com/2015/triso/modeling"
+  xmlns:drools="http://www.drools.org/kie/dmn/1.1"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/_42564972-6c2e-45b8-a167-105862a6d414"
+  id="_42564972-6c2e-45b8-a167-105862a6d414" name="Client"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/_42564972-6c2e-45b8-a167-105862a6d414"
+  exporter="Decision Modeler" exporterVersion="7.7.0" xml:lang="en" triso:logoChoice="Default">
+  <semantic:extensionElements/>
+  <semantic:import
+    namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/_6e33e348-4724-4a3c-a8f5-b58eba7dbaab"
+    name="Service" importType="http://www.omg.org/spec/DMN/20180521/MODEL/"
+    drools:modelName="Service"/>
+  <semantic:decision id="_e50dc6ba-78d8-442f-b28e-7acf8dae296a" name="Client">
+    <semantic:variable name="Client" id="_484493e3-f3ae-4f15-975a-4fb9227240c6" typeRef="Any"/>
+    <semantic:knowledgeRequirement id="_accc384a-01b4-41de-af91-3a99bc6a0189">
+      <semantic:requiredKnowledge href="#_ff4e6fa0-bb52-4929-9736-7c4ed3dcb735"/>
+    </semantic:knowledgeRequirement>
+  </semantic:decision>
+  <semantic:businessKnowledgeModel id="_ff4e6fa0-bb52-4929-9736-7c4ed3dcb735" name="Service">
+    <semantic:variable name="Service" id="_52b3342a-f903-457b-9cb3-2c17ad7c124e" typeRef="Any"/>
+    <semantic:encapsulatedLogic id="_ff4e6fa0-bb52-4929-9736-7c4ed3dcb735_boxedFn" kind="FEEL">
+      <semantic:literalExpression id="_ff4e6fa0-bb52-4929-9736-7c4ed3dcb735_litteralExpression">
+        <semantic:text>Service.Service()</semantic:text>
+      </semantic:literalExpression>
+    </semantic:encapsulatedLogic>
+    <semantic:knowledgeRequirement id="_ff4e6fa0-bb52-4929-9736-7c4ed3dcb735_kr">
+      <semantic:requiredKnowledge
+        href="https://clinicalknowledgemanagement.mayo.edu/artifacts/_6e33e348-4724-4a3c-a8f5-b58eba7dbaab#_7fed62e5-3afe-48f6-88c7-18f18ef38ced"/>
+    </semantic:knowledgeRequirement>
+  </semantic:businessKnowledgeModel>
+</semantic:definitions>

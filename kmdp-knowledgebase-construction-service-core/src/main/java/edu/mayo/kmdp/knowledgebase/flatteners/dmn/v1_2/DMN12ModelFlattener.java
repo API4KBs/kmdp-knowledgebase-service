@@ -9,9 +9,11 @@ import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -71,7 +73,8 @@ public class DMN12ModelFlattener
 
 
   @Override
-  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId, String params) {
+  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId,
+      String params) {
     if (carrier instanceof CompositeKnowledgeCarrier) {
       CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) carrier;
       KnowledgeCarrier rootCarrier = ckc.mainComponent();
@@ -97,9 +100,11 @@ public class DMN12ModelFlattener
   }
 
   private void mergeModels(TDefinitions flatRoot, Map<String, TDefinitions> comps) {
+    System.out.print("FLATTENING of " + flatRoot.getName() + " :: " + flatRoot.getDrgElement().size());
     List<TDecision> rootDecisions = streamDecisions(flatRoot).collect(Collectors.toList());
     // copy in a list to prevent concurrent modification exceptions
     rootDecisions.forEach(decision -> ensureResolved(decision, flatRoot, comps));
+    System.out.println("... yielded " + flatRoot.getDrgElement().size());
   }
 
 
@@ -124,11 +129,21 @@ public class DMN12ModelFlattener
       if (decisionServiceOpt.isPresent()) {
         TDecisionService decisionService = decisionServiceOpt.get();
 
+        Set<TKnowledgeRequirement> encapsulatedKRs = new HashSet<>();
+        decisionService.getEncapsulatedDecision().forEach(enc -> {
+          TDecision innerDecision = resolveDecision(tgtModel, URI.create(enc.getHref()));
+          encapsulatedKRs.addAll(innerDecision.getKnowledgeRequirement());
+          if (!encapsulatedKRs.isEmpty()) {
+            System.out.println("Preparing to rewrite encapsulated KnowReqs ...");
+          } else {
+            System.out.println("No encapsulated KnowReqs to rewrite ...");
+          }
+        });
+
         // do not carry over the hidden decisions
         decisionService.getEncapsulatedDecision().clear();
 
-        flatRoot.getDrgElement()
-            .add(factory.createDecisionService(decisionService));
+        addToFlat(flatRoot, decisionService);
 
         knowReq.getRequiredKnowledge().setHref(
             "#"
@@ -143,8 +158,7 @@ public class DMN12ModelFlattener
             TDefinitions extTgtModel = comps.get(inputModelId);
             TInputData input = resolveInput(extTgtModel, inputUriRef);
 
-            flatRoot.getDrgElement()
-                .add(factory.createInputData(input));
+            addToFlat(flatRoot, input);
             inputRef.setHref("#"
                 + (inputUriRef.getFragment().startsWith("_") ? "" : "_")
                 + inputUriRef.getFragment());
@@ -159,8 +173,7 @@ public class DMN12ModelFlattener
             TDefinitions extTgtModel = comps.get(inputModelId);
             TDecision input = resolveDecision(extTgtModel, inputUriRef);
 
-            flatRoot.getDrgElement()
-                .add(factory.createDecision(input));
+            addToFlat(flatRoot, input);
             inputRef.setHref("#"
                 + (inputUriRef.getFragment().startsWith("_") ? "" : "_")
                 + inputUriRef.getFragment());
@@ -172,10 +185,10 @@ public class DMN12ModelFlattener
             URI outputUriRef = URI.create(outputRef.getHref());
             String outputModelId = URIUtil.normalizeURIString(outputUriRef);
             TDefinitions extTgtModel = comps.get(outputModelId);
+
             TDecision output = resolveDecision(extTgtModel, outputUriRef);
 
-            flatRoot.getDrgElement()
-                .add(factory.createDecision(output));
+            addToFlat(flatRoot, output);
             outputRef.setHref("#"
                 + (outputUriRef.getFragment().startsWith("_") ? "" : "_")
                 + outputUriRef.getFragment());
@@ -184,16 +197,43 @@ public class DMN12ModelFlattener
             inputRefs.forEach(in ->
                 output.getInformationRequirement().add(
                     new TInformationRequirement()
-                    .withRequiredInput(new TDMNElementReference().withHref(in))
+                        .withRequiredInput(new TDMNElementReference().withHref(in))
                 ));
             inputDecRefs.forEach(in ->
                 output.getInformationRequirement().add(
                     new TInformationRequirement()
-                    .withRequiredDecision(new TDMNElementReference().withHref(in))
+                        .withRequiredDecision(new TDMNElementReference().withHref(in))
                 ));
 
             output.getAuthorityRequirement().forEach(
                 authReq -> ensureResolved(authReq, flatRoot, comps));
+
+            System.out.println("...rewriting encapsulated KnowReqs into OutputD " + encapsulatedKRs.size());
+            output.getKnowledgeRequirement().addAll(encapsulatedKRs);
+            output.getKnowledgeRequirement().forEach(
+                outKReq -> {
+                  URI outputSvcRef = URI.create(outKReq.getRequiredKnowledge().getHref());
+                  String extModelId = URIUtil.normalizeURIString(outputSvcRef);
+                  TDefinitions extModel = comps.get(extModelId);
+
+                  Optional<TBusinessKnowledgeModel> otbkm = resolveBKM(extModel, outputSvcRef);
+                  if (otbkm.isPresent()) {
+                    TBusinessKnowledgeModel tbkm = otbkm.get();
+                    addToFlat(flatRoot, tbkm);
+
+                    tbkm.getKnowledgeRequirement().stream()
+                        .filter(kreq -> kreq.getRequiredKnowledge() != null)
+                        .forEach(kreq -> ensureResolved(kreq, flatRoot, comps));
+
+                    outKReq.getRequiredKnowledge().setHref(
+                        "#"
+                            + (outputSvcRef.getFragment().startsWith("_") ? "" : "_")
+                            + outputSvcRef.getFragment());
+                  } else {
+                    // points directly to the KS
+                    ensureResolved(outKReq, flatRoot, comps);
+                  }
+                });
           }
         });
       }
@@ -204,7 +244,8 @@ public class DMN12ModelFlattener
           .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
       tbkm.getKnowledgeRequirement().stream()
           .filter(kreq -> kreq.getRequiredKnowledge() != null)
-          .forEach(kreq -> ensureResolved(kreq,flatRoot,comps));
+          .forEach(kreq -> ensureResolved(kreq, flatRoot, comps));
+      tbkm.getKnowledgeRequirement();
     }
   }
 
@@ -218,8 +259,7 @@ public class DMN12ModelFlattener
 
         TDecision subDecision = resolveDecision(tgtModel, ref);
 
-        flatRoot.getDrgElement()
-            .add(factory.createDecision(subDecision));
+        addToFlat(flatRoot, subDecision);
         infoReq.getRequiredDecision().setHref(
             "#"
                 + (ref.getFragment().startsWith("_") ? "" : "_")
@@ -235,8 +275,7 @@ public class DMN12ModelFlattener
 
         TInputData input = resolveInput(tgtModel, ref);
 
-        flatRoot.getDrgElement()
-            .add(factory.createInputData(input));
+        addToFlat(flatRoot, input);
         infoReq.getRequiredInput().setHref("#_" + ref.getFragment());
       }
     }
@@ -252,8 +291,7 @@ public class DMN12ModelFlattener
 
         TKnowledgeSource knowledgeSource = resolveKnowledgeSource(tgtModel, ref);
 
-        flatRoot.getDrgElement()
-            .add(factory.createKnowledgeSource(knowledgeSource));
+        addToFlat(flatRoot, knowledgeSource);
         authReq.getRequiredAuthority().setHref(
             "#"
                 + (ref.getFragment().startsWith("_") ? "" : "_")
@@ -289,6 +327,14 @@ public class DMN12ModelFlattener
         String href = authReq.getRequiredAuthority().getHref();
         if (isInternal(href)) {
           authReq.getRequiredAuthority().setHref(externalModel.getNamespace() + href);
+        }
+      }
+    }
+    for (TKnowledgeRequirement knowReq : externalDec.getKnowledgeRequirement()) {
+      if (knowReq.getRequiredKnowledge() != null) {
+        String href = knowReq.getRequiredKnowledge().getHref();
+        if (isInternal(href)) {
+          knowReq.getRequiredKnowledge().setHref(externalModel.getNamespace() + href);
         }
       }
     }
@@ -340,6 +386,15 @@ public class DMN12ModelFlattener
     return (TInputData) externalInput.clone();
   }
 
+
+  private Optional<TBusinessKnowledgeModel> resolveBKM(TDefinitions externalModel, URI ref) {
+    return streamBKM(externalModel)
+        // ignore '#' and '_'
+        .filter(bkm -> bkm.getId().contains(ref.getFragment()))
+        .map(bkm -> (TBusinessKnowledgeModel) bkm.clone())
+        .findFirst();
+  }
+
   private TKnowledgeSource resolveKnowledgeSource(TDefinitions externalModel, URI ref) {
     TKnowledgeSource externalKnowledge = streamKnowledgeSources(externalModel)
         // ignore '#' and '_'
@@ -386,5 +441,29 @@ public class DMN12ModelFlattener
         .flatMap(StreamUtil.filterAs(drgType));
   }
 
+  private void addToFlat(TDefinitions flatRoot, TDecisionService decisionService) {
+    flatRoot.getDrgElement()
+        .add(factory.createDecisionService(decisionService));
+  }
+
+  private void addToFlat(TDefinitions flatRoot, TKnowledgeSource knowledgeSource) {
+    flatRoot.getDrgElement()
+        .add(factory.createKnowledgeSource(knowledgeSource));
+  }
+
+  private void addToFlat(TDefinitions flatRoot, TInputData inputData) {
+    flatRoot.getDrgElement()
+        .add(factory.createInputData(inputData));
+  }
+
+  private void addToFlat(TDefinitions flatRoot, TDecision decision) {
+    flatRoot.getDrgElement()
+        .add(factory.createDecision(decision));
+  }
+
+  private void addToFlat(TDefinitions flatRoot, TBusinessKnowledgeModel bkm) {
+    flatRoot.getDrgElement()
+        .add(factory.createBusinessKnowledgeModel(bkm));
+  }
 
 }

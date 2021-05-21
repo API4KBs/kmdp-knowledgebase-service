@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
+  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/_339875b0-6064-44eb-a853-9613e8cb3d79"
+  id="_339875b0-6064-44eb-a853-9613e8cb3d79" name="SubService"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/_339875b0-6064-44eb-a853-9613e8cb3d79"
+  exporter="Decision Modeler" exporterVersion="7.7.0" xml:lang="en">
+  <semantic:extensionElements/>
+  <semantic:decisionService id="_d4fffd1e-ef32-4ec3-b06c-eda327575ba5" name="SubService">
+    <semantic:variable name="SubService" id="_72164ce1-4c85-4985-ad69-702180fe33c6" typeRef="Any"/>
+    <semantic:outputDecision href="#_64b1bfef-3ad5-4235-a046-acd44a9698ff"/>
+    <semantic:inputData href="#_fb23ae2c-ec70-498c-96ad-f25ffe367a20"/>
+  </semantic:decisionService>
+  <semantic:decision id="_64b1bfef-3ad5-4235-a046-acd44a9698ff" name="SubService Decision">
+    <semantic:variable name="SubService Decision" id="_65a5285b-da2f-494c-8b42-14cb0fb9b81f"
+      typeRef="Any"/>
+    <semantic:informationRequirement id="_ee8d564b-7411-407d-8fc5-fed70840764a">
+      <semantic:requiredInput href="#_fb23ae2c-ec70-498c-96ad-f25ffe367a20"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+  <semantic:inputData id="_fb23ae2c-ec70-498c-96ad-f25ffe367a20" name="SubInput">
+    <semantic:variable name="SubInput" id="_1b980e8d-2afc-4d46-9479-cee94cac3c64" typeRef="string"/>
+  </semantic:inputData>
+</semantic:definitions>

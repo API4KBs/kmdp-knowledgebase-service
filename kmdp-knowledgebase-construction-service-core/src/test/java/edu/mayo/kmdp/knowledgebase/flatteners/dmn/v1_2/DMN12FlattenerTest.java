@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._20200801.Answer;
-import org.omg.spec.api4kp._20200801.Composite;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.dmn._20180521.model.TBusinessKnowledgeModel;
 import org.omg.spec.dmn._20180521.model.TDRGElement;
 import org.omg.spec.dmn._20180521.model.TDecision;
 import org.omg.spec.dmn._20180521.model.TDecisionService;
@@ -41,7 +41,7 @@ public class DMN12FlattenerTest {
 
   @Test
   public void testBasicFlatten() {
-    String base = "/flatteners/dmn/v1_2/";
+    String base = "/flatteners/dmn/v1_2/basic/";
     List<String> files = Arrays.asList(
         base + "Decision Reuse.dmn.xml",
         base + "Basic Decision Model.dmn.xml"
@@ -75,7 +75,7 @@ public class DMN12FlattenerTest {
 
   @Test
   public void testFlattenDecisionService() {
-    String base = "/flatteners/dmn/v1_2/";
+    String base = "/flatteners/dmn/v1_2/basic/";
     List<String> files = Arrays.asList(
         base + "Decision Client.dmn.xml",
         base + "Decision Server.dmn.xml"
@@ -122,6 +122,68 @@ public class DMN12FlattenerTest {
     assertEquals(3, server.getInformationRequirement().size());
     assertTrue(server.getKnowledgeRequirement().isEmpty());
   }
+
+
+  @Test
+  public void testFlattenDecisionServiceSubService() {
+    String base = "/flatteners/dmn/v1_2/nestedEncapsulated/";
+    List<String> files = Arrays.asList(
+        base + "Client.dmn.xml",
+        base + "Service.dmn.xml",
+        base + "SubService.dmn.xml"
+    );
+    List<KnowledgeCarrier> kcs = readDMNModels(files);
+    assertEquals(3, kcs.size());
+    TDefinitions flat = flatten(kcs.get(0).getAssetId(), kcs);
+
+    TDecision client = streamDecisions(flat)
+        .filter(d -> "Client".equalsIgnoreCase(d.getName().trim()))
+        .findFirst().orElseGet(Assertions::fail);
+    String clidRef = client.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref();
+    assertTrue(clidRef.startsWith("#"));
+
+    TBusinessKnowledgeModel clientBKM = streamDRG(flat, TBusinessKnowledgeModel.class)
+        .filter(tbkm -> clidRef.contains(tbkm.getId()))
+        .findFirst().orElseGet(Assertions::fail);
+
+    TDecisionService service = streamDecisionServices(flat)
+        .filter(ds -> "Service".equals(ds.getName().trim()))
+        .findFirst().orElseGet(Assertions::fail);
+
+    TDecision serviceOut = streamDecisions(flat)
+        .filter(d -> "Service Decision".equalsIgnoreCase(d.getName().trim()))
+        .findFirst().orElseGet(Assertions::fail);
+
+    assertTrue(service.getOutputDecision().get(0).getHref()
+        .contains(serviceOut.getId()));
+
+    TDecision subServiceOut = streamDecisions(flat)
+        .filter(d -> "SubService Decision".equalsIgnoreCase(d.getName().trim()))
+        .findFirst().orElseGet(Assertions::fail);
+
+    String subClIdRef = serviceOut.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref();
+    assertTrue(subClIdRef.startsWith("#"));
+    TBusinessKnowledgeModel subBKM = streamDRG(flat, TBusinessKnowledgeModel.class)
+        .filter(tbkm -> subClIdRef.contains(tbkm.getId()))
+        .findFirst().orElseGet(Assertions::fail);
+
+    TInputData subInput = streamInputs(flat)
+        .filter(d -> "SubInput".equalsIgnoreCase(d.getName().trim()))
+        .findFirst().orElseGet(Assertions::fail);
+
+    TDecisionService subService = streamDecisionServices(flat)
+        .filter(d -> "SubService".equalsIgnoreCase(d.getName().trim()))
+        .findFirst().orElseGet(Assertions::fail);
+    assertTrue(subService.getOutputDecision().get(0).getHref()
+        .contains(subServiceOut.getId()));
+
+    assertTrue(clientBKM.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref()
+        .contains(service.getId()));
+    assertTrue(subBKM.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref()
+        .contains(subService.getId()));
+
+  }
+
 
   private TDefinitions flatten(ResourceIdentifier assetId, List<KnowledgeCarrier> kcs) {
     CompositeKnowledgeCarrier ckc =
