@@ -1,5 +1,10 @@
 package edu.mayo.kmdp.knowledgebase.flatteners.dmn.v1_2;
 
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.joins;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.streamBKM;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.streamDecisionServices;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.streamDecisions;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.streamInputs;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,12 +17,10 @@ import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSe
 
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.language.parsers.dmn.v1_2.DMN12Parser;
-import edu.mayo.kmdp.util.StreamUtil;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.xml.bind.JAXBElement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,19 +31,18 @@ import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.dmn._20180521.model.TBusinessKnowledgeModel;
-import org.omg.spec.dmn._20180521.model.TDRGElement;
 import org.omg.spec.dmn._20180521.model.TDecision;
 import org.omg.spec.dmn._20180521.model.TDecisionService;
 import org.omg.spec.dmn._20180521.model.TDefinitions;
 import org.omg.spec.dmn._20180521.model.TInputData;
 
-public class DMN12FlattenerTest {
+class DMN12FlattenerTest {
 
   protected KnowledgeBaseProvider kbManager = new KnowledgeBaseProvider(null)
       .withNamedFlattener(new DMN12ModelFlattener());
 
   @Test
-  public void testBasicFlatten() {
+  void testBasicFlatten() {
     String base = "/flatteners/dmn/v1_2/basic/";
     List<String> files = Arrays.asList(
         base + "Decision Reuse.dmn.xml",
@@ -74,7 +76,7 @@ public class DMN12FlattenerTest {
 
 
   @Test
-  public void testFlattenDecisionService() {
+  void testFlattenDecisionService() {
     String base = "/flatteners/dmn/v1_2/basic/";
     List<String> files = Arrays.asList(
         base + "Decision Client.dmn.xml",
@@ -91,20 +93,20 @@ public class DMN12FlattenerTest {
     assertTrue(
         flat.getDrgElement().stream()
             .map(JAXBElement::getValue)
-            .allMatch(drg -> drg.getId().startsWith("_")));
+            .allMatch(drg -> drg.getId() != null));
 
     assertTrue(
         streamDecisions(flat)
             .map(d -> d.getInformationRequirement().stream()
                 .filter(drg -> drg.getRequiredInput() != null)
-                .allMatch(drg -> drg.getRequiredInput().getHref().startsWith("#_")))
+                .allMatch(drg -> drg.getRequiredInput().getHref().startsWith("#")))
             .reduce(Boolean::logicalAnd)
             .orElse(false));
     assertTrue(
         streamDecisions(flat)
             .map(d -> d.getInformationRequirement().stream()
                 .filter(drg -> drg.getRequiredDecision() != null)
-                .allMatch(drg -> drg.getRequiredDecision().getHref().startsWith("#_")))
+                .allMatch(drg -> drg.getRequiredDecision().getHref().startsWith("#")))
             .reduce(Boolean::logicalAnd)
             .orElse(false));
 
@@ -125,7 +127,7 @@ public class DMN12FlattenerTest {
 
 
   @Test
-  public void testFlattenDecisionServiceSubService() {
+  void testFlattenDecisionServiceSubService() {
     String base = "/flatteners/dmn/v1_2/nestedEncapsulated/";
     List<String> files = Arrays.asList(
         base + "Client.dmn.xml",
@@ -142,7 +144,7 @@ public class DMN12FlattenerTest {
     String clidRef = client.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref();
     assertTrue(clidRef.startsWith("#"));
 
-    TBusinessKnowledgeModel clientBKM = streamDRG(flat, TBusinessKnowledgeModel.class)
+    TBusinessKnowledgeModel clientBKM = streamBKM(flat)
         .filter(tbkm -> clidRef.contains(tbkm.getId()))
         .findFirst().orElseGet(Assertions::fail);
 
@@ -154,17 +156,17 @@ public class DMN12FlattenerTest {
         .filter(d -> "Service Decision".equalsIgnoreCase(d.getName().trim()))
         .findFirst().orElseGet(Assertions::fail);
 
-    assertTrue(service.getOutputDecision().get(0).getHref()
-        .contains(serviceOut.getId()));
+    assertTrue(joins(serviceOut.getId(), service.getOutputDecision().get(0).getHref()));
 
     TDecision subServiceOut = streamDecisions(flat)
         .filter(d -> "SubService Decision".equalsIgnoreCase(d.getName().trim()))
         .findFirst().orElseGet(Assertions::fail);
 
-    String subClIdRef = serviceOut.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref();
+    String subClIdRef = serviceOut.getKnowledgeRequirement().get(0)
+        .getRequiredKnowledge().getHref();
     assertTrue(subClIdRef.startsWith("#"));
-    TBusinessKnowledgeModel subBKM = streamDRG(flat, TBusinessKnowledgeModel.class)
-        .filter(tbkm -> subClIdRef.contains(tbkm.getId()))
+    TBusinessKnowledgeModel subBKM = streamBKM(flat)
+        .filter(tbkm -> joins(tbkm.getId(), subClIdRef))
         .findFirst().orElseGet(Assertions::fail);
 
     TInputData subInput = streamInputs(flat)
@@ -174,14 +176,12 @@ public class DMN12FlattenerTest {
     TDecisionService subService = streamDecisionServices(flat)
         .filter(d -> "SubService".equalsIgnoreCase(d.getName().trim()))
         .findFirst().orElseGet(Assertions::fail);
-    assertTrue(subService.getOutputDecision().get(0).getHref()
-        .contains(subServiceOut.getId()));
+    assertTrue(joins(subServiceOut.getId(), subService.getOutputDecision().get(0).getHref()));
 
-    assertTrue(clientBKM.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref()
-        .contains(service.getId()));
-    assertTrue(subBKM.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref()
-        .contains(subService.getId()));
-
+    assertTrue(joins(service.getId(),
+        clientBKM.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref()));
+    assertTrue(joins(subService.getId(),
+        subBKM.getKnowledgeRequirement().get(0).getRequiredKnowledge().getHref()));
   }
 
 
@@ -210,25 +210,6 @@ public class DMN12FlattenerTest {
         .map(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression, codedRep(DMN_1_2), null))
         .map(Answer::get)
         .collect(Collectors.toList());
-  }
-
-
-  private Stream<TDecision> streamDecisions(TDefinitions dmn) {
-    return streamDRG(dmn, TDecision.class);
-  }
-
-  private Stream<TInputData> streamInputs(TDefinitions dmn) {
-    return streamDRG(dmn, TInputData.class);
-  }
-
-  private Stream<TDecisionService> streamDecisionServices(TDefinitions dmn) {
-    return streamDRG(dmn, TDecisionService.class);
-  }
-
-  private <T extends TDRGElement> Stream<T> streamDRG(TDefinitions dmn, Class<T> drgType) {
-    return dmn.getDrgElement().stream()
-        .map(JAXBElement::getValue)
-        .flatMap(StreamUtil.filterAs(drgType));
   }
 
 }

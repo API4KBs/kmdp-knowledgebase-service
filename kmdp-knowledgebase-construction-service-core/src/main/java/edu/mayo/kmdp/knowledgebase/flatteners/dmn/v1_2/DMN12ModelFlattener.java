@@ -1,11 +1,18 @@
 package edu.mayo.kmdp.knowledgebase.flatteners.dmn.v1_2;
 
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.findBKM;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.findDecision;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.findDecisionService;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.findInput;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.findKnowledgeSource;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.idToLocalRef;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.streamBKM;
+import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.streamDecisions;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.ofAst;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_2;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
-import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
 import java.util.ArrayList;
@@ -16,9 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.inject.Named;
-import javax.xml.bind.JAXBElement;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
@@ -32,7 +37,6 @@ import org.omg.spec.dmn._20180521.model.ObjectFactory;
 import org.omg.spec.dmn._20180521.model.TAuthorityRequirement;
 import org.omg.spec.dmn._20180521.model.TBusinessKnowledgeModel;
 import org.omg.spec.dmn._20180521.model.TDMNElementReference;
-import org.omg.spec.dmn._20180521.model.TDRGElement;
 import org.omg.spec.dmn._20180521.model.TDecision;
 import org.omg.spec.dmn._20180521.model.TDecisionService;
 import org.omg.spec.dmn._20180521.model.TDefinitions;
@@ -100,11 +104,9 @@ public class DMN12ModelFlattener
   }
 
   private void mergeModels(TDefinitions flatRoot, Map<String, TDefinitions> comps) {
-    System.out.print("FLATTENING of " + flatRoot.getName() + " :: " + flatRoot.getDrgElement().size());
     List<TDecision> rootDecisions = streamDecisions(flatRoot).collect(Collectors.toList());
     // copy in a list to prevent concurrent modification exceptions
     rootDecisions.forEach(decision -> ensureResolved(decision, flatRoot, comps));
-    System.out.println("... yielded " + flatRoot.getDrgElement().size());
   }
 
 
@@ -126,117 +128,9 @@ public class DMN12ModelFlattener
       TDefinitions tgtModel = comps.get(externalModelId.toString());
 
       Optional<TDecisionService> decisionServiceOpt = resolveDecisionService(tgtModel, ref);
-      if (decisionServiceOpt.isPresent()) {
-        TDecisionService decisionService = decisionServiceOpt.get();
-
-        Set<TKnowledgeRequirement> encapsulatedKRs = new HashSet<>();
-        decisionService.getEncapsulatedDecision().forEach(enc -> {
-          TDecision innerDecision = resolveDecision(tgtModel, URI.create(enc.getHref()));
-          encapsulatedKRs.addAll(innerDecision.getKnowledgeRequirement());
-          if (!encapsulatedKRs.isEmpty()) {
-            System.out.println("Preparing to rewrite encapsulated KnowReqs ...");
-          } else {
-            System.out.println("No encapsulated KnowReqs to rewrite ...");
-          }
-        });
-
-        // do not carry over the hidden decisions
-        decisionService.getEncapsulatedDecision().clear();
-
-        addToFlat(flatRoot, decisionService);
-
-        knowReq.getRequiredKnowledge().setHref(
-            "#"
-                + (ref.getFragment().startsWith("_") ? "" : "_")
-                + ref.getFragment());
-
-        List<String> inputRefs = new ArrayList<>();
-        decisionService.getInputData().forEach(inputRef -> {
-          if (!isInternal(inputRef.getHref())) {
-            URI inputUriRef = URI.create(inputRef.getHref());
-            String inputModelId = URIUtil.normalizeURIString(inputUriRef);
-            TDefinitions extTgtModel = comps.get(inputModelId);
-            TInputData input = resolveInput(extTgtModel, inputUriRef);
-
-            addToFlat(flatRoot, input);
-            inputRef.setHref("#"
-                + (inputUriRef.getFragment().startsWith("_") ? "" : "_")
-                + inputUriRef.getFragment());
-            inputRefs.add(inputRef.getHref());
-          }
-        });
-        List<String> inputDecRefs = new ArrayList<>();
-        decisionService.getInputDecision().forEach(inputRef -> {
-          if (!isInternal(inputRef.getHref())) {
-            URI inputUriRef = URI.create(inputRef.getHref());
-            String inputModelId = URIUtil.normalizeURIString(inputUriRef);
-            TDefinitions extTgtModel = comps.get(inputModelId);
-            TDecision input = resolveDecision(extTgtModel, inputUriRef);
-
-            addToFlat(flatRoot, input);
-            inputRef.setHref("#"
-                + (inputUriRef.getFragment().startsWith("_") ? "" : "_")
-                + inputUriRef.getFragment());
-            inputDecRefs.add(inputRef.getHref());
-          }
-        });
-        decisionService.getOutputDecision().forEach(outputRef -> {
-          if (!isInternal(outputRef.getHref())) {
-            URI outputUriRef = URI.create(outputRef.getHref());
-            String outputModelId = URIUtil.normalizeURIString(outputUriRef);
-            TDefinitions extTgtModel = comps.get(outputModelId);
-
-            TDecision output = resolveDecision(extTgtModel, outputUriRef);
-
-            addToFlat(flatRoot, output);
-            outputRef.setHref("#"
-                + (outputUriRef.getFragment().startsWith("_") ? "" : "_")
-                + outputUriRef.getFragment());
-
-            output.getInformationRequirement().clear();
-            inputRefs.forEach(in ->
-                output.getInformationRequirement().add(
-                    new TInformationRequirement()
-                        .withRequiredInput(new TDMNElementReference().withHref(in))
-                ));
-            inputDecRefs.forEach(in ->
-                output.getInformationRequirement().add(
-                    new TInformationRequirement()
-                        .withRequiredDecision(new TDMNElementReference().withHref(in))
-                ));
-
-            output.getAuthorityRequirement().forEach(
-                authReq -> ensureResolved(authReq, flatRoot, comps));
-
-            System.out.println("...rewriting encapsulated KnowReqs into OutputD " + encapsulatedKRs.size());
-            output.getKnowledgeRequirement().addAll(encapsulatedKRs);
-            output.getKnowledgeRequirement().forEach(
-                outKReq -> {
-                  URI outputSvcRef = URI.create(outKReq.getRequiredKnowledge().getHref());
-                  String extModelId = URIUtil.normalizeURIString(outputSvcRef);
-                  TDefinitions extModel = comps.get(extModelId);
-
-                  Optional<TBusinessKnowledgeModel> otbkm = resolveBKM(extModel, outputSvcRef);
-                  if (otbkm.isPresent()) {
-                    TBusinessKnowledgeModel tbkm = otbkm.get();
-                    addToFlat(flatRoot, tbkm);
-
-                    tbkm.getKnowledgeRequirement().stream()
-                        .filter(kreq -> kreq.getRequiredKnowledge() != null)
-                        .forEach(kreq -> ensureResolved(kreq, flatRoot, comps));
-
-                    outKReq.getRequiredKnowledge().setHref(
-                        "#"
-                            + (outputSvcRef.getFragment().startsWith("_") ? "" : "_")
-                            + outputSvcRef.getFragment());
-                  } else {
-                    // points directly to the KS
-                    ensureResolved(outKReq, flatRoot, comps);
-                  }
-                });
-          }
-        });
-      }
+      decisionServiceOpt.ifPresent(
+          tDecisionService -> resolveDecisionServiceDependencies(
+              tDecisionService, tgtModel, knowReq, ref, flatRoot, comps));
     } else {
       TBusinessKnowledgeModel tbkm = streamBKM(flatRoot)
           .filter(bkm -> bkm.getId().contains(ref.getFragment()))
@@ -247,6 +141,112 @@ public class DMN12ModelFlattener
           .forEach(kreq -> ensureResolved(kreq, flatRoot, comps));
       tbkm.getKnowledgeRequirement();
     }
+  }
+
+  private void resolveDecisionServiceDependencies(TDecisionService decisionService,
+      TDefinitions tgtModel, TKnowledgeRequirement knowReq,
+      URI ref, TDefinitions flatRoot,
+      Map<String, TDefinitions> comps) {
+
+    Set<TKnowledgeRequirement> encapsulatedKRs = new HashSet<>();
+    decisionService.getEncapsulatedDecision().forEach(enc -> {
+      TDecision innerDecision = resolveDecision(tgtModel, URI.create(enc.getHref()));
+      encapsulatedKRs.addAll(innerDecision.getKnowledgeRequirement());
+    });
+
+    // do not carry over the hidden decisions
+    decisionService.getEncapsulatedDecision().clear();
+    addToFlat(flatRoot, decisionService);
+    knowReq.getRequiredKnowledge().setHref(idToLocalRef(ref));
+
+    List<String> inputRefs = new ArrayList<>();
+    decisionService.getInputData().forEach(inputRef -> {
+      if (!isInternal(inputRef.getHref())) {
+        URI inputUriRef = URI.create(inputRef.getHref());
+        String inputModelId = URIUtil.normalizeURIString(inputUriRef);
+        TDefinitions extTgtModel = comps.get(inputModelId);
+        TInputData input = resolveInput(extTgtModel, inputUriRef);
+
+        addToFlat(flatRoot, input);
+        inputRef.setHref(idToLocalRef(inputUriRef));
+        inputRefs.add(inputRef.getHref());
+      }
+    });
+    List<String> inputDecRefs = new ArrayList<>();
+    decisionService.getInputDecision().forEach(inputRef -> {
+      if (!isInternal(inputRef.getHref())) {
+        URI inputUriRef = URI.create(inputRef.getHref());
+        String inputModelId = URIUtil.normalizeURIString(inputUriRef);
+        TDefinitions extTgtModel = comps.get(inputModelId);
+        TDecision input = resolveDecision(extTgtModel, inputUriRef);
+
+        addToFlat(flatRoot, input);
+        inputRef.setHref(idToLocalRef(inputUriRef));
+        inputDecRefs.add(inputRef.getHref());
+      }
+    });
+    decisionService.getOutputDecision().forEach(outputRef -> {
+      if (!isInternal(outputRef.getHref())) {
+        remapDecisionServiceOutputs(
+            outputRef, inputRefs, inputDecRefs, encapsulatedKRs, flatRoot, comps);
+      }
+    });
+  }
+
+  private void remapDecisionServiceOutputs(
+      TDMNElementReference outputRef,
+      List<String> inputRefs,
+      List<String> inputDecRefs,
+      Set<TKnowledgeRequirement> encapsulatedKRs,
+      TDefinitions flatRoot,
+      Map<String, TDefinitions> comps) {
+    URI outputUriRef = URI.create(outputRef.getHref());
+    String outputModelId = URIUtil.normalizeURIString(outputUriRef);
+    TDefinitions extTgtModel = comps.get(outputModelId);
+
+    TDecision output = resolveDecision(extTgtModel, outputUriRef);
+
+    addToFlat(flatRoot, output);
+    outputRef.setHref(idToLocalRef(outputUriRef));
+
+    output.getInformationRequirement().clear();
+    inputRefs.forEach(in ->
+        output.getInformationRequirement().add(
+            new TInformationRequirement()
+                .withRequiredInput(new TDMNElementReference().withHref(in))
+        ));
+    inputDecRefs.forEach(in ->
+        output.getInformationRequirement().add(
+            new TInformationRequirement()
+                .withRequiredDecision(new TDMNElementReference().withHref(in))
+        ));
+
+    output.getAuthorityRequirement().forEach(
+        authReq -> ensureResolved(authReq, flatRoot, comps));
+
+    output.getKnowledgeRequirement().addAll(encapsulatedKRs);
+    output.getKnowledgeRequirement().forEach(
+        outKReq -> {
+          URI outputSvcRef = URI.create(outKReq.getRequiredKnowledge().getHref());
+          String extModelId = URIUtil.normalizeURIString(outputSvcRef);
+          TDefinitions extModel = comps.get(extModelId);
+
+          Optional<TBusinessKnowledgeModel> otbkm = resolveBKM(extModel, outputSvcRef);
+          if (otbkm.isPresent()) {
+            TBusinessKnowledgeModel tbkm = otbkm.get();
+            addToFlat(flatRoot, tbkm);
+
+            tbkm.getKnowledgeRequirement().stream()
+                .filter(kreq -> kreq.getRequiredKnowledge() != null)
+                .forEach(kreq -> ensureResolved(kreq, flatRoot, comps));
+
+            outKReq.getRequiredKnowledge().setHref(idToLocalRef(outputSvcRef));
+          } else {
+            // points directly to the KS
+            ensureResolved(outKReq, flatRoot, comps);
+          }
+        });
+
   }
 
   private void ensureResolved(TInformationRequirement infoReq, TDefinitions flatRoot,
@@ -260,10 +260,7 @@ public class DMN12ModelFlattener
         TDecision subDecision = resolveDecision(tgtModel, ref);
 
         addToFlat(flatRoot, subDecision);
-        infoReq.getRequiredDecision().setHref(
-            "#"
-                + (ref.getFragment().startsWith("_") ? "" : "_")
-                + ref.getFragment());
+        infoReq.getRequiredDecision().setHref(idToLocalRef(ref));
 
         ensureResolved(subDecision, flatRoot, comps);
       }
@@ -276,7 +273,7 @@ public class DMN12ModelFlattener
         TInputData input = resolveInput(tgtModel, ref);
 
         addToFlat(flatRoot, input);
-        infoReq.getRequiredInput().setHref("#_" + ref.getFragment());
+        infoReq.getRequiredInput().setHref(idToLocalRef(ref));
       }
     }
   }
@@ -292,18 +289,14 @@ public class DMN12ModelFlattener
         TKnowledgeSource knowledgeSource = resolveKnowledgeSource(tgtModel, ref);
 
         addToFlat(flatRoot, knowledgeSource);
-        authReq.getRequiredAuthority().setHref(
-            "#"
-                + (ref.getFragment().startsWith("_") ? "" : "_")
-                + ref.getFragment());
+        authReq.getRequiredAuthority().setHref(idToLocalRef(ref));
       }
     }
   }
 
+
   private TDecision resolveDecision(TDefinitions externalModel, URI ref) {
-    TDecision externalDec = streamDecisions(externalModel)
-        .filter(dec -> dec.getId().contains(ref.getFragment()))
-        .findFirst()
+    TDecision externalDec = findDecision(ref, externalModel)
         .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
 
     externalDec = (TDecision) externalDec.clone();
@@ -342,10 +335,10 @@ public class DMN12ModelFlattener
   }
 
 
+
   private Optional<TDecisionService> resolveDecisionService(TDefinitions externalModel, URI ref) {
-    Optional<TDecisionService> externalDecService = streamDecisionServices(externalModel)
-        .filter(dec -> dec.getId().contains(ref.getFragment()))
-        .findFirst();
+    Optional<TDecisionService> externalDecService =
+        findDecisionService(ref, externalModel);
     if (externalDecService.isEmpty()) {
       return Optional.empty();
     }
@@ -377,34 +370,20 @@ public class DMN12ModelFlattener
 
 
   private TInputData resolveInput(TDefinitions externalModel, URI ref) {
-    TInputData externalInput = streamInputs(externalModel)
-        // ignore '#' and '_'
-        .filter(input -> input.getId().contains(ref.getFragment()))
-        .findFirst()
+    TInputData externalInput = findInput(ref, externalModel)
         .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
-
     return (TInputData) externalInput.clone();
   }
 
-
   private Optional<TBusinessKnowledgeModel> resolveBKM(TDefinitions externalModel, URI ref) {
-    return streamBKM(externalModel)
-        // ignore '#' and '_'
-        .filter(bkm -> bkm.getId().contains(ref.getFragment()))
-        .map(bkm -> (TBusinessKnowledgeModel) bkm.clone())
-        .findFirst();
+    return findBKM(ref, externalModel);
   }
 
   private TKnowledgeSource resolveKnowledgeSource(TDefinitions externalModel, URI ref) {
-    TKnowledgeSource externalKnowledge = streamKnowledgeSources(externalModel)
-        // ignore '#' and '_'
-        .filter(ks -> ks.getId().contains(ref.getFragment()))
-        .findFirst()
+    TKnowledgeSource externalKnowledge = findKnowledgeSource(ref, externalModel)
         .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
-
     return (TKnowledgeSource) externalKnowledge.clone();
   }
-
 
   private boolean isInternal(URI ref) {
     // check scheme and path?
@@ -413,32 +392,6 @@ public class DMN12ModelFlattener
 
   private boolean isInternal(String ref) {
     return ref != null && ref.startsWith("#");
-  }
-
-  private Stream<TBusinessKnowledgeModel> streamBKM(TDefinitions dmn) {
-    return streamDRG(dmn, TBusinessKnowledgeModel.class);
-  }
-
-  private Stream<TDecision> streamDecisions(TDefinitions dmn) {
-    return streamDRG(dmn, TDecision.class);
-  }
-
-  private Stream<TKnowledgeSource> streamKnowledgeSources(TDefinitions dmn) {
-    return streamDRG(dmn, TKnowledgeSource.class);
-  }
-
-  private Stream<TInputData> streamInputs(TDefinitions dmn) {
-    return streamDRG(dmn, TInputData.class);
-  }
-
-  private Stream<TDecisionService> streamDecisionServices(TDefinitions dmn) {
-    return streamDRG(dmn, TDecisionService.class);
-  }
-
-  private <T extends TDRGElement> Stream<T> streamDRG(TDefinitions dmn, Class<T> drgType) {
-    return dmn.getDrgElement().stream()
-        .map(JAXBElement::getValue)
-        .flatMap(StreamUtil.filterAs(drgType));
   }
 
   private void addToFlat(TDefinitions flatRoot, TDecisionService decisionService) {
