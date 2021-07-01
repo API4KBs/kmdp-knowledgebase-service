@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="topic-1320" xml:lang="en-us" class="- topic/topic ">
+  <title class="- topic/title ">Mock Stuff</title>
+  <shortdesc class="- topic/shortdesc "/>
+  <body class="- topic/body ">
+    <p class="- topic/p ">
+      <table class="- topic/table ">
+        <title class="- topic/title ">Table Stuff</title>
+        <tgroup cols="2" class="- topic/tgroup ">
+          <colspec colname="c1" colnum="1" class="- topic/colspec "/>
+          <colspec colname="c2" colnum="2" class="- topic/colspec "/>
+          <thead class="- topic/thead ">
+            <row otherprops="XYZClass(I II III V)" class="- topic/row ">
+              <entry class="- topic/entry ">Alpha</entry>
+              <entry class="- topic/entry ">Beta</entry>
+            </row>
+          </thead>
+          <tbody class="- topic/tbody ">
+            <row props="XYZClass(I II III IV)" class="- topic/row ">
+              <entry class="- topic/entry ">XYZ
+                <p class="- topic/p ">On
+                  <keyword keyref="bbText" class="- topic/keyword "/>
+                </p>
+              </entry>
+              <entry class="- topic/entry ">Blah Blah
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+  </body>
+</topic>

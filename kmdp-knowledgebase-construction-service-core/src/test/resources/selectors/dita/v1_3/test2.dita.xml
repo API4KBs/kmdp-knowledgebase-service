@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="topic-6666" props="chadsScore(0 1 2 3 4 5 6 7 8 9)" xml:lang="en-us"
+  class="- topic/topic ">
+  <body class="- topic/body ">
+    <p class="- topic/p ">
+      <table outputclass="calculatedResults" class="- topic/table ">
+        <tgroup cols="2" class="- topic/tgroup ">
+          <tbody class="- topic/tbody ">
+            <row class="- topic/row ">
+              <entry class="- topic/entry ">
+                <ph outputclass="calculatedResult" class="- topic/ph ">
+                  <keyword keyref="chadsScore" class="- topic/keyword "/>
+                </ph>
+              </entry>
+              <entry class="- topic/entry ">
+                <ph outputclass="calculatedResult" class="- topic/ph ">
+                  <keyword keyref="strokeRisk" class="- topic/keyword "/>
+                </ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p props="chadsScore(1) female(true)" class="- topic/p ">aaa</p>
+  </body>
+</topic>

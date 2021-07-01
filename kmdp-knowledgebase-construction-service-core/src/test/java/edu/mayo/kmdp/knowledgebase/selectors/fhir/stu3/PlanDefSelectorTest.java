@@ -1,10 +1,9 @@
-package edu.mayo.kmdp.knowledgebase.seectors.fhir.stu3;
+package edu.mayo.kmdp.knowledgebase.selectors.fhir.stu3;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
-import edu.mayo.kmdp.knowledgebase.selectors.fhir.stu3.PlanDefSelector;
 import java.net.URI;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
