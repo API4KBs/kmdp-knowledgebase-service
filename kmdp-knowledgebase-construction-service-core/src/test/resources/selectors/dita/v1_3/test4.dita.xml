@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="topic-6956" xml:lang="en-us" class="- topic/topic ">
+  <title class="- topic/title ">Current Recommendation for Management of Hyperlipidemia</title>
+  <shortdesc class="- topic/shortdesc "/>
+  <body class="- topic/body ">
+    <p class="- topic/p ">
+      <table class="- topic/table ">
+        <tgroup cols="1" class="- topic/tgroup ">
+          <colspec colname="c1" colnum="1" class="- topic/colspec "/>
+          <thead class="- topic/thead ">
+            <row class="- topic/row ">
+              <entry class="- topic/entry ">Recommended therapy</entry>
+            </row>
+          </thead>
+          <tbody class="- topic/tbody ">
+            <row props="hldRec(a)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">Initiate high-intensity statin therapy.</p>
+              </entry>
+            </row>
+            <row props="hldRec(b) " class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">It is reasonable to consider ezetimibe.</p>
+              </entry>
+            </row>
+            <row props="hldRec(c)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p outputclass="headline" class="- topic/p ">It is reasonable to consider a PCSK9
+                  inhibitor.
+                </p>
+                <p class="- topic/p ">If the LDL-C level on statin plus ezetimibe remains ≥70&#160;mg/dL
+                  and the patient has multiple factors that increase subsequent risk of ASCVD
+                  events, a PCSK9 inhibitor may be considered, although the long-term safety (&gt;3&#160;years)
+                  is uncertain
+                </p>
+              </entry>
+            </row>
+            <row props="hldRec(n)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">It may be reasonable to add ezetimibe.</p>
+              </entry>
+            </row>
+            <row props="hldRec(t)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">Consider moderate- to high-intensity statin therapy.</p>
+              </entry>
+            </row>
+            <row props="hldRec(e)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">It is reasonable to initiate moderate-dose statin therapy.</p>
+              </entry>
+            </row>
+            <row props="hldRec(a t m)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">High-intensity statin</p>
+                <p class="- topic/p ">Atorvastatin 40 to 80&#160;mg <b class="+ topic/ph hi-d/b ">
+                  or
+                </b> Rosuvastatin 20 to 40&#160;mg
+                </p>
+              </entry>
+            </row>
+            <row props="hldRec(t e p l m)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">Moderate-intensity statin</p>
+                <p class="- topic/p ">Atorvastatin 10 to 20 mg or Rosuvastatin 5 to 10 mg or
+                  Simvastatin 20 to 40 mg
+                </p>
+              </entry>
+            </row>
+            <row props="hldRec(b n)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">Ezetimibe is not considered a first-line treatment of
+                  hyperlipidemia, but may be considered either alone or in combination with a statin
+                  in patients who:
+                </p>
+                <ul class="- topic/ul ">
+                  <li class="- topic/li ">Require but do not tolerate high-intensity statin therapy
+                    but can tolerate lower statin doses
+                  </li>
+                  <li class="- topic/li ">Do not achieve 50% reduction in baseline LDL cholesterol
+                    or LDL is above 100 mg/dL (or 70 mg/dL in some cases)&#160;on maximum dose of a
+                    high-intensity statin
+                  </li>
+                  <li class="- topic/li ">Have a demonstrated statin intolerance at any statin dose
+                    (noting the modest lipid-lowering effect of ezetimibe as monotherapy)
+                  </li>
+                </ul>
+                <p class="- topic/p ">When used in combination with a statin after an acute coronary
+                  syndrome, ezetimibe provides a small additional reduction in cardiovascular
+                  events.
+                </p>
+                <p class="- topic/p ">Ezetimibe has been well tolerated in clinical trials and has
+                  an excellent safety profile. Measurement of liver function is recommended prior to
+                  initiation of ezetimibe plus a statin (with limited elevations in liver function
+                  expected during therapy).
+                </p>
+                <p class="- topic/p ">Gemfibrozil and fenofibrate have been noted to increase
+                  ezetimibe levels, although the clinical significance is uncertain. Ezetimibe and
+                  fenofibrate have been safely used in combination.
+                </p>
+              </entry>
+            </row>
+            <row props="hldRec(j)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">Consider Cardiovascular consult.</p>
+              </entry>
+            </row>
+            <row props="hldRec(e)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">It is reasonable to initiate moderate-intensity statin
+                  therapy.
+                </p>
+              </entry>
+            </row>
+            <row props="hldRed(p)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">It may be reasonable to initiate moderate-intensity statin
+                  therapy.
+                </p>
+              </entry>
+            </row>
+            <row class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p props="hldRec(r)" class="- topic/p ">Discuss lifestyle changes.</p>
+              </entry>
+            </row>
+            <row props="hldRec(l)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">Discuss lifestyle changes. Moderate-intensity statin may be
+                  reasonable if the patient has ASCVD Risk Enhancers.
+                </p>
+              </entry>
+            </row>
+            <row props="hldRec(m)" class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p class="- topic/p ">If the10-year ASCVD risk is &lt;20% without enhancers,
+                  initiate moderate-intensity statin. If the 10-year risk is &gt;20% or the patient
+                  has diabetic risk enhancers, initiate high-intensity statin.
+                </p>
+              </entry>
+            </row>
+            <row class="- topic/row ">
+              <entry class="- topic/entry ">
+                <p props="hldRec(c)" class="- topic/p ">PCSK9 inhibitors are recommended in patients
+                  with familial hypercholesterolemia when high-intensity statin therapy does not
+                  provide adequate LDL reduction, defined as 50% reduction in baseline LDL
+                  cholesterol or LDL is above 100&#160;mg/dL (or 70&#160;mg/dL in some cases) on
+                  maximum dose of a high-intensity statin.
+                </p>
+                <p class="- topic/p ">PCSK9 inhibitors may also be considered in patients with
+                  atherosclerotic cardiovascular disease and proven history of statin intolerance if
+                  other medications have failed to lower LDL.
+                </p>
+                <p class="- topic/p ">Proprotein convertase subtilisin/kexin type&#160;9 (PCSK9)
+                  inhibitors are a new class of drugs now approved for use in the United States.
+                  PCSK9 is a protein secreted by liver cells that assumes a role in the clearance of
+                  LDL-C by the regulation of LDL receptors. The typical treatment regimen is once or
+                  twice-monthly injections.
+                </p>
+                <p class="- topic/p ">PCSK9 inhibitors can lower LDL-C by 50% to 70% when used alone
+                  or, when added to a statin, by another 40% to 50%. PCSK9 inhibitors appear to
+                  result in additional reduction of cardiovascular risk even in patients already on
+                  intensive or maximal statin therapy,&#160;particularly when LDL is still elevated.
+                </p>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+  </body>
+</topic>

@@ -160,7 +160,7 @@ public class DITAConceptExtractor
   }
 
   private Stream<Entry> parseProp(String prop) {
-    var p = Pattern.compile("\\w+(\\([\\w|\\d ]*\\))?");
+    var p = Pattern.compile("[\\w.]+(\\([\\w .]*\\))?");
     return p.matcher(prop).results()
         .map(res -> res.group(0))
         .flatMap(this::parseSingleProp);
@@ -175,10 +175,11 @@ public class DITAConceptExtractor
     String term = hasValues
         ? tmp.substring(0, s.indexOf('('))
         : tmp;
-    String[] values =
-        tmp.substring(tmp.indexOf('(') + 1, tmp.lastIndexOf(')'))
+    String[] values = hasValues
+        ? tmp.substring(tmp.indexOf('(') + 1, tmp.lastIndexOf(')'))
             .trim()
-            .split("\\s");
+            .split("\\s")
+        : new String[0];
     return Stream.of(new Entry(term, values, false));
   }
 

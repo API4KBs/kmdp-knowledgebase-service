@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="topic-7845" props="ascvd(true)" xml:lang="en-us" class="- topic/topic ">
+  <title class="- topic/title ">Very High Risk Factors for ASCVD Events (≥2 major ASCVD events OR 1
+    major ASCVD event and ≥2 high-risk conditions)
+  </title>
+  <shortdesc class="- topic/shortdesc "/>
+  <body class="- topic/body ">
+    <p class="- topic/p ">
+      <note props="majorAscvdEvents(true)" class="- topic/note ">Found evidence of:
+        <ul class="- topic/ul ">
+          <li props="acsLT12months(true)" class="- topic/li ">
+            <p class="- topic/p ">ACS</p>
+          </li>
+          <li props="mi(true)" class="- topic/li ">
+            <p class="- topic/p ">MI</p>
+          </li>
+          <li props="ischemicStroke(true)" class="- topic/li ">
+            <p class="- topic/p ">IS</p>
+          </li>
+          <li props="claudication(true)" class="- topic/li ">
+            <p class="- topic/p ">C</p>
+          </li>
+          <li props="peripheralRevascularization(true)" class="- topic/li ">
+            <p class="- topic/p ">PR</p>
+          </li>
+          <li props="amputation(true)" class="- topic/li ">
+            <p class="- topic/p ">A</p>
+          </li>
+          <li props="abiLT0.85(true)" class="- topic/li ">
+            <p class="- topic/p ">Z of <ph keyref="textAbi" class="- topic/ph "/>
+            </p>
+          </li>
+        </ul>
+      </note>
+    </p>
+  </body>
+</topic>

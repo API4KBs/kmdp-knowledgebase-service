@@ -55,6 +55,15 @@ class DITAExtractorTest {
     assertTrue(params.contains("strokeRisk"));
   }
 
+  @Test
+  void testDITAExtraction3() {
+    KnowledgeCarrier ditaCarrier = loadDITA("/selectors/dita/v1_3/test3.dita.xml");
+    Workbook wb = roundtrip(ditaCarrier);
+    assertNotNull(wb);
+    Sheet sheet = wb.getSheetAt(0);
+    assertEquals(12, sheet.getPhysicalNumberOfRows());
+  }
+
   private Workbook roundtrip(KnowledgeCarrier ditaCarrier) {
     Answer<byte[]> data = selector
         .applyNamedExtractDirect(DITAConceptExtractor.id, ditaCarrier, null, null)
