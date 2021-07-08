@@ -61,7 +61,7 @@ class DITAExtractorTest {
     Workbook wb = roundtrip(ditaCarrier);
     assertNotNull(wb);
     Sheet sheet = wb.getSheetAt(0);
-    assertEquals(12, sheet.getPhysicalNumberOfRows());
+    assertEquals(11, sheet.getPhysicalNumberOfRows());
   }
 
   private Workbook roundtrip(KnowledgeCarrier ditaCarrier) {
