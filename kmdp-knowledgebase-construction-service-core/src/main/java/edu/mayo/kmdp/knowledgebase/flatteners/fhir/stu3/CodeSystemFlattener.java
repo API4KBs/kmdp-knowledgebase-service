@@ -13,6 +13,7 @@ import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -66,19 +67,26 @@ public class CodeSystemFlattener
   private Answer<KnowledgeCarrier> flatten(List<KnowledgeCarrier> codeSystems) {
     Optional<ResourceIdentifier> assetId = codeSystems.stream()
         .map(KnowledgeCarrier::getAssetId)
+        .filter(Objects::nonNull)
         .reduce(SemanticIdentifier::hashIdentifiers);
     if (assetId.isEmpty()) {
-      return Answer.failed(new IllegalArgumentException("Unable to determine a combined Asset ID"));
+      return codeSystems.isEmpty()
+          ? Answer.of(wrap(randomId(), new CodeSystem()))
+          : Answer.failed(new IllegalArgumentException("Unable to determine a combined Asset ID"));
     }
 
     return Answer.of(codeSystems.stream()
             .map(kc -> kc.as(CodeSystem.class))
             .flatMap(StreamUtil::trimStream)
             .reduce(this::merge))
-        .map(flat -> AbstractCarrier.ofAst(flat)
-            .withAssetId(assetId.get())
-            .withArtifactId(randomId())
-            .withRepresentation(rep(FHIR_STU3)));
+        .map(flat -> wrap(assetId.orElse(randomId()), flat));
+  }
+
+  private KnowledgeCarrier wrap(ResourceIdentifier assetId, CodeSystem flat) {
+    return AbstractCarrier.ofAst(flat)
+        .withAssetId(assetId)
+        .withArtifactId(randomId())
+        .withRepresentation(rep(FHIR_STU3));
   }
 
   private CodeSystem merge(CodeSystem target, CodeSystem source) {
