@@ -1,5 +1,8 @@
 package edu.mayo.kmdp.knowledgebase.flatteners.fhir.stu3;
 
+import static edu.mayo.kmdp.util.DateTimeUtil.serializeDate;
+import static org.omg.spec.api4kp._20200801.id.IdentifierConstants.SNAPSHOT;
+import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.hashIdentifiers;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
@@ -8,18 +11,18 @@ import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Named;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.SimpleSelector;
-import org.apache.jena.rdf.model.Statement;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.hl7.fhir.dstu3.model.PlanDefinition.PlanDefinitionActionComponent;
+import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal;
+import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
@@ -35,31 +38,32 @@ import org.slf4j.LoggerFactory;
 public class PlanDefinitionFlattener
     extends AbstractKnowledgeBaseOperator
     implements CompositionalApiInternal._flattenArtifact {
-  
-  private static Logger logger = LoggerFactory.getLogger(PlanDefinitionFlattener.class);
+
+  private static final Logger logger = LoggerFactory.getLogger(PlanDefinitionFlattener.class);
 
   public static final UUID id = UUID.fromString("bdd19e7b-fa7c-4d84-b5be-f0e8c487a4ce");
   public static final String version = "1.0.0";
 
   public PlanDefinitionFlattener() {
-    super(SemanticIdentifier.newId(id,version));
+    super(SemanticIdentifier.newId(id, version));
   }
 
-  // TODO root Asset ID should be marked inside the struct, not passed as an argument.
-  //  Need a 'rootComponent' or something..
-  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId, String params) {
-    if (! (carrier instanceof CompositeKnowledgeCarrier)) {
+
+  @Override
+  public Answer<KnowledgeCarrier> flattenArtifact(KnowledgeCarrier carrier, UUID rootAssetId,
+      String params) {
+    if (!(carrier instanceof CompositeKnowledgeCarrier)) {
       return Answer.of(carrier);
     }
 
     CompositeKnowledgeCarrier kc = (CompositeKnowledgeCarrier) carrier;
 
-    KnowledgeCarrier masterPlan = kc.mainComponent();
     PlanDefinition masterPlanDefinition = kc.mainComponentAs(PlanDefinition.class);
 
     List<PlanDefinition> subPlans =
         kc.getComponent().stream()
-            .filter(comp -> !comp.getAssetId().getResourceId().toString().contains(rootAssetId.toString()))
+            .filter(comp -> !comp.getAssetId().getResourceId().toString()
+                .contains(rootAssetId.toString()))
             .map(comp -> comp.as(PlanDefinition.class))
             .flatMap(StreamUtil::trimStream)
             .collect(Collectors.toList());
@@ -78,8 +82,40 @@ public class PlanDefinitionFlattener
             kc.getComponent())
     );
 
-    return Answer.of(masterPlan);
+    return repackage(kc, masterPlanDefinition);
+  }
 
+  private Answer<KnowledgeCarrier> repackage(
+      CompositeKnowledgeCarrier kc, PlanDefinition masterPlanDefinition) {
+    ResourceIdentifier assetId = mapAssetId(kc);
+    ResourceIdentifier flatArtifactId = mapArtifactId(kc);
+
+    stampArtifactId(masterPlanDefinition, flatArtifactId);
+
+    return Answer.of(AbstractCarrier.ofAst(masterPlanDefinition)
+        .withRepresentation(kc.mainComponent().getRepresentation())
+        .withArtifactId(flatArtifactId)
+        .withAssetId(assetId)
+        .withLabel(masterPlanDefinition.getName()));
+  }
+
+  private void stampArtifactId(PlanDefinition masterPlanDefinition,
+      ResourceIdentifier flatArtifactId) {
+    masterPlanDefinition.setId(flatArtifactId.getTag());
+    masterPlanDefinition.setVersion(
+        flatArtifactId.getVersionTag()
+            .replace(SNAPSHOT, serializeDate(new Date(), "yyyyMMddHHmmSS")));
+  }
+
+  private ResourceIdentifier mapArtifactId(CompositeKnowledgeCarrier kc) {
+    return kc.components()
+        .map(KnowledgeCarrier::getArtifactId)
+        .reduce((i1, i2) -> hashIdentifiers(i1, i2, true))
+        .orElseThrow(() -> new IllegalStateException("Unable to combine Artifact IDs"));
+  }
+
+  private ResourceIdentifier mapAssetId(CompositeKnowledgeCarrier kc) {
+    return kc.getAssetId();
   }
 
   protected void resolveReferences(PlanDefinition masterPlan,
