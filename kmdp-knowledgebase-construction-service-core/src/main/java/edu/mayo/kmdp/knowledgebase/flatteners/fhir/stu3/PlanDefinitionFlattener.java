@@ -1,6 +1,5 @@
 package edu.mayo.kmdp.knowledgebase.flatteners.fhir.stu3;
 
-import static edu.mayo.kmdp.util.DateTimeUtil.serializeDate;
 import static org.omg.spec.api4kp._20200801.id.IdentifierConstants.SNAPSHOT;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.hashIdentifiers;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
@@ -104,7 +103,7 @@ public class PlanDefinitionFlattener
     masterPlanDefinition.setId(flatArtifactId.getTag());
     masterPlanDefinition.setVersion(
         flatArtifactId.getVersionTag()
-            .replace(SNAPSHOT, serializeDate(new Date(), "yyyyMMddHHmmSS")));
+            .replace(SNAPSHOT, Long.toString(new Date().toInstant().toEpochMilli())));
   }
 
   private ResourceIdentifier mapArtifactId(CompositeKnowledgeCarrier kc) {
