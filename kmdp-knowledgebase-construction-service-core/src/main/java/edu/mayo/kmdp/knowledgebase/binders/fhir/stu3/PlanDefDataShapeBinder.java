@@ -11,11 +11,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import org.hl7.fhir.dstu3.model.CodeType;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DataRequirement;
 import org.hl7.fhir.dstu3.model.Enumerations.FHIRAllTypes;
@@ -30,6 +32,7 @@ import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.taxonomy.knowledgeprocessingtechnique.KnowledgeProcessingTechnique;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +47,7 @@ public class PlanDefDataShapeBinder
   public static final String version = "1.0.0";
 
   public PlanDefDataShapeBinder() {
-    super(SemanticIdentifier.newId(id,version));
+    super(SemanticIdentifier.newId(id, version));
   }
 
   public PlanDefDataShapeBinder(KnowledgeBaseApiInternal kbManager) {
@@ -56,8 +59,8 @@ public class PlanDefDataShapeBinder
   @Override
   public Answer<KnowledgeCarrier> applyNamedBind(UUID operatorId, Bindings bindings, UUID kbaseId,
       String versionTag, String xParams) {
-    return kbManager.getKnowledgeBaseManifestation(kbaseId,versionTag)
-        .flatMap(kc -> this.visit(kc,bindings));
+    return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
+        .flatMap(kc -> this.visit(kc, bindings));
   }
 
   @Override
@@ -68,7 +71,7 @@ public class PlanDefDataShapeBinder
   private Answer<KnowledgeCarrier> visit(KnowledgeCarrier kc, Bindings bindings) {
     PlanDefinition pd = kc.as(PlanDefinition.class).map(x -> x.copy())
         .orElseThrow();
-    visitComplex(pd,bindings);
+    visitComplex(pd, bindings);
     KnowledgeCarrier boundKC = AbstractCarrier.ofAst(pd)
         .withRepresentation(kc.getRepresentation())
         .withAssetId(kc.getAssetId())
@@ -80,12 +83,12 @@ public class PlanDefDataShapeBinder
 
   private void visitComplex(PlanDefinition rootPD, Bindings bindings) {
     getNestedPlanDefs(rootPD)
-        .forEach(atomicPD -> visit(atomicPD,bindings));
+        .forEach(atomicPD -> visit(atomicPD, bindings));
   }
 
   private void visit(PlanDefinition pd, Bindings bindings) {
     getSubActions(pd)
-        .forEach(act -> visit(act,bindings));
+        .forEach(act -> visit(act, bindings));
   }
 
   private void visit(PlanDefinitionActionComponent act, Bindings bindings) {
@@ -111,37 +114,43 @@ public class PlanDefDataShapeBinder
     }
   }
 
-  private Stream<DataRequirement> bindDataRequirement(DataRequirement dr, Coding cd, Bindings bindings, boolean output) {
+  private Stream<DataRequirement> bindDataRequirement(DataRequirement dr, Coding cd,
+      Bindings bindings, boolean output) {
     Optional<UUID> opt = Util.ensureUUID(cd.getCode());
     if (opt.isEmpty()) {
       return Stream.empty();
     }
     UUID x = opt.get();
 
-    if (! bindings.containsKey(x)) {
+    if (!bindings.containsKey(x)) {
       DataRequirement dr2 = dr.copy();
       dr2.setType(null);
       dr2.getProfile().clear();
 
       if (output) {
-       // FUTURE Default to Observation for derived data
+        // FUTURE Default to Observation for derived data
         String typeUri = "https://www.hl7.org/fhir/STU3/observation.profile.xml";
         dr2.setType(getFHIRType(URI.create(typeUri)));
         dr2.addProfile(typeUri);
       }
       return Stream.of(dr2);
     }
-    Set<URI> typeUris = (Set<URI>) bindings.get(x);
+    Map<URI, Set<KnowledgeProcessingTechnique>> typeUrisMethods =
+        (Map<URI, Set<KnowledgeProcessingTechnique>>) bindings.get(x);
 
-    return typeUris.stream()
+    return typeUrisMethods.keySet().stream()
         .map(typeUri -> {
           String fhirTypeCode = getFHIRType(typeUri);
           DataRequirement dr2 = dr.copy();
           dr2.setType(fhirTypeCode);
           dr2.getProfile().clear();
-          if (! FHIRAllTypes.ANY.toCode().equals(fhirTypeCode)) {
+          if (!FHIRAllTypes.ANY.toCode().equals(fhirTypeCode)) {
             dr2.addProfile(typeUri.toString());
           }
+          typeUrisMethods.get(typeUri).forEach(m ->
+              dr2.addExtension(
+                  "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  new CodeType(m.getTag())));
           return dr2;
         });
   }
@@ -163,7 +172,6 @@ public class PlanDefDataShapeBinder
         .findFirst()
         .orElseThrow();
   }
-
 
 
 }
