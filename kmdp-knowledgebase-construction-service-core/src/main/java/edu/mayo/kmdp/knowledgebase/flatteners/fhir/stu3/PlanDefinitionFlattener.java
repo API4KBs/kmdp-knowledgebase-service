@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.flatteners.fhir.stu3;
 
+import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRPlanDefinitionUtils.setKnowledgeIdentifiers;
 import static org.omg.spec.api4kp._20200801.id.IdentifierConstants.SNAPSHOT;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.hashIdentifiers;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Flattening_Task;
@@ -10,7 +11,9 @@ import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 import javax.inject.Named;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.hl7.fhir.dstu3.model.PlanDefinition.PlanDefinitionActionComponent;
+import org.hl7.fhir.dstu3.model.RelatedArtifact;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal;
@@ -81,15 +85,28 @@ public class PlanDefinitionFlattener
             kc.getComponent())
     );
 
-    return repackage(kc, masterPlanDefinition);
+    return repackage(kc, masterPlanDefinition, subPlans);
   }
 
   private Answer<KnowledgeCarrier> repackage(
-      CompositeKnowledgeCarrier kc, PlanDefinition masterPlanDefinition) {
+      CompositeKnowledgeCarrier kc,
+      PlanDefinition masterPlanDefinition,
+      List<PlanDefinition> subPlans) {
     ResourceIdentifier assetId = mapAssetId(kc);
     ResourceIdentifier flatArtifactId = mapArtifactId(kc);
 
     stampArtifactId(masterPlanDefinition, flatArtifactId);
+
+    subPlans.forEach(pd -> pd.setIdentifier(Collections.emptyList()));
+
+    List<RelatedArtifact> rels = new LinkedList<>(masterPlanDefinition.getRelatedArtifact());
+    subPlans.forEach(pd -> {
+      rels.addAll(pd.getRelatedArtifact());
+      pd.setRelatedArtifact(Collections.emptyList());
+    });
+    masterPlanDefinition.setRelatedArtifact(rels);
+
+    setKnowledgeIdentifiers(masterPlanDefinition, assetId, flatArtifactId);
 
     return Answer.of(AbstractCarrier.ofAst(masterPlanDefinition)
         .withRepresentation(kc.mainComponent().getRepresentation())
