@@ -24,6 +24,7 @@ import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelect;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelectDirect;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
@@ -38,7 +39,7 @@ import org.springframework.stereotype.Component;
 @KPOperation(Selection_Task)
 public class PlanDefSelector
     extends AbstractKnowledgeBaseOperator
-    implements _applyNamedSelect {
+    implements _applyNamedSelect, _applyNamedSelectDirect {
 
   public static final UUID id = UUID.fromString("0d82b8dd-50b1-43b9-b9f9-e8946d87db6e");
   public static final String version = "1.0.0";
@@ -64,8 +65,15 @@ public class PlanDefSelector
       UUID kbaseId, String versionTag, String xParams) {
 
     return kbManager.getKnowledgeBaseManifestation(kbaseId,versionTag)
+        .flatMap(artifact -> applyNamedSelectDirect(operatorId, artifact, definition, xParams));
+  }
+
+  @Override
+  public Answer<KnowledgeCarrier> applyNamedSelectDirect(UUID operatorId, KnowledgeCarrier artifact,
+      KnowledgeCarrier definition, String xParams) {
+    return Answer.of(artifact)
         .flatOpt(kc -> kc.as(PlanDefinition.class))
-        .map(pd -> visit(pd))
+        .map(this::visit)
         .map(vs -> filter(vs,definition));
   }
 
