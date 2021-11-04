@@ -14,6 +14,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.util.URIUtil;
+import edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Named;
 import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.Explainer.IssueProblem;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
@@ -46,6 +48,7 @@ import org.omg.spec.dmn._20180521.model.TKnowledgeRequirement;
 import org.omg.spec.dmn._20180521.model.TKnowledgeSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zalando.problem.AbstractThrowableProblem;
 
 @KPOperation(Knowledge_Resource_Flattening_Task)
 @KPSupport(DMN_1_2)
@@ -84,7 +87,11 @@ public class DMN12ModelFlattener
       KnowledgeCarrier rootCarrier = ckc.mainComponent();
 
       TDefinitions flatRoot = (TDefinitions) rootCarrier.as(TDefinitions.class)
-          .orElseThrow().clone();
+          .orElseThrow(() ->
+              new IllegalStateException(
+                  "FATAL - Expected DMN TDefinitions, found "
+                      + rootCarrier.getExpression().getClass()))
+          .clone();
 
       Map<String, TDefinitions> comps = ckc.componentsAs(TDefinitions.class)
           .collect(Collectors.toMap(
@@ -92,7 +99,11 @@ public class DMN12ModelFlattener
               dmn -> dmn
           ));
 
-      mergeModels(flatRoot, comps);
+      try {
+        mergeModels(flatRoot, comps);
+      } catch (AbstractThrowableProblem problem) {
+        return Answer.failed(problem);
+      }
 
       KnowledgeCarrier flat = ofAst(flatRoot, ckc.getRepresentation())
           .withAssetId(rootCarrier.getAssetId())
@@ -256,7 +267,13 @@ public class DMN12ModelFlattener
       if (!isInternal(ref)) {
         URI externalModelId = URIUtil.normalizeURI(ref);
         TDefinitions tgtModel = comps.get(externalModelId.toString());
-
+        if (tgtModel == null) {
+          throw new IssueProblem(
+              "Broken reference",
+              ResponseCodeSeries.FailedDependency,
+              "Unable to resolve external DMN fragment reference " + ref,
+              URI.create(flatRoot.getNamespace()));
+        }
         TDecision subDecision = resolveDecision(tgtModel, ref);
 
         addToFlat(flatRoot, subDecision);
@@ -333,7 +350,6 @@ public class DMN12ModelFlattener
     }
     return externalDec;
   }
-
 
 
   private Optional<TDecisionService> resolveDecisionService(TDefinitions externalModel, URI ref) {
