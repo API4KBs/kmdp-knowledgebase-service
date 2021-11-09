@@ -1,7 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.extractors.dita.v1_3;
 
 
-import static java.nio.charset.Charset.defaultCharset;
 import static java.util.stream.Stream.concat;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Extraction_Task;
@@ -13,8 +12,6 @@ import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.Util;
 import edu.mayo.kmdp.util.XMLUtil;
 import edu.mayo.kmdp.util.XPathUtil;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,10 +23,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
-import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedExtractDirect;
@@ -91,44 +85,12 @@ public class DITAConceptExtractor
             .withAssetId(artifact.getAssetId()));
   }
 
-  private Workbook doSelect(Document dox) {
-    List<Entry> entries = collectEntries(dox);
-
-    var workbook = initEmptyWorkbook();
-    var sheet = workbook.getSheetAt(0);
-
-    for (var j = 1; j <= entries.size(); j++) {
-      var entry = entries.get(j - 1);
-      var row = sheet.createRow(j);
-      row.createCell(0).setCellValue(entry.getTerm());
-      row.createCell(1).setCellValue(entry.getMapping());
-      row.createCell(2).setCellValue(entry.getTerm());
-      row.createCell(3).setCellValue(entry.isKey() ? "Key" : "Prop");
-      row.createCell(4).setCellValue(entry.getValues());
-    }
-
-    return workbook;
+  protected Object doSelect(Document dox) {
+    return collectEntries(dox);
   }
 
-  private Workbook initEmptyWorkbook() {
-    Workbook workbook = new XSSFWorkbook();
-    var sheet = workbook.createSheet("DEK Parameters");
-    sheet.setColumnWidth(0, 6000);
-    sheet.setColumnWidth(1, 6000);
-    sheet.setColumnWidth(2, 6000);
-    sheet.setColumnWidth(3, 6000);
-    sheet.setColumnWidth(4, 6000);
 
-    var header = sheet.createRow(0);
-    header.createCell(0).setCellValue("Param (Value)");
-    header.createCell(1).setCellValue("B2X");
-    header.createCell(2).setCellValue("Label");
-    header.createCell(3).setCellValue("Type");
-    header.createCell(4).setCellValue("Options (Documentation)");
-    return workbook;
-  }
-
-  private List<Entry> collectEntries(Document dox) {
+  protected List<Entry> collectEntries(Document dox) {
     Map<String, List<Entry>> entryMap =
         extractEntriesFromDox(dox)
             .collect(Collectors.groupingBy(Entry::getGroupingId));
@@ -177,8 +139,8 @@ public class DITAConceptExtractor
         : tmp;
     String[] values = hasValues
         ? tmp.substring(tmp.indexOf('(') + 1, tmp.lastIndexOf(')'))
-            .trim()
-            .split("\\s")
+        .trim()
+        .split("\\s")
         : new String[0];
     return Stream.of(new Entry(term, values, false));
   }
@@ -209,26 +171,23 @@ public class DITAConceptExtractor
   }
 
   protected Answer<KnowledgeCarrier> serialize(KnowledgeCarrier wbCarrier) {
-    return Answer.of(wbCarrier.as(Workbook.class)
-        .map(wb -> {
-          var baos = new ByteArrayOutputStream();
-          try {
-            wb.write(baos);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-          return baos.toByteArray();
-        }).map(b -> AbstractCarrier.of(b)
-            .withRepresentation(rep(null, XML_1_1, defaultCharset(), Encodings.DEFAULT))
-            .withAssetId(wbCarrier.getAssetId())));
+    List<Entry> entries = wbCarrier.as(List.class).orElse(Collections.emptyList());
+    List<String> serials = entries.stream()
+        .map(Entry::serialize)
+        .collect(Collectors.toList());
+    return Answer.of(AbstractCarrier.of(String.join("\n", serials)));
   }
 
 
-  private static class Entry {
+  protected static class Entry {
 
-    private final String term;
-    private final List<String> vals;
-    private final boolean key;
+    private String term;
+    private List<String> vals;
+    private boolean key;
+
+    protected Entry() {
+      // empty constructor
+    }
 
     public Entry(String term, boolean isKey) {
       this(term, new String[0], isKey);
@@ -271,6 +230,21 @@ public class DITAConceptExtractor
 
     public String getGroupingId() {
       return getTerm() + (key ? "-K" : "-P");
+    }
+
+    public static String serialize(Entry e) {
+      return Stream.concat(
+          Stream.of(e.term, Boolean.toString(e.key)),
+          e.vals.stream()).collect(Collectors.joining(","));
+    }
+
+    public static Entry parse(String str) {
+      List<String> items = Arrays.asList(str.split(","));
+      Entry e = new Entry();
+      e.term = items.get(0);
+      e.key = Boolean.parseBoolean(items.get(1));
+      e.vals = items.subList(2, items.size());
+      return e;
     }
 
   }
