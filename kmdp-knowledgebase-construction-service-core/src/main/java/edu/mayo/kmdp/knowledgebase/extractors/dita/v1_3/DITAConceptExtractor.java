@@ -80,12 +80,17 @@ public class DITAConceptExtractor
     return parse(artifact)
         .flatOpt(kc -> kc.as(Document.class))
         .map(this::doSelect)
+        .map(this::process)
         .map(wb -> AbstractCarrier.ofAst(wb)
             .withRepresentation(rep((KnowledgeRepresentationLanguage) null))
             .withAssetId(artifact.getAssetId()));
   }
 
-  protected Object doSelect(Document dox) {
+  protected Object process(List<Entry> entries) {
+    return entries;
+  }
+
+  protected List<Entry> doSelect(Document dox) {
     return collectEntries(dox);
   }
 
