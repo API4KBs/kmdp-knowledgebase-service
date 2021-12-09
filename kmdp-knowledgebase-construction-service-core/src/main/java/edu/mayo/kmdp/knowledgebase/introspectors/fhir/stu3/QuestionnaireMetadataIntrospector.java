@@ -124,6 +124,7 @@ public class QuestionnaireMetadataIntrospector
             .withAssetId(surrogate.getAssetId())
             .withLevel(Abstract_Knowledge_Expression)
             .withArtifactId(surrogate.getSurrogate().get(0).getArtifactId())
+            .withLabel(surrogate.getName())
             .withRepresentation(rep(Knowledge_Asset_Surrogate_2_0))
     );
 
