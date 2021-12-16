@@ -26,7 +26,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Named;
 import org.omg.spec.api4kp._20200801.Answer;
-import org.omg.spec.api4kp._20200801.Explainer.IssueProblem;
+import org.omg.spec.api4kp._20200801.Explainer;
+import org.omg.spec.api4kp._20200801.ServerSideException;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
@@ -268,9 +269,10 @@ public class DMN12ModelFlattener
         URI externalModelId = URIUtil.normalizeURI(ref);
         TDefinitions tgtModel = comps.get(externalModelId.toString());
         if (tgtModel == null) {
-          throw new IssueProblem(
+          throw new ServerSideException(
+              Explainer.GENERIC_ERROR_TYPE,
               "Broken reference",
-              ResponseCodeSeries.FailedDependency,
+              ResponseCodeSeries.UnprocessableEntity,
               "Unable to resolve external DMN fragment reference " + ref,
               URI.create(flatRoot.getNamespace()));
         }
