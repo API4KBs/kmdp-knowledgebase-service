@@ -23,7 +23,7 @@ import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 
 class CodeSystemFlattenerTest {
 
-  IParser parser = FhirContext.forDstu3().newJsonParser();
+  final IParser parser = FhirContext.forDstu3().newJsonParser();
 
   @Test
   void testFlattenCodeSystems() {
