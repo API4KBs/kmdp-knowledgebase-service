@@ -1,11 +1,13 @@
 package edu.mayo.kmdp.knowledgebase.introspectors.owl2;
 
+import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.ASSET_NS;
 import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.IGNORES;
 import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.NS_INDEX;
 import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.TAG_INDEX;
 import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.VER_INDEX;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newId;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newVersionId;
+import static org.omg.spec.api4kp._20200801.id.VersionIdentifier.toSemVer;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultArtifactId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateHelper.carry;
@@ -25,6 +27,7 @@ import edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OW
 import edu.mayo.kmdp.language.parsers.owl2.OWLParser;
 import edu.mayo.kmdp.language.parsers.owl2.OWLParser.OWLParserConfiguration;
 import edu.mayo.kmdp.language.parsers.owl2.OWLParser.OWLParserConfiguration.OWLParserParams;
+import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.Arrays;
@@ -63,7 +66,6 @@ import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Named
 @KPOperation(Description_Task)
@@ -238,7 +240,10 @@ public class OWLMetadataIntrospector
             m.group(nsIdx) + versionTag + "/" + m.group(tagIdx) + trail(targetURI));
         ontologyId = newVersionId(seriesURI, versionURI);
       }
-      assetId = newId(Util.uuid(ontologyId.getResourceId().toString()), versionTag);
+      assetId = newId(
+          cfg.getTyped(ASSET_NS, URI.class),
+          Util.uuid(ontologyId.getResourceId().toString()),
+          toSemVer(versionTag));
     }
 
     private String trail(String targetURI) {
@@ -314,6 +319,12 @@ public class OWLMetadataIntrospector
       IGNORES(Opt.of(
           "importIgnores",
           "",
+          "",
+          String.class,
+          false)),
+      ASSET_NS(Opt.of(
+          "assetNamespace",
+          Registry.BASE_UUID_URN,
           "",
           String.class,
           false)
