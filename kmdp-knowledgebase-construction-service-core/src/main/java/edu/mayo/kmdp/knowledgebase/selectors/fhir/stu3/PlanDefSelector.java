@@ -33,6 +33,21 @@ import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.springframework.stereotype.Component;
 
+/**
+ * Implementation of {@link _applyNamedSelect} (Direct) that performs a Selection_Task, which
+ * extracts semantic concepts, collected and manifested as a fhir:{@link ValueSet}, from a
+ * homogeneous KnowledgeBase that consists in fhir:{@link PlanDefinition} that may possibly contain
+ * other fhir:{@link PlanDefinition}
+ * <p>
+ * More specifically, focuses on the concepts used to annotate the input and output {@link
+ * org.hl7.fhir.dstu3.model.DataRequirement} of the PlanDefinition's Actions, recursively nested
+ * actions.
+ * <p>
+ * The client can further specify filtering criteria, passing an intensionally defined fhir:{@link
+ * ValueSet}. If the input Valueset has {@link ConceptSetComponent} with scheme URIs, this Selector
+ * will filter the returned concepts, and only return those Concepts where the Concept's system
+ * matches any one of the provided URIs.
+ */
 @Component
 @KPComponent
 @KPSupport(FHIR_STU3)
@@ -60,23 +75,55 @@ public class PlanDefSelector
   }
 
 
+  /**
+   * Core operation
+   *
+   * @param operatorId the ID of this operator (class)
+   * @param definition A {@link KnowledgeCarrier} that wraps a {@link ValueSet} with {@link
+   *                   ConceptSetComponent} that indicate the scheme (URIs) of the concepts to be
+   *                   selected
+   * @param kbaseId    the ID of the root {@link PlanDefinition} in the {@link
+   *                   org.omg.spec.api4kp._20200801.services.KnowledgeBase}
+   * @param versionTag the version of the root PlanDefinition
+   * @param xParams    extra configuration parameters (not supported)
+   * @return an expanded {@link ValueSet} with the selected concepts, wrapped
+   */
   @Override
   public Answer<KnowledgeCarrier> applyNamedSelect(UUID operatorId, KnowledgeCarrier definition,
       UUID kbaseId, String versionTag, String xParams) {
 
-    return kbManager.getKnowledgeBaseManifestation(kbaseId,versionTag)
+    return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
         .flatMap(artifact -> applyNamedSelectDirect(operatorId, artifact, definition, xParams));
   }
 
+  /**
+   * Core operation
+   *
+   * @param operatorId the ID of this operator (class)
+   * @param definition A {@link KnowledgeCarrier} that wraps a {@link ValueSet} with {@link
+   *                   ConceptSetComponent} that indicate the scheme (URIs) of the concepts to be
+   *                   selected
+   * @param artifact   the {@link PlanDefinition} to select concepts from
+   * @param xParams    extra configuration parameters (not supported)
+   * @return an expanded {@link ValueSet} with the selected concepts, wrapped
+   */
   @Override
   public Answer<KnowledgeCarrier> applyNamedSelectDirect(UUID operatorId, KnowledgeCarrier artifact,
       KnowledgeCarrier definition, String xParams) {
     return Answer.of(artifact)
         .flatOpt(kc -> kc.as(PlanDefinition.class))
         .map(this::visit)
-        .map(vs -> filter(vs,definition));
+        .map(vs -> filter(vs, definition));
   }
 
+  /**
+   * Applies the filter to the selected concepts, such that only the concepts whose system is one of
+   * the URIs in the definitional Valueset are returned.
+   *
+   * @param vs         the (extensional) Valueset with the selected concepts
+   * @param definition the (intensional) Valueset with the filter URIs
+   * @return the filtered {@link ValueSet}, wrapped
+   */
   private KnowledgeCarrier filter(ValueSet vs, KnowledgeCarrier definition) {
     ValueSet def = definition.as(ValueSet.class)
         .orElseThrow(UnsupportedOperationException::new);
@@ -90,10 +137,17 @@ public class PlanDefSelector
         .filter(comp -> systems.contains(comp.getSystem()))
         .forEach(filtered.getExpansion()::addContains);
 
-    return AbstractCarrier.ofAst(filtered,rep(FHIR_STU3));
+    return AbstractCarrier.ofAst(filtered, rep(FHIR_STU3));
   }
 
-
+  /**
+   * Processes the given {@link PlanDefinition}, as well as any nested (contained) PlanDefinitions
+   *
+   * @param pd the (root) {@link PlanDefinition}
+   * @return the concepts used to annotate the {@link PlanDefinition}'s Input {@link
+   * org.hl7.fhir.dstu3.model.DataRequirement}
+   * @see edu.mayo.kmdp.language.common.fhir.stu3.FHIRPlanDefinitionUtils#getNestedPlanDefs(PlanDefinition)
+   */
   private ValueSet visit(PlanDefinition pd) {
     ValueSet vs = new ValueSet();
 
@@ -101,17 +155,28 @@ public class PlanDefSelector
         .flatMap(this::getConcepts);
 
     cdStream
-        .flatMap(cc -> cc.getCoding().stream())
-        .map(cd -> new ValueSetExpansionContainsComponent()
-            .setCode(cd.getCode())
-            .setSystem(cd.getSystem())
-            .setDisplay(cd.getDisplay())
-            .setVersion(cd.getVersion()))
-        .filter(comp -> ! contains(vs.getExpansion(),comp))
+        .flatMap(cc -> cc.getCoding().stream()
+            .map(cd -> (ValueSetExpansionContainsComponent) new ValueSetExpansionContainsComponent()
+                .setCode(cd.getCode())
+                .setSystem(cd.getSystem())
+                .setDisplay(cd.getDisplay())
+                .setVersion(cd.getVersion())
+                .setExtension(cc.getExtension())))
+        .filter(comp -> !contains(vs.getExpansion(), comp))
         .forEach(comp -> vs.getExpansion().addContains(comp));
     return vs;
   }
 
+  /**
+   * Filter that prevents a given Concept from being added more than once to a ValueSet. Concept
+   * (descriptors) are considered equivalent if code and system match.
+   * <p>
+   * Despite the name, the implementation relies on {@link java.util.List} rather than {@link Set}
+   *
+   * @param expansion the ValueSet (expansion section) to add the concept (descriptor) to
+   * @param comp      the prospective concept (descriptor) to be added
+   * @return true if an equivalent concept is already present in the Valueset
+   */
   private boolean contains(ValueSetExpansionComponent expansion,
       ValueSetExpansionContainsComponent comp) {
     return expansion.getContains().stream()
@@ -119,14 +184,33 @@ public class PlanDefSelector
             && c.getCode().equals(comp.getCode()));
   }
 
-  private Stream<? extends CodeableConcept> getConcepts(PlanDefinition x) {
-    return getSubActions(x)
+  /**
+   * Traverses the {@link PlanDefinition} to select the Input {@link org.hl7.fhir.dstu3.model.DataRequirement},
+   * pulling the {@link CodeableConcept} and {@link org.hl7.fhir.dstu3.model.Extension} to be
+   * returned.
+   *
+   * @param pd the {@link PlanDefinition} to be processed
+   * @return the annotated {@link CodeableConcept} from the {@link PlanDefinition}
+   */
+  private Stream<? extends CodeableConcept> getConcepts(PlanDefinition pd) {
+    return getSubActions(pd)
         .flatMap(act -> act.getInput().stream())
-            .flatMap(dr -> dr.getCodeFilter().stream())
-            .flatMap(cf -> cf.getValueCodeableConcept().stream());
+        .flatMap(dr -> dr.getCodeFilter().stream()
+            .flatMap(cf ->
+                cf.getValueCodeableConcept().stream()
+                    .map(cd -> (CodeableConcept) cd.setExtension(dr.getExtension()))
+            ));
   }
 
 
+  /**
+   * Utility function to build the intensional ValueSet filter, that allows to restrict the scope of
+   * the concepts to be selected
+   *
+   * @param schemes URIs, such that only Concepts whose system matches one of the URIs will be
+   *                returned
+   * @return a ValueSet filter to be fed back to this Selector, wrapped
+   */
   public static KnowledgeCarrier pivotQuery(URI... schemes) {
     ValueSet vsDef = new ValueSet();
     for (URI uri : schemes) {
@@ -135,7 +219,7 @@ public class PlanDefSelector
           .addFilter(new ConceptSetFilterComponent().setOp(FilterOperator.IN));
       vsDef.getCompose().addInclude(set);
     }
-    return AbstractCarrier.ofAst(vsDef,rep(FHIR_STU3));
+    return AbstractCarrier.ofAst(vsDef, rep(FHIR_STU3));
   }
 
 
