@@ -10,6 +10,7 @@ import edu.mayo.kmdp.terms.mireot.MireotConfig;
 import edu.mayo.kmdp.terms.mireot.MireotConfig.MireotParameters;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.StreamUtil;
+import edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries;
 import java.net.URI;
 import java.util.Optional;
 import java.util.Properties;
@@ -98,19 +99,21 @@ public class SparqlSelector
     final Model source = ontoModel.as(Model.class).orElseThrow(IllegalStateException::new);
 
     ModelFactory.createDefaultModel();
-//    extract(source, rootEntityUri, baseUri, cfg)
-//        .forEach(res -> System.out.println("    Adding class " + res));
 
     Model result = extract(source, rootEntityUri, baseUri, cfg).stream()
         .map(x -> fetchResource(source, URI.create(x.getURI()), baseUri, query))
         .flatMap(StreamUtil::trimStream)
         .reduce(ModelFactory.createDefaultModel(), Model::add);
 
-    addOntologyAxioms(result, source);
+    if (!result.isEmpty()) {
+      addOntologyAxioms(result, source);
+    }
 
-    return Answer.of(AbstractCarrier.ofAst(result)
-        .withRepresentation(ontoModel.getRepresentation())
-        .withLabel(ontoModel.getLabel()));
+    return Answer.of(
+        result.isEmpty() ? ResponseCodeSeries.NoContent : ResponseCodeSeries.OK,
+        AbstractCarrier.ofAst(result)
+            .withRepresentation(ontoModel.getRepresentation())
+            .withLabel(ontoModel.getLabel()));
   }
 
   Optional<Model> fetchResource(Model source, URI entityURI, URI baseUri,

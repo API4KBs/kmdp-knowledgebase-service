@@ -4,6 +4,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL2_DL;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
+import java.util.Objects;
 import java.util.UUID;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -79,7 +80,9 @@ public class JenaSKOSSelector
             source.listStatements(new SimpleSelector() {
               @Override
               public boolean test(Statement s) {
-                return s.getSubject() != null && s.getSubject().getURI().equals(ind.getSubject().getURI());
+                return s.getSubject() != null &&
+                    ind.getSubject() != null
+                    && Objects.equals(s.getSubject().getURI(), ind.getSubject().getURI());
               }
             }).forEachRemaining(result::add));
 
