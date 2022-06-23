@@ -520,9 +520,16 @@ public class KnowledgeBaseProvider
                 kb.getKbaseId().getUuid(),
                 kb.getKbaseId().getVersionTag(),
                 xParams)
-                .map(kb::withManifestation)
+                .map(kc -> setKnowledgeBaseContent(kb, kc))
                 .or(() -> deleteKnowledgeBaseVersion(kb))
         ).map(KnowledgeBase::getKbaseId);
+  }
+
+  private KnowledgeBase setKnowledgeBaseContent(KnowledgeBase kb, KnowledgeCarrier kc) {
+    if (kb.getKbaseId() != null && kc.getLabel() == null) {
+      kc.setLabel(kb.getKbaseId().getName());
+    }
+    return kb.withManifestation(kc);
   }
 
   @Override
