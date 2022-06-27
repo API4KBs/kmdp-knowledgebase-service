@@ -226,7 +226,10 @@ public class OWLMetadataIntrospector
       baseURI = targetURI;
       Matcher m = versionPattern.matcher(targetURI);
       if (! m.matches()) {
-        throw new UnsupportedOperationException("Unable to match URI " + targetURI);
+        logger.warn("Unable to infer version information from URI {}", targetURI);
+        assetId = newVersionId(URI.create(targetURI), URI.create(targetURI));
+        ontologyId = assetId;
+        return;
       }
       if (Util.isNotEmpty(m.group(verIdx))) {
         URI versionURI = URI.create(targetURI);
