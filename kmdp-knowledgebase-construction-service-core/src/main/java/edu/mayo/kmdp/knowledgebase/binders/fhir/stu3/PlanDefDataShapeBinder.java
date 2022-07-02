@@ -69,7 +69,7 @@ public class PlanDefDataShapeBinder
   }
 
   private Answer<KnowledgeCarrier> visit(KnowledgeCarrier kc, Bindings bindings) {
-    PlanDefinition pd = kc.as(PlanDefinition.class).map(x -> x.copy())
+    PlanDefinition pd = kc.as(PlanDefinition.class)
         .orElseThrow();
     visitComplex(pd, bindings);
     KnowledgeCarrier boundKC = AbstractCarrier.ofAst(pd)

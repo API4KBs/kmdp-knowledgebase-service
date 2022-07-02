@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.inject.Named;
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.hl7.fhir.dstu3.model.PlanDefinition.PlanDefinitionActionComponent;
 import org.hl7.fhir.dstu3.model.RelatedArtifact;
@@ -60,9 +62,6 @@ public class PlanDefinitionFlattener
     }
 
     CompositeKnowledgeCarrier kc = (CompositeKnowledgeCarrier) carrier;
-
-    PlanDefinition masterPlanDefinition = kc.mainComponentAs(PlanDefinition.class);
-
     List<PlanDefinition> subPlans =
         kc.getComponent().stream()
             .filter(comp -> !comp.getAssetId().getResourceId().toString()
@@ -70,6 +69,18 @@ public class PlanDefinitionFlattener
             .map(comp -> comp.as(PlanDefinition.class))
             .flatMap(StreamUtil::trimStream)
             .collect(Collectors.toList());
+
+    PlanDefinition masterPlanDefinition = kc.mainComponentAs(PlanDefinition.class);
+
+    innerFlatten(masterPlanDefinition, subPlans, kc.getComponent());
+
+    return repackage(kc, masterPlanDefinition, subPlans);
+  }
+
+  public void innerFlatten(
+      PlanDefinition masterPlanDefinition,
+      List<PlanDefinition> subPlans,
+      List<KnowledgeCarrier> components) {
 
     subPlans.forEach(subPlan -> {
       // TODO FIXME FlattenInfo resolves the references of the Master Plan..
@@ -82,11 +93,29 @@ public class PlanDefinitionFlattener
         resolveReferences(
             masterPlanDefinition,
             subPlan,
-            kc.getComponent())
+            components)
     );
 
-    return repackage(kc, masterPlanDefinition, subPlans);
+    reshapeContained(masterPlanDefinition);
   }
+
+  private void reshapeContained(PlanDefinition masterPlanDefinition) {
+    pullContained(masterPlanDefinition)
+        .filter(x -> x != masterPlanDefinition)
+        .forEach(x -> masterPlanDefinition.getContained().add(x));
+  }
+
+  private Stream<DomainResource> pullContained(DomainResource root) {
+    return Stream.concat(
+        Stream.of(root),
+        new ArrayList<>(root.getContained()).stream()
+            .flatMap(StreamUtil.filterAs(DomainResource.class))
+            .flatMap(x -> {
+              root.getContained().remove(x);
+              return pullContained(x);
+            }));
+  }
+
 
   private Answer<KnowledgeCarrier> repackage(
       CompositeKnowledgeCarrier kc,
@@ -174,7 +203,9 @@ public class PlanDefinitionFlattener
 
           subPlan.getAction().remove(actionReference);
           subPlan.addAction(referredAction.get());
-          actionReference.getDefinition().setReference(target.getId());
+          actionReference.getDefinition()
+              .setReference(target.getId())
+              .setResource(target);
 
           if (!masterPlan.getContained().contains(target)) {
             masterPlan.addContained(target);
@@ -249,6 +280,7 @@ public class PlanDefinitionFlattener
               && !act.getDefinition().getReference().startsWith("#")) {
             if (act.getDefinition().getReference().contains(mergedPlan.getId().replace("#", ""))) {
               act.getDefinition().setReference(mergedPlan.getId());
+              act.getDefinition().setResource(mergedPlan);
             }
           }
         });
