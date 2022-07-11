@@ -1,0 +1,24 @@
+{
+  "resourceType": "ValueSet",
+  "id": "324514",
+  "url": "http://terms.my.edu/valueset/2.16.840.1.100000.3.2.11.1.100",
+  "identifier": [ {
+    "system": "urn:ietf:rfc:3986",
+    "value": "http://terms.my.edu/valueset/2.16.840.1.100000.3.2.11.1.100"
+  } ],
+  "version": "Revision 1",
+  "name": "Mock Hypertension",
+  "status": "active",
+  "compose": {
+    "include": [ {
+      "system": "http://terms.my.edu/codesystem/ICD10CM",
+      "concept": [ {
+        "code": "I15.8",
+        "display": "Other secondary hypertension"
+      }, {
+        "code": "I15.2",
+        "display": "Hypertension secondary to endocrine disorders"
+      } ]
+    } ]
+  }
+}
