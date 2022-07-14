@@ -96,7 +96,7 @@ class ValuesetIntrospectorTest {
     assertTrue(surr.getSecondaryId().stream()
         .anyMatch(rid -> {
           var tagMatch = "2.16.840.1.100000.3.2.11.1.100".equals(rid.getTag());
-          var sysMatch = "http://terms.my.edu/valueset".equals(rid.getNamespaceUri().toString());
+          var sysMatch = "http://terms.my.edu/valueset/".equals(rid.getNamespaceUri().toString());
           return tagMatch && sysMatch;
         }));
 
