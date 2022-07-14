@@ -6,6 +6,7 @@ import static edu.mayo.kmdp.knowledgebase.introspectors.fhir.stu3.ValueSetMetada
 import static edu.mayo.kmdp.util.CharsetEncodingUtil.sanitizeToASCIItext;
 import static org.omg.spec.api4kp._20200801.id.IdentifierConstants.VERSION_ZERO;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newId;
+import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newVersionId;
 import static org.omg.spec.api4kp._20200801.id.VersionIdentifier.toSemVer;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultSurrogateId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
@@ -215,7 +216,8 @@ public class ValueSetMetadataIntrospector
      */
     public static ResourceIdentifier mapIdentifier(Identifier fhirBusinessId) {
       if ("urn:ietf:rfc:3986".equals(fhirBusinessId.getSystem())) {
-        return newId(URI.create(fhirBusinessId.getValue()));
+        URI vuri = URI.create(fhirBusinessId.getValue());
+        return newVersionId(vuri,vuri);
       } else {
         return newId(URI.create(fhirBusinessId.getSystem()), fhirBusinessId.getValue());
       }
