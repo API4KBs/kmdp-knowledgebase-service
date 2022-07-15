@@ -10,6 +10,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import java.net.URI;
+import java.util.Properties;
 import java.util.UUID;
 import javax.inject.Named;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
@@ -48,8 +49,10 @@ public class PlanDefinitionMetadataIntrospector
     this.kbManager = kbManager;
   }
 
-  protected KnowledgeAsset innerIntrospect(PlanDefinition planDef,
-      SyntacticRepresentation original) {
+  protected KnowledgeAsset innerIntrospect(
+      PlanDefinition planDef,
+      SyntacticRepresentation original,
+      Properties props) {
 
     // ignore 's' for now
     ResourceIdentifier assetId = SemanticIdentifier.newVersionId(URI.create(planDef.getUrl()));

@@ -10,6 +10,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import java.net.URI;
+import java.util.Properties;
 import java.util.UUID;
 import javax.inject.Named;
 import org.hl7.fhir.dstu3.model.Questionnaire;
@@ -51,7 +52,8 @@ public class QuestionnaireMetadataIntrospector
 
   protected KnowledgeAsset innerIntrospect(
       Questionnaire quest,
-      SyntacticRepresentation original) {
+      SyntacticRepresentation original,
+      Properties props) {
     ResourceIdentifier assetId = SemanticIdentifier.newVersionId(URI.create(quest.getUrl()));
     assetId.withVersionTag(toSemVer(assetId.getVersionTag()));
 

@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.introspectors.fhir.stu3;
 
+import static edu.mayo.kmdp.util.PropertiesUtil.serializeProps;
 import static edu.mayo.kmdp.util.Util.uuid;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,6 +18,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 
 import edu.mayo.kmdp.util.DateTimeUtil;
 import java.io.InputStream;
+import java.util.Properties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
@@ -102,6 +104,24 @@ class ValuesetIntrospectorTest {
 
     assertEquals(defaultArtifactId(surr.getAssetId(), FHIR_STU3).getTag(),
         surr.getCarriers().get(0).getArtifactId().getTag());
+  }
+
+  @Test
+  void testValueSetIntrospectIdentifiersIgnoreVersion() {
+    InputStream is = ValuesetIntrospectorTest.class.getResourceAsStream(
+        "/introspectors/fhir/stu3/example2.valueset.json");
+    KnowledgeCarrier kc = AbstractCarrier.of(is)
+        .withRepresentation(rep(FHIR_STU3, JSON, defaultCharset(), Encodings.DEFAULT));
+
+    Properties p = new Properties();
+    p.put(ValueSetMetadataIntrospector.IGNORE_VERSION_FLAG, Boolean.TRUE.toString());
+    Answer<KnowledgeCarrier> ans = new ValueSetMetadataIntrospector()
+        .applyNamedIntrospectDirect(
+            ValueSetMetadataIntrospector.OPERATOR_ID, kc, serializeProps(p));
+    assertTrue(ans.isSuccess());
+
+    KnowledgeAsset surr = ans.flatOpt(x -> x.as(KnowledgeAsset.class)).orElseGet(Assertions::fail);
+    assertEquals("0.0.0", surr.getAssetId().getVersionTag());
   }
 
 }

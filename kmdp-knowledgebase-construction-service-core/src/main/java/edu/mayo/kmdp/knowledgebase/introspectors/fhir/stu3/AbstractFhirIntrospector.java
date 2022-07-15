@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.introspectors.fhir.stu3;
 
+import static edu.mayo.kmdp.util.PropertiesUtil.parseProperties;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.codedRep;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
@@ -10,6 +11,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.Publicati
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.language.parsers.fhir.stu3.FHIR3Deserializer;
+import java.util.Properties;
 import java.util.UUID;
 import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Resource;
@@ -36,9 +38,8 @@ import org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatu
  *
  * @param <T> the FHIR resource type
  */
-public abstract class AbstractFhirIntrospector<T extends Resource>
-    extends AbstractKnowledgeBaseOperator
-    implements _applyNamedIntrospect, _applyNamedIntrospectDirect {
+public abstract class AbstractFhirIntrospector<T extends Resource> extends
+    AbstractKnowledgeBaseOperator implements _applyNamedIntrospect, _applyNamedIntrospectDirect {
 
   static final _applyLift parser = new FHIR3Deserializer();
 
@@ -58,13 +59,13 @@ public abstract class AbstractFhirIntrospector<T extends Resource>
 
     return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
         .map(AbstractCarrier::mainComponent)
-        .flatMap(kc -> this.doIntrospect(kc));
+        .flatMap(kc -> this.doIntrospect(kc, parseProperties(xParams)));
   }
 
   @Override
   public Answer<KnowledgeCarrier> applyNamedIntrospectDirect(UUID operatorId,
       KnowledgeCarrier artifact, String xParams) {
-    return doIntrospect(artifact);
+    return doIntrospect(artifact, parseProperties(xParams));
   }
 
   /**
@@ -77,19 +78,19 @@ public abstract class AbstractFhirIntrospector<T extends Resource>
    * metadata extraction
    *
    * @param knowledgeCarrier the Carrier of the FHIR Resource artifact
+   * @param props            additional configuration
    * @return a KnowledgeAsset surrogate for the FHIR resource, wrapped in a KnowledgeCarrier,
    * wrapped in an Answer.
-   * @see #doIntrospect(Resource, SyntacticRepresentation)
+   * @see #doIntrospect(Resource, SyntacticRepresentation, Properties)
    */
-  protected Answer<KnowledgeCarrier> doIntrospect(KnowledgeCarrier knowledgeCarrier) {
-    Answer<T> vsOpt =
-        parser
-            .applyLift(knowledgeCarrier, Abstract_Knowledge_Expression, codedRep(FHIR_STU3), null)
-            .flatOpt(kc -> kc.as(getTypeClass()));
+  protected Answer<KnowledgeCarrier> doIntrospect(
+      KnowledgeCarrier knowledgeCarrier, Properties props) {
+    Answer<T> vsOpt = parser.applyLift(knowledgeCarrier, Abstract_Knowledge_Expression,
+        codedRep(FHIR_STU3), null).flatOpt(kc -> kc.as(getTypeClass()));
     if (vsOpt.isFailure()) {
       return Answer.failed(vsOpt);
     }
-    return doIntrospect(vsOpt.get(), knowledgeCarrier.getRepresentation());
+    return doIntrospect(vsOpt.get(), knowledgeCarrier.getRepresentation(), props);
   }
 
   /**
@@ -100,15 +101,15 @@ public abstract class AbstractFhirIntrospector<T extends Resource>
    *
    * @param artifact               the Carrier of the FHIR Resource artifact, parsed
    * @param originalRepresentation the original {@link SyntacticRepresentation}
+   * @param props                  Additional configuration
    * @return a KnowledgeAsset surrogate for the FHIR resource, wrapped in a KnowledgeCarrier,
    * wrapped in an Answer.
-   * @see #innerIntrospect(Resource, SyntacticRepresentation)
+   * @see #innerIntrospect(Resource, SyntacticRepresentation, Properties)
    */
-  protected Answer<KnowledgeCarrier> doIntrospect(
-      T artifact,
-      SyntacticRepresentation originalRepresentation) {
+  protected Answer<KnowledgeCarrier> doIntrospect(T artifact,
+      SyntacticRepresentation originalRepresentation, Properties props) {
     // construct the Surrogate...
-    var surrogate = innerIntrospect(artifact, originalRepresentation);
+    var surrogate = innerIntrospect(artifact, originalRepresentation, props);
     // ...and wrap it
     return Answer.of(SurrogateHelper.carry(surrogate));
   }
@@ -117,19 +118,22 @@ public abstract class AbstractFhirIntrospector<T extends Resource>
   /**
    * Internal introspection function.
    * <p>
-   * Maps a FHIR Resource of the concrete type to the {@link KnowledgeAsset} surrogate with
-   * metadata for that resource.
+   * Maps a FHIR Resource of the concrete type to the {@link KnowledgeAsset} surrogate with metadata
+   * for that resource.
    *
-   * @param artifact the FHIR resource (object)
+   * @param artifact               the FHIR resource (object)
    * @param originalRepresentation the original {@link SyntacticRepresentation}
+   * @param props                  additional Configuration
    * @return a KnowledgeAsset surrogate for the FHIR resource
    */
-  protected abstract KnowledgeAsset innerIntrospect(
-      T artifact, SyntacticRepresentation originalRepresentation);
+  protected abstract KnowledgeAsset innerIntrospect(T artifact,
+      SyntacticRepresentation originalRepresentation,
+      Properties props);
 
 
   /**
    * Internal method used to reify the generic type T
+   *
    * @return Class<T>
    */
   protected abstract Class<T> getTypeClass();

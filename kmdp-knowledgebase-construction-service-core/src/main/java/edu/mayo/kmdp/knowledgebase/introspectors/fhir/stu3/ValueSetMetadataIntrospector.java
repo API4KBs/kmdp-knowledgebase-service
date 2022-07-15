@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Named;
@@ -61,6 +62,8 @@ public class ValueSetMetadataIntrospector
 
   public static final Logger LOGGER = LoggerFactory.getLogger(ValueSetMetadataIntrospector.class);
 
+  public static final String IGNORE_VERSION_FLAG = "ignoreVersion";
+
   /**
    * 'Asset ID' of the Introspector logic/methodology, of which this Java class is a manifestation
    */
@@ -89,13 +92,15 @@ public class ValueSetMetadataIntrospector
    * @param valueSet               the ValueSet to extract metadata from
    * @param originalRepresentation the SyntacticRepresentation of the original artifact (before
    *                               parsing)
+   * @param props                  additional configuration
    * @return a Surrogate for the original ValueSet artifact
    */
   protected KnowledgeAsset innerIntrospect(
       ValueSet valueSet,
-      SyntacticRepresentation originalRepresentation) {
+      SyntacticRepresentation originalRepresentation,
+      Properties props) {
     ResourceIdentifier assetId = getAssetId(
-        valueSet.getUrl(), valueSet.getVersion(), valueSet.getDate());
+        valueSet.getUrl(), extractVersion(valueSet, props), valueSet.getDate());
     ResourceIdentifier artifactId = getArtifactId(assetId);
     List<ResourceIdentifier> nativeId = mapIdentifiers(valueSet.getIdentifier());
 
@@ -117,9 +122,29 @@ public class ValueSetMetadataIntrospector
             .withRepresentation(rep));
   }
 
+  /**
+   * Allows to ignore the ValueSet (asset) version.
+   * <p>
+   * ValueSet versions tend to vary, and clients tend not to refer to specific ValueSet versions. If
+   * no version handling strategy can be implemented consistently, this configuration allows to use
+   * default version 0.0.0 as 'no version / latest version'.
+   *
+   * @param valueSet the ValueSet
+   * @param props    configuration
+   * @return the ValueSet.version, unless ignored by configuration
+   */
+  private String extractVersion(ValueSet valueSet, Properties props) {
+    boolean ignoreVersion = Optional.ofNullable(props)
+        .map(p -> p.get(IGNORE_VERSION_FLAG))
+        .map(x -> Boolean.valueOf(x.toString()))
+        .orElse(false);
+    return ignoreVersion ? null : valueSet.getVersion();
+  }
+
 
   /**
    * Internal method used to reify the generic type T
+   *
    * @return Class<ValueSet>
    */
   @Override
@@ -217,7 +242,7 @@ public class ValueSetMetadataIntrospector
     public static ResourceIdentifier mapIdentifier(Identifier fhirBusinessId) {
       if ("urn:ietf:rfc:3986".equals(fhirBusinessId.getSystem())) {
         URI vuri = URI.create(fhirBusinessId.getValue());
-        return newVersionId(vuri,vuri);
+        return newVersionId(vuri, vuri);
       } else {
         return newId(URI.create(fhirBusinessId.getSystem()), fhirBusinessId.getValue());
       }
