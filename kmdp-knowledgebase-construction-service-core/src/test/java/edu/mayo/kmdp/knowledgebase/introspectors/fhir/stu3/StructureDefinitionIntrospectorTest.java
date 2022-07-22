@@ -47,7 +47,7 @@ public class StructureDefinitionIntrospectorTest {
     KnowledgeArtifact carrier = metadata.getCarriers().get(0);
 
     assertTrue(
-        "https://www.hl7.org/fhir/STU3/observation.profile.xml"
+        "https://www.hl7.org/fhir/STU3/observation.profile.json"
             .equalsIgnoreCase(carrier.getLocator().toString()));
   }
 

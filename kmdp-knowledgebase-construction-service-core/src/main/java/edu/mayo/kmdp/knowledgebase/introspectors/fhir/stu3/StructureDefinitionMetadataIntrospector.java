@@ -76,13 +76,7 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
         .withFormalType(Information_Model)
         .withLifecycle(new Publication().withPublicationStatus(Published))
         .withName("FHIR STU3 " + resourceType)
-        .withCarriers(new KnowledgeArtifact()
-            .withArtifactId(
-                mintArtifactId(namespace, rep1, resourceType, FHIR_VERSION, false))
-            .withRepresentation(rep1)
-            .withLocator(URI.create(
-                FHIR_URL + FHIR_TAG + "/" + resourceType.toLowerCase()
-                    + ".profile.xml")),
+        .withCarriers(
             new KnowledgeArtifact()
                 .withArtifactId(
                     mintArtifactId(namespace, rep2, resourceType, FHIR_VERSION, false))
