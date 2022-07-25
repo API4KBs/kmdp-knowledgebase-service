@@ -9,6 +9,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.util.StreamUtil;
 import edu.mayo.kmdp.util.URIUtil;
+import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,10 +21,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Named;
+import org.hl7.fhir.dstu3.model.ActivityDefinition;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.hl7.fhir.dstu3.model.PlanDefinition.PlanDefinitionActionComponent;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.RelatedArtifact;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
@@ -188,46 +191,40 @@ public class PlanDefinitionFlattener
       PlanDefinitionActionComponent action,
       List<KnowledgeCarrier> component) {
 
-    if (action.getDefinition().getReference() != null
-        && !action.getDefinition().getReference().startsWith("#")) {
+    if (action.hasDefinition()) {
 
-      PlanDefinitionActionComponent actionReference = action;
+      var referredDefinition =
+          Optional.ofNullable((DomainResource) action.getDefinition().getResource())
+          .or(() -> tryResolveInternalReference(action.getDefinition(), component));
 
-      URI ref = URI.create(actionReference.getDefinition().getReference());
-      String artifactRef = URIUtil.normalizeURIString(ref);
-      String fragmentId = actionReference.getDefinition().getIdentifier().getValue();
-      logger.info("Found action pure reference {}", ref);
-      Optional<PlanDefinition> referredPlan = component.stream()
-          .map(kc -> kc.as(PlanDefinition.class))
-          .flatMap(StreamUtil::trimStream)
-          .filter(pd -> pd.getId().substring(1)  // ignore the leading '#'
-              .equals(artifactRef.substring(artifactRef.lastIndexOf('/') + 1)))
-          .findAny();
+      if (referredDefinition.isPresent()) {
+        DomainResource target = referredDefinition.get();
+        logger.info("Resolved into {}", target.getId());
 
-      if (referredPlan.isPresent()) {
-        PlanDefinition target = referredPlan.get();
-        logger.info("Resolved into {}", target.getName());
-        Optional<PlanDefinitionActionComponent> referredAction = lookupDefinedAction(target,
-            fragmentId);
+        if (target instanceof PlanDefinition) {
+          String fragmentId = action.getDefinition().getIdentifier().getValue();
+          Optional<PlanDefinitionActionComponent> referredAction =
+              lookupDefinedAction((PlanDefinition) target, fragmentId);
 
-        logger.info("Resolved {}", referredAction.isPresent());
-        if (referredAction.isPresent()) {
+          logger.info("Resolved {}", referredAction.isPresent());
+          if (referredAction.isPresent()) {
+            subPlan.getAction().remove(action);
+            subPlan.addAction(referredAction.get());
+            action.getDefinition()
+                .setResource(target);
 
-          subPlan.getAction().remove(actionReference);
-          subPlan.addAction(referredAction.get());
-          actionReference.getDefinition()
-              .setReference(target.getId())
-              .setResource(target);
-
-          if (!masterPlan.getContained().contains(target)) {
-            masterPlan.addContained(target);
+            if (!masterPlan.getContained().contains(target)) {
+              masterPlan.addContained(target);
+            }
           }
+        } else if (target instanceof ActivityDefinition) {
+          subPlan.getContained().remove(target);
+          masterPlan.addContained(target);
         }
 
       } else {
         logger.warn(
-            "WARNING Unable to resolve referred action {}", actionReference.getDefinition()
-                .getDisplay());
+            "WARNING Unable to resolve referred action {}", action.getDefinition().getDisplay());
       }
     } else {
       if (action.getDefinition().getReference() != null) {
@@ -236,6 +233,22 @@ public class PlanDefinitionFlattener
     }
     new ArrayList<>(action.getAction())
         .forEach(act -> resolveReferences(masterPlan, subPlan, act, component));
+  }
+
+  private Optional<DomainResource> tryResolveInternalReference(
+      Reference defReference, List<KnowledgeCarrier> component) {
+    if (Util.isEmpty(defReference.getReference())) {
+      return Optional.empty();
+    }
+    URI ref = URI.create(defReference.getReference());
+    String artifactRef = URIUtil.normalizeURIString(ref);
+    logger.info("Found action pure reference {}", ref);
+    return component.stream()
+        .map(kc -> kc.as(DomainResource.class))
+        .flatMap(StreamUtil::trimStream)
+        .filter(pd -> pd.getId().substring(1)  // ignore the leading '#'
+            .equals(artifactRef.substring(artifactRef.lastIndexOf('/') + 1)))
+        .findAny();
   }
 
   private Optional<PlanDefinitionActionComponent> lookupDefinedAction(PlanDefinition target,
