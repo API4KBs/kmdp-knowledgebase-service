@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Named;
 import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.hl7.fhir.dstu3.model.PlanDefinition.PlanDefinitionActionComponent;
 import org.hl7.fhir.dstu3.model.RelatedArtifact;
@@ -126,7 +127,12 @@ public class PlanDefinitionFlattener
 
     stampArtifactId(masterPlanDefinition, flatArtifactId);
 
-    subPlans.forEach(pd -> pd.setIdentifier(Collections.emptyList()));
+    subPlans.forEach(pd -> {
+          var tmp = new ArrayList<>(pd.getIdentifier());
+          tmp.removeIf(x -> !isAssetId(x));
+          pd.setIdentifier(tmp);
+        }
+    );
 
     List<RelatedArtifact> rels = new LinkedList<>(masterPlanDefinition.getRelatedArtifact());
     subPlans.forEach(pd -> {
@@ -142,6 +148,12 @@ public class PlanDefinitionFlattener
         .withArtifactId(flatArtifactId)
         .withAssetId(assetId)
         .withLabel(masterPlanDefinition.getName()));
+  }
+
+  private boolean isAssetId(Identifier id) {
+    return id != null
+        && id.getType() != null
+        && "KnowledgeAsset".equals(id.getType().getCodingFirstRep().getCode());
   }
 
   private void stampArtifactId(PlanDefinition masterPlanDefinition,
