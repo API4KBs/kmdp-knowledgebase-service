@@ -12,7 +12,9 @@ import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultSu
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries.Terminology_Ontology_And_Assertional_KBs;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
+import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.API4KP;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
+import static org.omg.spec.api4kp._20200801.taxonomy.structuralreltype.StructuralPartTypeSeries.Has_Proper_Part;
 
 import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.util.CharsetEncodingUtil;
@@ -24,12 +26,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.inject.Named;
 import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.PrimitiveType;
 import org.hl7.fhir.dstu3.model.ValueSet;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
@@ -37,6 +41,7 @@ import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
+import org.omg.spec.api4kp._20200801.surrogate.Component;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder;
@@ -99,8 +104,9 @@ public class ValueSetMetadataIntrospector
       ValueSet valueSet,
       SyntacticRepresentation originalRepresentation,
       Properties props) {
-    ResourceIdentifier assetId = getAssetId(
-        valueSet.getUrl(), extractVersion(valueSet, props), valueSet.getDate());
+    ResourceIdentifier assetId = tryAssetId(valueSet)
+        .orElseGet(() -> getAssetId(
+            valueSet.getUrl(), extractVersion(valueSet, props), valueSet.getDate()));
     ResourceIdentifier artifactId = getArtifactId(assetId);
     List<ResourceIdentifier> nativeId = mapIdentifiers(valueSet.getIdentifier());
 
@@ -109,7 +115,7 @@ public class ValueSetMetadataIntrospector
       rep.setLanguage(FHIR_STU3);
     }
 
-    return newSurrogate(assetId)
+    var meta = newSurrogate(assetId)
         .withPublicationStatus(mapStatus(valueSet.getStatus()))
         .get()
         .withName(valueSet.getName())
@@ -120,6 +126,37 @@ public class ValueSetMetadataIntrospector
         .withCarriers(new KnowledgeArtifact()
             .withArtifactId(artifactId)
             .withRepresentation(rep));
+
+    valueSet.getCompose().getInclude().stream()
+        .flatMap(cs -> cs.getValueSet().stream())
+        .map(PrimitiveType::getValue)
+        .map(vsUri -> ValueSetIdentifierIntrospector.getAssetId(vsUri, VERSION_ZERO, null))
+        .forEach(ref ->
+            meta.withLinks(new Component()
+                .withHref(ref)
+                .withRel(Has_Proper_Part)));
+
+    return meta;
+  }
+
+  /**
+   * Looks up the Asset Id asserted on a ValueSet as an {@link Identifier, if any}
+   * @param valueSet the ValueSet
+   * @return the optional Asset Id
+   */
+  private Optional<ResourceIdentifier> tryAssetId(ValueSet valueSet) {
+    return valueSet.getIdentifier().stream()
+        .filter(id -> Objects.equals(API4KP.getReferentId().toString(),
+            id.getType().getCodingFirstRep().getSystem())
+            && Objects.equals("KnowledgeAsset",
+            id.getType().getCodingFirstRep().getCode()))
+        .map(id -> {
+          String[] s = id.getValue().split("\\|");
+          UUID u = UUID.fromString(s[0]);
+          String v = s.length > 1 ? s[1] : VERSION_ZERO;
+          return newId(URI.create(id.getSystem()), u, v);
+        })
+        .findFirst();
   }
 
   /**
@@ -258,6 +295,8 @@ public class ValueSetMetadataIntrospector
      */
     public static List<ResourceIdentifier> mapIdentifiers(Collection<Identifier> fhirBusinessIds) {
       return fhirBusinessIds.stream()
+          .filter(id -> !API4KP.getReferentId().toString()
+              .equals(id.getType().getCodingFirstRep().getSystem()))
           .map(ValueSetIdentifierIntrospector::mapIdentifier)
           .collect(Collectors.toList());
     }

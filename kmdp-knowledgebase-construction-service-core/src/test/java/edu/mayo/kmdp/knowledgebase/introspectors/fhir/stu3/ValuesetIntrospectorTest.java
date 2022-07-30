@@ -7,29 +7,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
+import static org.omg.spec.api4kp._20200801.id.Term.newTerm;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultArtifactId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultCarrierUUID;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultSurrogateUUID;
+import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.randomAssetId;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries.Terminology_Ontology_And_Assertional_KBs;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries.Value_Set;
 import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.JSON;
+import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.API4KP;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 
+import edu.mayo.kmdp.language.common.fhir.stu3.FHIRPlanDefinitionUtils;
 import edu.mayo.kmdp.util.DateTimeUtil;
 import java.io.InputStream;
 import java.util.Properties;
+import org.hl7.fhir.dstu3.model.Enumerations.PublicationStatus;
+import org.hl7.fhir.dstu3.model.ValueSet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 
 class ValuesetIntrospectorTest {
-
 
   @Test
   void testValueSetIntrospect() {
@@ -122,6 +128,26 @@ class ValuesetIntrospectorTest {
 
     KnowledgeAsset surr = ans.flatOpt(x -> x.as(KnowledgeAsset.class)).orElseGet(Assertions::fail);
     assertEquals("0.0.0", surr.getAssetId().getVersionTag());
+  }
+
+  @Test
+  void testValuesetWithAssetId() {
+    ResourceIdentifier assetId = randomAssetId();
+
+    ValueSet vs = new ValueSet();
+    vs.addIdentifier(FHIRPlanDefinitionUtils.toFHIRIdentifier(assetId,
+        newTerm(API4KP.getReferentId(), "KnowledgeAsset")));
+    vs.setStatus(PublicationStatus.DRAFT);
+    KnowledgeCarrier kc = AbstractCarrier.ofAst(vs)
+        .withRepresentation(rep(FHIR_STU3));
+
+    KnowledgeCarrier ans = new ValueSetMetadataIntrospector()
+        .applyNamedIntrospectDirect(ValueSetMetadataIntrospector.OPERATOR_ID, kc, null)
+        .orElseGet(Assertions::fail);
+
+    assertEquals(assetId.asKey(), ans.getAssetId().asKey());
+    KnowledgeAsset surr = ans.as(KnowledgeAsset.class).orElseGet(Assertions::fail);
+    assertEquals(assetId.asKey(), surr.getAssetId().asKey());
   }
 
 }
