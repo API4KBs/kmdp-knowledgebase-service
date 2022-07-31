@@ -8,7 +8,6 @@ import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.assetId;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries.Structured_Information_And_Data_Capture_Models;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries.Information_Model;
 import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.JSON;
-import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.XML_1_1;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Published;
 
@@ -67,8 +66,7 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
    */
   public static KnowledgeAsset buildFhir3Resource(URI namespace, String resourceType) {
     var assetId = mintAssetID(namespace, resourceType, false);
-    var rep1 = rep(FHIR_STU3, XML_1_1);
-    var rep2 = rep(FHIR_STU3, JSON);
+    var rep = rep(FHIR_STU3, JSON);
     return new KnowledgeAsset()
         .withAssetId(assetId)
         .withSecondaryId(mintFhirOfficialId(resourceType, false))
@@ -79,8 +77,8 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
         .withCarriers(
             new KnowledgeArtifact()
                 .withArtifactId(
-                    mintArtifactId(namespace, rep2, resourceType, FHIR_VERSION, false))
-                .withRepresentation(rep2)
+                    mintArtifactId(namespace, rep, resourceType, FHIR_VERSION, false))
+                .withRepresentation(rep)
                 .withLocator(URI.create(
                     FHIR_URL + FHIR_TAG + "/" + resourceType.toLowerCase()
                         + ".profile.json")));
@@ -94,14 +92,18 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
    * @return the metadata record
    */
   public static KnowledgeAsset buildFhir3Datatype(URI namespace, String dataType) {
+    var assetId = mintAssetID(namespace, dataType, true);
+    var rep = rep(FHIR_STU3, JSON);
     return new KnowledgeAsset()
-        .withAssetId(mintAssetID(namespace, dataType, true))
+        .withAssetId(assetId)
         .withSecondaryId(mintFhirOfficialId(dataType, true))
         .withFormalCategory(Structured_Information_And_Data_Capture_Models)
         .withFormalType(Information_Model)
         .withLifecycle(new Publication().withPublicationStatus(Published))
         .withCarriers(new KnowledgeArtifact()
-            .withRepresentation(rep(FHIR_STU3, JSON))
+            .withArtifactId(
+                mintArtifactId(namespace, rep, dataType, FHIR_VERSION, true))
+            .withRepresentation(rep)
             .withName("FHIR STU3 " + dataType)
             .withLocator(
                 URI.create(FHIR_URL + FHIR_TAG + "/datatypes.html#" + dataType)));
