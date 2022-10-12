@@ -147,7 +147,9 @@ public class DMN12ModelFlattener
       TBusinessKnowledgeModel tbkm = streamBKM(flatRoot)
           .filter(bkm -> bkm.getId().contains(ref.getFragment()))
           .findFirst()
-          .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+          .orElseThrow(() -> new IllegalStateException(
+              String.format("Unable to resolve fragment %s as dmn:BKM within flattened model %s",
+                  ref.getFragment(), flatRoot.getName())));
       tbkm.getKnowledgeRequirement().stream()
           .filter(kreq -> kreq.getRequiredKnowledge() != null)
           .forEach(kreq -> ensureResolved(kreq, flatRoot, comps));
@@ -316,7 +318,9 @@ public class DMN12ModelFlattener
 
   private TDecision resolveDecision(TDefinitions externalModel, URI ref) {
     TDecision externalDec = findDecision(ref, externalModel)
-        .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+        .orElseThrow(() -> new IllegalStateException(
+            String.format("Unable to resolve fragment %s as dmn:Decision in referenced model %s",
+                ref.getFragment(), externalModel.getName())));
 
     externalDec = (TDecision) externalDec.clone();
 
@@ -389,7 +393,9 @@ public class DMN12ModelFlattener
 
   private TInputData resolveInput(TDefinitions externalModel, URI ref) {
     TInputData externalInput = findInput(ref, externalModel)
-        .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+        .orElseThrow(() -> new IllegalStateException(
+            String.format("Unable to resolve fragment %s as dmn:Input in referenced model %s",
+                ref.getFragment(), externalModel.getName())));
     return (TInputData) externalInput.clone();
   }
 
@@ -399,7 +405,9 @@ public class DMN12ModelFlattener
 
   private TKnowledgeSource resolveKnowledgeSource(TDefinitions externalModel, URI ref) {
     TKnowledgeSource externalKnowledge = findKnowledgeSource(ref, externalModel)
-        .orElseThrow(() -> new IllegalStateException("Unable to resolve " + ref.getFragment()));
+        .orElseThrow(() -> new IllegalStateException(
+            String.format("Unable to resolve fragment %s as dmn:KSource in referenced model %s",
+                ref.getFragment(), externalModel.getName())));
     return (TKnowledgeSource) externalKnowledge.clone();
   }
 
