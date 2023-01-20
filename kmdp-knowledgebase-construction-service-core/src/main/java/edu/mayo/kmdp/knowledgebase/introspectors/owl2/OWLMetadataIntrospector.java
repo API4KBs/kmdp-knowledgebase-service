@@ -1,14 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.introspectors.owl2;
 
-import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.ASSET_NS;
-import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.IGNORES;
-import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.NS_INDEX;
-import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.TAG_INDEX;
-import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.VER_INDEX;
-import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newId;
-import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newVersionId;
-import static org.omg.spec.api4kp._20200801.id.VersionIdentifier.toSemVer;
-import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.defaultArtifactId;
+import static edu.mayo.kmdp.knowledgebase.introspectors.owl2.internal.OWLIntrospectorConfiguration.OWLIntrospectorParams.IGNORES;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateHelper.carry;
 import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Imports;
@@ -17,35 +9,32 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL_2;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
+import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Draft;
 import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Published;
 
-import edu.mayo.kmdp.ConfigProperties;
-import edu.mayo.kmdp.Opt;
-import edu.mayo.kmdp.Option;
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
-import edu.mayo.kmdp.knowledgebase.introspectors.owl2.OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams;
+import edu.mayo.kmdp.knowledgebase.introspectors.owl2.internal.OWLIntrospectorConfiguration;
+import edu.mayo.kmdp.knowledgebase.introspectors.owl2.internal.OntoArtfactIdentifiers;
+import edu.mayo.kmdp.knowledgebase.introspectors.owl2.internal.OntoIdentifiers;
+import edu.mayo.kmdp.language.detectors.owl2.OWLDetector;
 import edu.mayo.kmdp.language.parsers.owl2.OWLParser;
 import edu.mayo.kmdp.language.parsers.owl2.OWLParser.OWLParserConfiguration;
 import edu.mayo.kmdp.language.parsers.owl2.OWLParser.OWLParserConfiguration.OWLParserParams;
-import edu.mayo.kmdp.registry.Registry;
-import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Properties;
+import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.inject.Named;
-import org.apache.jena.vocabulary.RDFS;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedIntrospect;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedIntrospectDirect;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DeserializeApiInternal._applyLift;
-import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
+import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
@@ -57,16 +46,39 @@ import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.surrogate.Publication;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
+import org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatus;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
-import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Metadata Introspector for Ontologies with an OWL/RDF based representation
+ * <p>
+ * Preserves the {@link OWLOntologyID} (series + version) as a {@link KnowledgeAsset} secondaryId,
+ * while parsing the IRIs to extract an Asset ID's ResourceIdentifier namespace, tag and version.
+ * Assumes a common pattern e.g. 'http://base.host/namespace/version/localName', where version is
+ * typically a date in the format yyyyMMMMdd, or 'SNAPSHOT'.
+ * <p>
+ * Uses the {@link OWLImportsDeclaration} to establish dependencies to other Ontology assets
+ * <p>
+ * Supports annotations on the {@link OWLOntology} to drive the Artifact's version (via
+ * owl:versionInfo), creation and last modification date (via dct:created and dct:modified
+ * respectively).
+ * <p>
+ * Uses the ontology IRI date pattern to derive the Asset version's creation date, and falls back to
+ * the Artifact version if unable to. This allows the same Ontology Asset to have more than one
+ * representation, where the representations can evolve independently. Moreover, it is common
+ * practice to 'future date' ontologies based on their release to the public (a creation from the
+ * consumer's perspective), while tracking the actual creation of the OWL documents.
+ * <p>
+ * Infers the publication status from the version (assumes published, unless 'SNAPSHOT').
+ * <p>
+ * Assumes that the {@link SyntacticRepresentation} metadata is provided by the client, otherwise
+ * uses and {@link edu.mayo.kmdp.language.detectors.owl2.OWLDetector} to infer the necessary
+ * information.
+ */
 @Named
 @KPOperation(Description_Task)
 @KPSupport(OWL_2)
@@ -75,35 +87,82 @@ public class OWLMetadataIntrospector
     extends AbstractKnowledgeBaseOperator
     implements _applyNamedIntrospect, _applyNamedIntrospectDirect {
 
-  private static final Logger logger = LoggerFactory.getLogger(OWLMetadataIntrospector.class);
-
-  public static final UUID id
+  /**
+   * The unique ID of this class as an API4KP operator
+   */
+  public static final UUID OP_ID
       = UUID.fromString("3c0683de-cb0f-45cf-ab6a-7964559ee91a");
-  public static final String version = "1.0.0";
+  /**
+   * The version of this class as an API4KP operator
+   */
+  public static final String OP_VERSION = "2.0.0";
 
+  /**
+   * The parser used to deserialize the OWL ontologu to be introspected, so that it can be queried
+   * for content and annotations
+   */
   @Autowired
   @KPSupport(OWL_2)
   @KPComponent(implementation = "owlapi")
   private _applyLift parser;
 
-  OWLParserConfiguration opc = new OWLParserConfiguration()
+  /**
+   * The default configuration used by the {@link #parser}
+   */
+  private OWLParserConfiguration opc = new OWLParserConfiguration()
       .with(OWLParserParams.IGNORE_IMPORTS, "true");
 
+  /**
+   * Default constructor for direct introspection
+   */
   public OWLMetadataIntrospector() {
-    super(SemanticIdentifier.newId(id, version));
+    super(SemanticIdentifier.newId(OP_ID, OP_VERSION));
     this.parser = new OWLParser();
   }
 
+  /**
+   * Constructor for introspection of ontologies managed via a KnowledgeBase
+   *
+   * @param kbManager the API used to access the ontology to be introspected
+   */
   public OWLMetadataIntrospector(KnowledgeBaseApiInternal kbManager) {
     this(kbManager, new OWLParser());
   }
 
+  /**
+   * Constructor for introspection of ontologies managed via a KnowledgeBase
+   *
+   * @param kbManager the API used to access the ontology to be introspected
+   * @param parser    a client-provided Ontology document parser
+   */
   public OWLMetadataIntrospector(KnowledgeBaseApiInternal kbManager, _applyLift parser) {
     this();
     this.kbManager = kbManager;
     this.parser = parser;
   }
 
+  /**
+   * Supported Language
+   *
+   * @return OWL_2
+   */
+  @Override
+  public KnowledgeRepresentationLanguage getSupportedLanguage() {
+    return OWL_2;
+  }
+
+  /**
+   * Introspects a KnowledgeBase, where the main component of that KnowledgeBase is expected to be
+   * an OWL ontology.
+   * <p>
+   * Retrieves the ontology from the KB, then introspects it directly
+   *
+   * @param operatorId the operator to be used for introspection (should be OP_ID)
+   * @param kbaseId    the KnowledgeBase Id
+   * @param versionTag the KnowledgeBase version
+   * @param xParams    an optional serialized {@link OWLIntrospectorConfiguration}
+   * @return the {@link KnowledgeAsset} for the main component of the KB, carried and wrapped
+   */
   @Override
   public Answer<KnowledgeCarrier> applyNamedIntrospect(UUID operatorId, UUID kbaseId,
       String versionTag, String xParams) {
@@ -114,14 +173,33 @@ public class OWLMetadataIntrospector
         .flatMap(x -> doIntrospect(x, new OWLIntrospectorConfiguration(xParams)));
   }
 
+  /**
+   * Introspects an OWL ontology, carried
+   *
+   * @param operatorId the operator to be used for introspection (should be OP_ID)
+   * @param artifact   the OWL Ontology document, carried
+   * @param xParams    an optional serialized {@link OWLIntrospectorConfiguration}
+   * @return the {@link KnowledgeAsset} for the main component of the KB, carried and wrapped
+   */
   @Override
   public Answer<KnowledgeCarrier> applyNamedIntrospectDirect(UUID operatorId,
       KnowledgeCarrier artifact, String xParams) {
     return doIntrospect(artifact, new OWLIntrospectorConfiguration(xParams));
   }
 
+  /**
+   * Introspects an OWL ontology, carried, lifting it if necessary
+   *
+   * @param source the OWL Ontology document, carried
+   * @param cfg    an optional serialized {@link OWLIntrospectorConfiguration}
+   * @return the {@link KnowledgeAsset} for the main component of the KB, carried and wrapped
+   */
   private Answer<KnowledgeCarrier> doIntrospect(KnowledgeCarrier source,
       OWLIntrospectorConfiguration cfg) {
+    if (source.getRepresentation() == null) {
+      new OWLDetector().applyDetect(source, null)
+          .map(inferredKC -> source.withRepresentation(inferredKC.getRepresentation()));
+    }
     if (Abstract_Knowledge_Expression.sameAs(source.getLevel())) {
       return innerIntrospect(source, source.getRepresentation(), cfg);
     } else if (parser == null) {
@@ -133,6 +211,14 @@ public class OWLMetadataIntrospector
     }
   }
 
+  /**
+   * Introspects the OWL ontology
+   *
+   * @param carrier the OWL Ontology document, carried
+   * @param rep     the Ontology representation metadata
+   * @param cfg     an optional serialized {@link OWLIntrospectorConfiguration}
+   * @return the {@link KnowledgeAsset} for the ontology, carried and wrapped
+   */
   private Answer<KnowledgeCarrier> innerIntrospect(
       KnowledgeCarrier carrier,
       SyntacticRepresentation rep,
@@ -152,36 +238,34 @@ public class OWLMetadataIntrospector
     if (ontoId.getVersionIRI().isEmpty()) {
       return Answer.failed(new UnsupportedOperationException("Missing ontology Version ID"));
     }
-    OntoIdentifiers o = new OntoIdentifiers(ontoId, cfg);
+
+    var ontoIdentifiers = new OntoIdentifiers(ontoId, cfg);
+    var artifactIdentifiers = new OntoArtfactIdentifiers(ontoIdentifiers, owl);
 
     KnowledgeArtifact artf = new KnowledgeArtifact()
-        .withArtifactId(defaultArtifactId(o.assetId, OWL_2))
-        .withLocator(URI.create(o.baseURI))
+        .withArtifactId(artifactIdentifiers.getOwlArtifactId())
+        .withLocator(URI.create(ontoIdentifiers.getBaseURI()))
+        .withLifecycle(inferArtifactPublication(artifactIdentifiers))
         .withRepresentation(rep);
 
-    KnowledgeAsset surrogate = newSurrogate(o.assetId).get()
-        .withSecondaryId(o.ontologyId)
+    KnowledgeAsset surrogate = newSurrogate(ontoIdentifiers.getAssetId()).get()
+        .withSecondaryId(ontoIdentifiers.getOntologyId())
         .withFormalCategory(Terminology_Ontology_And_Assertional_KBs)
         .withFormalType(Formal_Ontology)
-        .withLifecycle(new Publication().withPublicationStatus(Published))
+        .withLifecycle(inferAssetPublication(ontoIdentifiers, artifactIdentifiers))
         .withCarriers(artf);
 
     owl.importsDeclarations()
         .map(OWLImportsDeclaration::getIRI)
-        .filter(iri -> ! ignores.contains(iri))
+        .filter(iri -> !ignores.contains(iri))
         .map(iri -> new OntoIdentifiers(iri, cfg))
         .forEach(oid -> {
-          surrogate.withLinks(new Dependency().withRel(Imports).withHref(oid.assetId));
+          surrogate.withLinks(new Dependency().withRel(Imports).withHref(oid.getAssetId()));
           surrogate.getCarriers().get(0)
-              .withLinks(new Dependency().withRel(Imports).withHref(oid.ontologyId));
+              .withLinks(new Dependency().withRel(Imports).withHref(oid.getOntologyId()));
         });
 
-    owl.annotations()
-        .filter(p -> p.getProperty().getIRI().equals(IRI.create(RDFS.label.getURI())))
-        .map(OWLAnnotation::getValue)
-        .flatMap(v -> v.asLiteral().stream())
-        .map(OWLLiteral::getLiteral)
-        .findFirst()
+    Optional.ofNullable(artifactIdentifiers.getOntologyName())
         .ifPresent(name -> {
           surrogate.setName(name);
           artf.setName(name);
@@ -190,160 +274,66 @@ public class OWLMetadataIntrospector
     return Answer.of(carry(surrogate));
   }
 
-
-  @Override
-  public KnowledgeRepresentationLanguage getSupportedLanguage() {
-    return OWL_2;
+  /**
+   * Determines the Ontology Asset publication status and date.
+   * <p>
+   * Determines the status from the Sem/CalVer pattern of the asset version tag.
+   * <p>
+   * Tries to use the version tag (e.g. 20210101) as a creation date, otherwise tries to use the OWL
+   * document creation date, otherwise falls back to 'now()'.
+   *
+   * @param assetInfo    ontology asset id/version metadata
+   * @param artifactInfo ontology document id/version metadata
+   * @return the asset {@link Publication} metadata
+   */
+  private Publication inferAssetPublication(
+      OntoIdentifiers assetInfo, OntoArtfactIdentifiers artifactInfo) {
+    var status = inferPublicationStatus(assetInfo.getVersionTag());
+    var creationDate = Optional.ofNullable(assetInfo.getOntologyCreationDate())
+        .or(() -> Optional.ofNullable(artifactInfo.getOwlCreationDate()))
+        .or(() -> Optional.ofNullable(artifactInfo.getOwlLastModifiedDate()))
+        .orElse(new Date());
+    return new Publication()
+        .withPublicationStatus(status)
+        .withCreatedOn(creationDate);
   }
 
-  private static class OntoIdentifiers {
-
-    String baseURI;
-    ResourceIdentifier assetId;
-    ResourceIdentifier ontologyId;
-
-    public OntoIdentifiers(OWLOntologyID ontoId, OWLIntrospectorConfiguration cfg) {
-      this(
-          ontoId.getVersionIRI()
-              .or(ontoId::getOntologyIRI)
-              .map(IRI::toString).orElseThrow(),
-          cfg);
-      logger.trace("DECLAR {} :: {} ", ontologyId.getResourceId(), ontologyId.getVersionId());
-    }
-
-    public OntoIdentifiers(IRI ontoId, OWLIntrospectorConfiguration cfg) {
-      this(ontoId.toString(), cfg);
-      logger.trace("IMPORT {} :: {} ", ontologyId.getResourceId(), ontologyId.getVersionId());
-    }
-
-    protected OntoIdentifiers(String targetURI, OWLIntrospectorConfiguration cfg) {
-      Pattern versionPattern = Pattern.compile(cfg.getTyped(OWLIntrospectorParams.VERSION_PATTERN));
-      String versionTag;
-      int nsIdx = cfg.getTyped(NS_INDEX, Integer.class);
-      int verIdx = cfg.getTyped(VER_INDEX, Integer.class);
-      int tagIdx = cfg.getTyped(TAG_INDEX, Integer.class);
-
-      baseURI = targetURI;
-      Matcher m = versionPattern.matcher(targetURI);
-      if (! m.matches()) {
-        logger.warn("Unable to infer version information from URI {}", targetURI);
-        assetId = newVersionId(URI.create(targetURI), URI.create(targetURI));
-        ontologyId = assetId;
-        return;
-      }
-      if (Util.isNotEmpty(m.group(verIdx))) {
-        URI versionURI = URI.create(targetURI);
-        versionTag = m.group(verIdx);
-        URI seriesURI = URI.create(m.group(nsIdx) + m.group(tagIdx) + trail(targetURI));
-        ontologyId = newVersionId(seriesURI, versionURI);
-      } else {
-        URI seriesURI = URI.create(targetURI);
-        versionTag = cfg.getTyped(OWLIntrospectorParams.DEFAULT_VERSION);
-        URI versionURI = URI.create(
-            m.group(nsIdx) + versionTag + "/" + m.group(tagIdx) + trail(targetURI));
-        ontologyId = newVersionId(seriesURI, versionURI);
-      }
-      assetId = newId(
-          cfg.getTyped(ASSET_NS, URI.class),
-          Util.uuid(ontologyId.getResourceId().toString()),
-          toSemVer(versionTag));
-    }
-
-    private String trail(String targetURI) {
-      if (targetURI.endsWith("/")) {
-        return "/";
-      } else if (targetURI.endsWith("#")) {
-        return "#";
-      } else {
-        return "";
-      }
-    }
+  /**
+   * Determines the Ontology OWL Document (artifact) publication status and date.
+   * <p>
+   * Determines the status from the Sem/CalVer pattern of the artifact version tag.
+   * <p>
+   * Uses the (optional) information derived from the annotations in the OWL ontology to determine
+   * creation and last modified dates
+   *
+   * @param artifactInfo ontology document id/version metadata
+   * @return the asset {@link Publication} metadata
+   * @see OntoArtfactIdentifiers
+   */
+  private Publication inferArtifactPublication(
+      OntoArtfactIdentifiers artifactInfo) {
+    var status = inferPublicationStatus(artifactInfo.getOwlVersionTag());
+    return new Publication()
+        .withPublicationStatus(status)
+        .withCreatedOn(artifactInfo.getOwlCreationDate())
+        .withLastReviewedOn(artifactInfo.getOwlLastModifiedDate());
   }
 
-  public static class OWLIntrospectorConfiguration
-      extends
-      ConfigProperties<OWLMetadataIntrospector.OWLIntrospectorConfiguration, OWLIntrospectorParams> {
-
-    private static final Properties DEFAULTS =
-        defaulted(OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.class);
-
-    public OWLIntrospectorConfiguration() {
-      super(DEFAULTS);
-    }
-
-    public OWLIntrospectorConfiguration(Properties defaults) {
-      super(defaults);
-    }
-
-    public OWLIntrospectorConfiguration(String cfg) {
-      super(cfg);
-    }
-
-    @Override
-    public OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams[] properties() {
-      return OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams.values();
-    }
-
-    public enum OWLIntrospectorParams implements
-        Option<OWLIntrospectorConfiguration.OWLIntrospectorParams> {
-
-      DEFAULT_VERSION(Opt.of(
-          "defaultVersionTag",
-          null,
-          "",
-          String.class,
-          false)),
-      VERSION_PATTERN(Opt.of(
-          "versionPattern",
-          null,
-          "A 2/3-part RegEx that determines the boundaries and order of a "
-              + "(i) namespace, (ii) tag and (iii) version components of the URI, "
-              + "where the version is optional",
-          String.class,
-          false)),
-      NS_INDEX(Opt.of(
-          "namespacePatternIndex",
-          "1",
-          "",
-          Integer.class,
-          false)),
-      VER_INDEX(Opt.of(
-          "versionPatternIndex",
-          "2",
-          "",
-          Integer.class,
-          false)),
-      TAG_INDEX(Opt.of(
-          "tagPatternIndex",
-          "3",
-          "",
-          Integer.class,
-          false)),
-      IGNORES(Opt.of(
-          "importIgnores",
-          "",
-          "",
-          String.class,
-          false)),
-      ASSET_NS(Opt.of(
-          "assetNamespace",
-          Registry.BASE_UUID_URN,
-          "",
-          String.class,
-          false)
-      );
-
-      private Opt<OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams> opt;
-
-      OWLIntrospectorParams(
-          Opt<OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams> opt) {
-        this.opt = opt;
-      }
-
-      @Override
-      public Opt<OWLMetadataIntrospector.OWLIntrospectorConfiguration.OWLIntrospectorParams> getOption() {
-        return opt;
-      }
-    }
+  /**
+   * Maps a Sem/CalVer version tag to a publication status.
+   * <p>
+   * Assumes Draft if 'SNAPSHOT', Published otherwise.
+   * <p>
+   * Note that pre-published is not supported, as it is not a common practice to have 'release
+   * candidate' ontologies
+   *
+   * @param versionTag the ontology Resource version tag
+   * @return a {@link PublicationStatus} consistent with the tag
+   */
+  private PublicationStatus inferPublicationStatus(String versionTag) {
+    return versionTag.endsWith(IdentifierConstants.SNAPSHOT)
+        ? Draft
+        : Published;
   }
+
 }
