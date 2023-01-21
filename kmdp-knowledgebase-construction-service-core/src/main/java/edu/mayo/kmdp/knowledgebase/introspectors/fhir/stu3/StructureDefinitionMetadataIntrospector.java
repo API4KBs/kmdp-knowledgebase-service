@@ -11,8 +11,10 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationForma
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Published;
 
+import edu.mayo.kmdp.util.DateTimeUtil;
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.UUID;
@@ -42,6 +44,8 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
 
   public static final String FHIR_TAG = "STU3";
   public static final String FHIR_VERSION = "3.0.2";
+  private static final Date FHIR_DATE = DateTimeUtil.parseDate("2017-03-21");
+
 
   public static final String FHIR_URL_DT_PATH = "Datatypes#";
   public static final String FHIR_URL_RES_PATH = "StructureDefinition/";
@@ -72,7 +76,9 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
         .withSecondaryId(mintFhirOfficialId(resourceType, false))
         .withFormalCategory(Structured_Information_And_Data_Capture_Models)
         .withFormalType(Information_Model)
-        .withLifecycle(new Publication().withPublicationStatus(Published))
+        .withLifecycle(new Publication()
+            .withPublicationStatus(Published)
+            .withCreatedOn(FHIR_DATE))
         .withName("FHIR STU3 " + resourceType)
         .withCarriers(
             new KnowledgeArtifact()
