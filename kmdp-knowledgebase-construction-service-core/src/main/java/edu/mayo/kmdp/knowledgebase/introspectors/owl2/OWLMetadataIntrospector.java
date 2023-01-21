@@ -241,6 +241,8 @@ public class OWLMetadataIntrospector
 
     var ontoIdentifiers = new OntoIdentifiers(ontoId, cfg);
     var artifactIdentifiers = new OntoArtfactIdentifiers(ontoIdentifiers, owl);
+    var assetId = ontoIdentifiers.getAssetId()
+        .withName(artifactIdentifiers.getOntologyName());
 
     KnowledgeArtifact artf = new KnowledgeArtifact()
         .withArtifactId(artifactIdentifiers.getOwlArtifactId())
@@ -248,7 +250,7 @@ public class OWLMetadataIntrospector
         .withLifecycle(inferArtifactPublication(artifactIdentifiers))
         .withRepresentation(rep);
 
-    KnowledgeAsset surrogate = newSurrogate(ontoIdentifiers.getAssetId()).get()
+    KnowledgeAsset surrogate = newSurrogate(assetId).get()
         .withSecondaryId(ontoIdentifiers.getOntologyId())
         .withFormalCategory(Terminology_Ontology_And_Assertional_KBs)
         .withFormalType(Formal_Ontology)

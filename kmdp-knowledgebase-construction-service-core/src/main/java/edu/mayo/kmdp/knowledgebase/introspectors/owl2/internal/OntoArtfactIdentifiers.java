@@ -30,13 +30,13 @@ public class OntoArtfactIdentifiers {
   private final Date owlLastModifiedDate;
   private final String owlVersionTag;
 
-  private final String ontologyNam;
+  private final String ontologyName;
 
 
   public OntoArtfactIdentifiers(OntoIdentifiers ontoIdentifiers, OWLOntology owl) {
     this.owlVersionTag = readAnnotation(owl, OWL2.versionInfo.getURI())
         .orElse(ontoIdentifiers.getVersionTag());
-    this.ontologyNam = readAnnotation(owl, RDFS.label.getURI())
+    this.ontologyName = readAnnotation(owl, RDFS.label.getURI())
         .orElse(null);
     this.owlCreationDate = readAnnotation(owl, DCTerms.created.getURI())
         .map(DateTimeUtil::parseDate).orElse(null);
@@ -77,7 +77,7 @@ public class OntoArtfactIdentifiers {
   }
 
   public String getOntologyName() {
-    return ontologyNam;
+    return ontologyName;
   }
 }
 

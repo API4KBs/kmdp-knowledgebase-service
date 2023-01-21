@@ -83,6 +83,7 @@ class OWL2IntrospectorTest {
 
   private void checkAssetId(ResourceIdentifier assetId) {
     assertNull(assetId.getEstablishedOn());
+    assertNotNull(assetId.getName());
     assertEquals("0.0.0-SNAPSHOT", assetId.getVersionTag());
     assertEquals(Util.uuid("http://ontology.mayo.edu/ontologies/testExample/"), assetId.getUuid());
   }
