@@ -71,7 +71,9 @@ public class PlanDefDataShapeBinder
   private Answer<KnowledgeCarrier> visit(KnowledgeCarrier kc, Bindings bindings) {
     PlanDefinition pd = kc.as(PlanDefinition.class)
         .orElseThrow();
-    visitComplex(pd, bindings);
+    if (!bindings.isEmpty()) {
+      visitComplex(pd, bindings);
+    }
     KnowledgeCarrier boundKC = AbstractCarrier.ofAst(pd)
         .withRepresentation(kc.getRepresentation())
         .withAssetId(kc.getAssetId())

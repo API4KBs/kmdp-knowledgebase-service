@@ -198,6 +198,7 @@ public class PlanDefSelector
         .flatMap(dr -> dr.getCodeFilter().stream()
             .flatMap(cf ->
                 cf.getValueCodeableConcept().stream()
+                    .map(CodeableConcept::copy)
                     .map(cd -> (CodeableConcept) cd.setExtension(dr.getExtension()))
             ));
   }
