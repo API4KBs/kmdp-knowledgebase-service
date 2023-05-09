@@ -13,6 +13,7 @@ import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
 import javax.inject.Named;
 import org.hl7.fhir.dstu3.model.ActivityDefinition;
 import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.Enumerations.PublicationStatus;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.hl7.fhir.dstu3.model.PlanDefinition.PlanDefinitionActionComponent;
@@ -126,9 +128,11 @@ public class PlanDefinitionFlattener
       PlanDefinition masterPlanDefinition,
       List<PlanDefinition> subPlans) {
     ResourceIdentifier assetId = mapAssetId(kc);
+    ResourceIdentifier rootId = kc.mainComponent().getAssetId();
     ResourceIdentifier flatArtifactId = mapArtifactId(kc);
 
     stampArtifactId(masterPlanDefinition, flatArtifactId);
+    masterPlanDefinition.setStatus(PublicationStatus.DRAFT);
 
     subPlans.forEach(pd -> {
           var tmp = new ArrayList<>(pd.getIdentifier());
@@ -144,7 +148,7 @@ public class PlanDefinitionFlattener
     });
     masterPlanDefinition.setRelatedArtifact(rels);
 
-    setKnowledgeIdentifiers(masterPlanDefinition, assetId, flatArtifactId);
+    setKnowledgeIdentifiers(masterPlanDefinition, assetId, rootId, flatArtifactId);
 
     return Answer.of(AbstractCarrier.ofAst(masterPlanDefinition)
         .withRepresentation(kc.mainComponent().getRepresentation())
@@ -170,6 +174,7 @@ public class PlanDefinitionFlattener
   private ResourceIdentifier mapArtifactId(CompositeKnowledgeCarrier kc) {
     return kc.components()
         .map(KnowledgeCarrier::getArtifactId)
+        .sorted(Comparator.comparing(ResourceIdentifier::getUuid))
         .reduce((i1, i2) -> hashIdentifiers(i1, i2, true))
         .orElseThrow(() -> new IllegalStateException("Unable to combine Artifact IDs"));
   }

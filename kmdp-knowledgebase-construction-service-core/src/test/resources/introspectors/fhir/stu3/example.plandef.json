@@ -1,0 +1,676 @@
+{
+  "resourceType": "PlanDefinition",
+  "id": "be033ebc-4aed-3ffd-9c2b-82ff0bcd84f9",
+  "contained": [
+    {
+      "resourceType": "PlanDefinition",
+      "id": "f514f359-52ae-3269-bed6-bfb419a1782e",
+      "url": "https://clinicalknowledgemanagement.mayo.edu/assets/22baec3f-c937-47d4-90a8-ec4cec661157/versions/0.0.0",
+      "identifier": [
+        {
+          "use": "official",
+          "type": {
+            "coding": [
+              {
+                "system": "https://www.omg.org/spec/API4KP/",
+                "code": "KnowledgeAsset"
+              }
+            ]
+          },
+          "system": "https://clinicalknowledgemanagement.mayo.edu/assets/",
+          "value": "22baec3f-c937-47d4-90a8-ec4cec661157|0.0.0"
+        }
+      ],
+      "version": "0.0.0",
+      "name": "Post Kidney Transplant Monitoring",
+      "title": "Post Kidney Transplant Monitoring",
+      "type": {
+        "coding": [
+          {
+            "system": "https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType",
+            "version": "20210401",
+            "code": "DecisionModel",
+            "display": "decision model"
+          }
+        ],
+        "text": "decision model"
+      },
+      "action": [
+        {
+          "id": "22e385c5-dead-4b66-9ca3-572b66aa0c3b",
+          "title": "Post-transplant assessment",
+          "code": [
+            {
+              "coding": [
+                {
+                  "system": "https://ontology.mayo.edu/taxonomies/KAO/DecisionType",
+                  "code": "d03ea564-0d31-3e72-a98b-cb93aa4c5cce",
+                  "display": "Assessment Decision"
+                }
+              ],
+              "text": "Assessment Decision"
+            }
+          ],
+          "relatedAction": [
+            {
+              "actionId": "#64e60ffe-9899-40bf-a1bb-121c5fcc87a3",
+              "relationship": "after"
+            },
+            {
+              "actionId": "#262bdc6c-ba85-43ca-aad1-dd487642c002",
+              "relationship": "after"
+            },
+            {
+              "actionId": "#ac14fad3-e998-46ec-8911-1336f902b352",
+              "relationship": "after"
+            }
+          ],
+          "type": {
+            "system": "http://www.omg.org/spec/DMN/20180521/MODEL/",
+            "code": "Decision"
+          }
+        },
+        {
+          "id": "64e60ffe-9899-40bf-a1bb-121c5fcc87a3",
+          "title": "Current Kidney Function",
+          "input": [
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "e0107cf3-a19a-4623-85f4-60f21d7d0630",
+                          "display": "Most Recent Urine Albumin to Creatinine Ratio"
+                        }
+                      ],
+                      "text": "Most Recent Urine Albumin to Creatinine Ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "ee0ac4e5-df68-316e-8540-0524b5a76e18",
+                          "display": "Most Recent Total Urine Protein Level"
+                        }
+                      ],
+                      "text": "Most Recent Total Urine Protein Level"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "88d67396-c8b6-3665-b75a-7351fac7cc07",
+                          "display": "Most Recent Creatinine Blood Level"
+                        }
+                      ],
+                      "text": "Most Recent Creatinine Blood Level"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "b9da7adf-6745-38d7-ac44-e70cd8fe36cb",
+                          "display": "Most Recent Comprehensive Metabolic Blood Tests"
+                        }
+                      ],
+                      "text": "Most Recent Comprehensive Metabolic Blood Tests"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "type": {
+            "system": "http://www.omg.org/spec/DMN/20180521/MODEL/",
+            "code": "Decision"
+          }
+        },
+        {
+          "id": "262bdc6c-ba85-43ca-aad1-dd487642c002",
+          "title": "Current Immune System Function",
+          "input": [
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "ffe2bf00-6d5a-3069-a3fe-aebb343f21e5",
+                          "display": "Most recent complete blood count"
+                        }
+                      ],
+                      "text": "Most recent complete blood count"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "medicationstatement",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/medicationstatement.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "347efb43-9c04-36ea-8322-400d9768cca0",
+                          "display": "On Immunosuppressive"
+                        }
+                      ],
+                      "text": "On Immunosuppressive"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ]
+            }
+          ],
+          "type": {
+            "system": "http://www.omg.org/spec/DMN/20180521/MODEL/",
+            "code": "Decision"
+          }
+        },
+        {
+          "id": "ac14fad3-e998-46ec-8911-1336f902b352",
+          "title": "Has Blood Disorder due to Kidney Transplant",
+          "input": [
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "ffe2bf00-6d5a-3069-a3fe-aebb343f21e5",
+                          "display": "Most recent complete blood count"
+                        }
+                      ],
+                      "text": "Most recent complete blood count"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "relatedAction": [
+            {
+              "actionId": "#77f4e9f8-e5c6-47b2-8d43-84a80f22de41",
+              "relationship": "after"
+            }
+          ],
+          "type": {
+            "system": "http://www.omg.org/spec/DMN/20180521/MODEL/",
+            "code": "Decision"
+          }
+        },
+        {
+          "id": "77f4e9f8-e5c6-47b2-8d43-84a80f22de41",
+          "title": "Has Infectious Disease",
+          "input": [
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ]
+            }
+          ],
+          "relatedAction": [
+            {
+              "actionId": "#262bdc6c-ba85-43ca-aad1-dd487642c002",
+              "relationship": "after"
+            }
+          ],
+          "type": {
+            "system": "http://www.omg.org/spec/DMN/20180521/MODEL/",
+            "code": "Decision"
+          }
+        }
+      ]
+    },
+    {
+      "resourceType": "PlanDefinition",
+      "id": "450e1814-6a29-3f18-9fbe-330eb09f406e",
+      "url": "https://clinicalknowledgemanagement.mayo.edu/assets/ba031aae-9283-4deb-9c20-38e8c8eaf739/versions/0.0.0",
+      "identifier": [
+        {
+          "use": "official",
+          "type": {
+            "coding": [
+              {
+                "system": "https://www.omg.org/spec/API4KP/",
+                "code": "KnowledgeAsset"
+              }
+            ]
+          },
+          "system": "https://clinicalknowledgemanagement.mayo.edu/assets/",
+          "value": "ba031aae-9283-4deb-9c20-38e8c8eaf739|0.0.0"
+        }
+      ],
+      "version": "0.0.0",
+      "name": "Past Medical History Relevant To Kidney Transplant",
+      "title": "Past Medical History Relevant to Kidney Transplant",
+      "type": {
+        "coding": [
+          {
+            "system": "https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType",
+            "version": "20210401",
+            "code": "DecisionModel",
+            "display": "decision model"
+          }
+        ],
+        "text": "decision model"
+      },
+      "action": [
+        {
+          "id": "a9362ae7-1514-4858-800e-5b6ca057fe6e",
+          "title": "History Relevant to Kidney Transplant",
+          "code": [
+            {
+              "coding": [
+                {
+                  "system": "https://ontology.mayo.edu/taxonomies/KAO/DecisionType",
+                  "code": "cc45cb9e-0a9e-396e-90a4-79a8a632901d",
+                  "display": "Temporal Correlation Decision"
+                }
+              ],
+              "text": "Temporal Correlation Decision"
+            }
+          ],
+          "input": [
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "observation",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/observation.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "6da4da41-d278-3e78-9d52-760eecc0c3f3",
+                          "display": "Prior urinalysis"
+                        }
+                      ],
+                      "text": "Prior urinalysis"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "condition",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/condition.profile.json"
+              ],
+              "codeFilter": [
+                {
+                  "valueCodeableConcept": [
+                    {
+                      "coding": [
+                        {
+                          "system": "https://ontology.mayo.edu/taxonomies/clinicalsituations",
+                          "code": "f4ec4e31-399d-3831-9580-38f992e9ce06",
+                          "display": "Prior medical history"
+                        }
+                      ],
+                      "text": "Prior medical history"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "https://www.omg.org/spec/API4KP/api4kp-kao/Technique",
+                  "valueCode": "QueryTechnique"
+                }
+              ],
+              "type": "documentreference",
+              "profile": [
+                "https://www.hl7.org/fhir/STU3/documentreference.profile.json"
+              ]
+            }
+          ],
+          "type": {
+            "system": "http://www.omg.org/spec/DMN/20180521/MODEL/",
+            "code": "Decision"
+          }
+        }
+      ]
+    }
+  ],
+  "url": "urn:uuid:191e1358-2c2c-7d11-0c35-8a197a14cac5:0.0.0",
+  "identifier": [
+    {
+      "use": "official",
+      "type": {
+        "coding": [
+          {
+            "system": "https://www.omg.org/spec/API4KP/",
+            "code": "KnowledgeAsset"
+          }
+        ]
+      },
+      "system": "urn:uuid:",
+      "value": "191e1358-2c2c-7d11-0c35-8a197a14cac5|0.0.0"
+    },
+    {
+      "use": "official",
+      "type": {
+        "coding": [
+          {
+            "system": "https://www.omg.org/spec/API4KP/",
+            "code": "KnowledgeArtifact"
+          }
+        ]
+      },
+      "system": "https://clinicalknowledgemanagement.mayo.edu/artifacts/",
+      "value": "be033ebc-4aed-3ffd-9c2b-82ff0bcd84f9|0.0.0-SNAPSHOT"
+    },
+    {
+      "use": "secondary",
+      "type": {
+        "coding": [
+          {
+            "system": "https://www.omg.org/spec/API4KP/",
+            "code": "KnowledgeAsset"
+          }
+        ]
+      },
+      "system": "https://clinicalknowledgemanagement.mayo.edu/assets/",
+      "value": "daacd6a1-c3e3-4a45-a151-498747bf0994|0.0.0"
+    }
+  ],
+  "version": "0.0.0-1683658518286",
+  "name": "Kidney Transplant",
+  "title": "Kidney Transplant",
+  "type": {
+    "coding": [
+      {
+        "system": "https://www.omg.org/spec/API4KP/20200801/taxonomy/ClinicalKnowledgeAssetType",
+        "version": "20210401",
+        "code": "CognitiveCareProcessModel",
+        "display": "cognitive care process model"
+      }
+    ],
+    "text": "cognitive care process model"
+  },
+  "status": "draft",
+  "date": "2023-05-09T00:00:00-05:00",
+  "relatedArtifact": [
+    {
+      "type": "derived-from",
+      "url": "https://clinicalknowledgemanagement.mayo.edu/artifacts/0924e73e-0262-48a5-9f29-bee5e907f08e/versions/0.0.0"
+    },
+    {
+      "type": "derived-from",
+      "url": "https://clinicalknowledgemanagement.mayo.edu/artifacts/b5255cb2-309d-48f1-a006-a6dacfc7896a/versions/0.0.0"
+    },
+    {
+      "type": "derived-from",
+      "url": "https://clinicalknowledgemanagement.mayo.edu/artifacts/b27afb32-4ecd-4ab9-abb2-f0d188866219/versions/0.0.0"
+    }
+  ],
+  "action": [
+    {
+      "id": "_7bdcffde-d149-4e1f-be24-321e90c0e4d4",
+      "title": "Kidney Transplant",
+      "type": {
+        "system": "http://www.omg.org/spec/CMMN/20151109/MODEL",
+        "code": "Stage"
+      },
+      "groupingBehavior": "logical-group",
+      "requiredBehavior": "could",
+      "precheckBehavior": "no",
+      "cardinalityBehavior": "single",
+      "action": [
+        {
+          "id": "PID__36f36ad8-b6fc-47d3-8319-cf4fc8f2321c",
+          "title": "Case Overview",
+          "code": [
+            {
+              "coding": [
+                {
+                  "system": "https://ontology.mayo.edu/taxonomies/ClinicalTasks",
+                  "code": "f59bd979-1b24-39bc-87f8-ff64eb1d3bb5",
+                  "display": "Evaluate"
+                }
+              ],
+              "text": "Evaluate"
+            }
+          ],
+          "type": {
+            "system": "http://www.omg.org/spec/CMMN/20151109/MODEL",
+            "code": "Stage"
+          },
+          "groupingBehavior": "logical-group",
+          "requiredBehavior": "could",
+          "precheckBehavior": "no",
+          "cardinalityBehavior": "single",
+          "action": [
+            {
+              "id": "PID__1ece0685-7d41-4763-85e6-8824de328eb9",
+              "title": "Post-transplant assessment",
+              "code": [
+                {
+                  "coding": [
+                    {
+                      "system": "https://ontology.mayo.edu/taxonomies/KAO/DecisionType",
+                      "code": "d03ea564-0d31-3e72-a98b-cb93aa4c5cce",
+                      "display": "Assessment Decision"
+                    }
+                  ],
+                  "text": "Assessment Decision"
+                }
+              ],
+              "type": {
+                "system": "http://www.omg.org/spec/CMMN/20151109/MODEL",
+                "code": "DecisionTask"
+              },
+              "requiredBehavior": "could",
+              "precheckBehavior": "no",
+              "cardinalityBehavior": "single",
+              "definition": {
+                "reference": "#f514f359-52ae-3269-bed6-bfb419a1782e",
+                "identifier": {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "https://www.omg.org/spec/API4KP/1.0/",
+                        "code": "KnowledgeFragment"
+                      }
+                    ]
+                  },
+                  "value": "22e385c5-dead-4b66-9ca3-572b66aa0c3b"
+                },
+                "display": "Post-transplant monitoring"
+              }
+            },
+            {
+              "id": "PID__08044988-8e46-4be0-9208-fc22dec11ad9",
+              "title": "History Relevant to Kidney Transplant",
+              "code": [
+                {
+                  "coding": [
+                    {
+                      "system": "https://ontology.mayo.edu/taxonomies/KAO/DecisionType",
+                      "code": "cc45cb9e-0a9e-396e-90a4-79a8a632901d",
+                      "display": "Temporal Correlation Decision"
+                    }
+                  ],
+                  "text": "Temporal Correlation Decision"
+                }
+              ],
+              "type": {
+                "system": "http://www.omg.org/spec/CMMN/20151109/MODEL",
+                "code": "DecisionTask"
+              },
+              "requiredBehavior": "could",
+              "precheckBehavior": "no",
+              "cardinalityBehavior": "single",
+              "definition": {
+                "reference": "#450e1814-6a29-3f18-9fbe-330eb09f406e",
+                "identifier": {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "https://www.omg.org/spec/API4KP/1.0/",
+                        "code": "KnowledgeFragment"
+                      }
+                    ]
+                  },
+                  "value": "a9362ae7-1514-4858-800e-5b6ca057fe6e"
+                },
+                "display": "History Relevant to Kidney Transplant"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
