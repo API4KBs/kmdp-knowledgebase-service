@@ -16,6 +16,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.Publicati
 
 import edu.mayo.kmdp.util.DateTimeUtil;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -66,7 +67,7 @@ class PlanDefIntrospectorTest {
     assertTrue(FHIR_STU3
         .sameAs(carrier.getRepresentation().getLanguage()));
     assertTrue(DateTimeUtil.isSameDay(
-        parseDate("2023-05-09"),
+        new Date(),
         carrier.getArtifactId().getEstablishedOn()));
 
     assertEquals(3, carrier.getLinks().size());
