@@ -85,7 +85,7 @@ public abstract class AbstractFhirIntrospector<T extends Resource> extends
    */
   protected Answer<KnowledgeCarrier> doIntrospect(
       KnowledgeCarrier knowledgeCarrier, Properties props) {
-    Answer<T> vsOpt = parser.applyLift(knowledgeCarrier, Abstract_Knowledge_Expression,
+    Answer<T> vsOpt = parser.applyLift(knowledgeCarrier, Abstract_Knowledge_Expression.getTag(),
         codedRep(FHIR_STU3), null).flatOpt(kc -> kc.as(getTypeClass()));
     if (vsOpt.isFailure()) {
       return Answer.failed(vsOpt);

@@ -38,7 +38,6 @@ import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.Component;
-import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 
@@ -87,7 +86,7 @@ public class CompositeAssetMetadataIntrospector
   private Model getStructGraph(CompositeKnowledgeCarrier ckc) {
     return parser.applyLift(
         ckc.getStruct(),
-        Abstract_Knowledge_Expression,
+        Abstract_Knowledge_Expression.getTag(),
         null,
         null)
         .flatOpt(kc -> kc.as(Model.class))

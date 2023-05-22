@@ -168,7 +168,7 @@ public class OWLMetadataIntrospector
       String versionTag, String xParams) {
 
     return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
-        .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression, null, opc.encode()))
+        .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression.getTag(), null, opc.encode()))
         .map(AbstractCarrier::mainComponent)
         .flatMap(x -> doIntrospect(x, new OWLIntrospectorConfiguration(xParams)));
   }
@@ -206,7 +206,7 @@ public class OWLMetadataIntrospector
       return Answer.unsupported();
     } else {
       return parser
-          .applyLift(source, Abstract_Knowledge_Expression, null, opc.encode())
+          .applyLift(source, Abstract_Knowledge_Expression.getTag(), null, opc.encode())
           .flatMap(parsed -> this.innerIntrospect(parsed, source.getRepresentation(), cfg));
     }
   }

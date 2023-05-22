@@ -3,13 +3,11 @@ package edu.mayo.kmdp.knowledgebase.introspectors.dmn.v1_2;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Description_Task;
-import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_1;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_2;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
-import edu.mayo.kmdp.language.parsers.dmn.v1_1.DMN11Parser;
 import edu.mayo.kmdp.language.parsers.dmn.v1_2.DMN12Parser;
 import java.util.UUID;
 import javax.inject.Named;
@@ -83,7 +81,7 @@ public class DMN12MetadataIntrospector
       return innerIntrospect(source);
     } else {
       return parser
-          .applyLift(source, Abstract_Knowledge_Expression, null, null)
+          .applyLift(source, Abstract_Knowledge_Expression.getTag(), null, null)
           .flatMap(this::innerIntrospect);
     }
   }

@@ -7,6 +7,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
+import edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries;
 import java.net.URI;
 import java.util.Set;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseAp
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelect;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelectDirect;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
+import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
@@ -107,13 +109,37 @@ public class PlanDefSelector
    * @param xParams    extra configuration parameters (not supported)
    * @return an expanded {@link ValueSet} with the selected concepts, wrapped
    */
-  @Override
-  public Answer<KnowledgeCarrier> applyNamedSelectDirect(UUID operatorId, KnowledgeCarrier artifact,
-      KnowledgeCarrier definition, String xParams) {
+  public Answer<KnowledgeCarrier> applyNamedSelectDirect(
+      UUID operatorId,
+      KnowledgeCarrier artifact,
+      KnowledgeCarrier definition,
+      String xParams) {
     return Answer.of(artifact)
         .flatOpt(kc -> kc.as(PlanDefinition.class))
         .map(this::visit)
         .map(vs -> filter(vs, definition));
+  }
+
+  /**
+   * Core operation
+   *
+   * @param operatorId the ID of this operator (class)
+   * @param composite A {@link CompositeKnowledgeCarrier} whose components are, in order, the
+   *                  artifact to apply the selection to, and the definition of the selection
+   * @param xParams    extra configuration parameters (not supported)
+   * @return an expanded {@link ValueSet} with the selected concepts, wrapped
+   */
+  @Override
+  public Answer<KnowledgeCarrier> applyNamedSelectDirect(
+      UUID operatorId,
+      KnowledgeCarrier composite,
+      String xParams) {
+    if (composite instanceof CompositeKnowledgeCarrier) {
+      return Answer.failed(ResponseCodeSeries.BadRequest);
+    }
+    var artifact = composite.componentList().get(0);
+    var definition = composite.componentList().get(1);
+    return applyNamedSelectDirect(operatorId, artifact, definition, xParams);
   }
 
   /**

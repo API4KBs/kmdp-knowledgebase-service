@@ -20,7 +20,6 @@ import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.Deseriali
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
-import org.omg.spec.api4kp._20200801.services.KPServer;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
@@ -65,7 +64,7 @@ public class DMN11MetadataIntrospector
   public Answer<KnowledgeCarrier> applyNamedIntrospect(UUID operatorId, UUID kbaseId,
       String versionTag, String xParams) {
     return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
-        .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression, null, null))
+        .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression.getTag(), null, null))
         .map(AbstractCarrier::mainComponent)
         .flatMap(this::doIntrospect);
   }
@@ -83,7 +82,7 @@ public class DMN11MetadataIntrospector
       return innerIntrospect(source);
     } else {
       return parser
-          .applyLift(source, Abstract_Knowledge_Expression, null, null)
+          .applyLift(source, Abstract_Knowledge_Expression.getTag(), null, null)
           .flatMap(this::innerIntrospect);
     }
   }

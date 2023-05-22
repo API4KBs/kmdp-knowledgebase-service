@@ -4,6 +4,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.OWL2_DL;
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
+import edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries;
 import java.util.Objects;
 import java.util.UUID;
 import org.apache.jena.rdf.model.Model;
@@ -20,6 +21,7 @@ import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseAp
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelect;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedSelectDirect;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
+import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
@@ -62,8 +64,19 @@ public class JenaSKOSSelector
         .flatMap(model -> applyNamedSelectDirect(operatorId, model, null, xParams));
   }
 
-
   @Override
+  public Answer<KnowledgeCarrier> applyNamedSelectDirect(
+      UUID operatorId,
+      KnowledgeCarrier composite,
+      String xParams) {
+    if (composite instanceof CompositeKnowledgeCarrier) {
+      return Answer.failed(ResponseCodeSeries.BadRequest);
+    }
+    var artifact = composite.componentList().get(0);
+    var definition = composite.componentList().get(1);
+    return applyNamedSelectDirect(operatorId, artifact, definition, xParams);
+  }
+
   public Answer<KnowledgeCarrier> applyNamedSelectDirect(UUID operatorId, KnowledgeCarrier artifact,
       KnowledgeCarrier definition, String xParams) {
     if (!getOperatorId().getUuid().equals(operatorId)) {

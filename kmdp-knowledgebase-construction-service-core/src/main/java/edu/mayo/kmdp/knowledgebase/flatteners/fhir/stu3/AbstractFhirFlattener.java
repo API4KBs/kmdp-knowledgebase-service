@@ -48,7 +48,7 @@ public abstract class AbstractFhirFlattener<T extends DomainResource>
 
     return Answer.of(carrier)
         .flatMap(
-            ckc -> getParser().applyLift(ckc, Abstract_Knowledge_Expression, codedRep(FHIR_STU3),
+            ckc -> getParser().applyLift(ckc, Abstract_Knowledge_Expression.getTag(), codedRep(FHIR_STU3),
                 null))
         .map(x -> x.components().collect(Collectors.toList()))
         .flatMap(this::flatten);
