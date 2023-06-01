@@ -134,8 +134,9 @@ public class PlanDefSelector
       UUID operatorId,
       KnowledgeCarrier composite,
       String xParams) {
-    if (composite instanceof CompositeKnowledgeCarrier) {
-      return Answer.failed(ResponseCodeSeries.BadRequest);
+    if (composite.components().count() != 2) {
+      return Answer.<KnowledgeCarrier>failed(ResponseCodeSeries.BadRequest)
+          .withAddedExplanationMessage("Need two KB components");
     }
     var artifact = composite.componentList().get(0);
     var definition = composite.componentList().get(1);
