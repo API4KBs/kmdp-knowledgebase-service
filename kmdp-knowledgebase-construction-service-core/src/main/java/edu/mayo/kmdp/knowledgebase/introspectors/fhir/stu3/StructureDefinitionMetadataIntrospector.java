@@ -49,7 +49,7 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
 
   public static final String FHIR_URL_DT_PATH = "Datatypes#";
   public static final String FHIR_URL_RES_PATH = "StructureDefinition/";
-  public static final String FHIR3_URL = "https://www.hl7.org/fhir/STU3";
+  public static final String FHIR_URL = "https://www.hl7.org/fhir/";
 
   /**
    * Extra configuration parameter - allows to set the base namespace for the Asset ID.
@@ -86,7 +86,7 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
                     mintArtifactId(namespace, rep, resourceType, FHIR3_VERSION, false))
                 .withRepresentation(rep)
                 .withLocator(URI.create(
-                    FHIR3_URL + FHIR3_TAG + "/" + resourceType.toLowerCase()
+                    FHIR_URL + FHIR3_TAG + "/" + resourceType.toLowerCase()
                         + ".profile.json")));
   }
 
@@ -112,32 +112,31 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
             .withRepresentation(rep)
             .withName("FHIR STU3 " + dataType)
             .withLocator(
-                URI.create(FHIR3_URL + FHIR3_TAG + "/datatypes.html#" + dataType)));
+                URI.create(FHIR_URL + FHIR3_TAG + "/datatypes.html#" + dataType)));
   }
 
-  public static ResourceIdentifier mintFhirOfficialId(String fhirType, String versionTag,
-      boolean isDatatype) {
+  public static ResourceIdentifier mintFhirOfficialId(String fhirType, boolean isDatatype) {
     if (isDatatype) {
-      return newId(URI.create(FHIR3_URL + FHIR_URL_DT_PATH), fhirType, versionTag);
+      return newId(URI.create(FHIR_URL + FHIR_URL_DT_PATH), fhirType, FHIR3_TAG);
     } else {
-      return newId(URI.create(FHIR3_URL + FHIR_URL_RES_PATH), fhirType, versionTag);
+      return newId(URI.create(FHIR_URL + FHIR_URL_RES_PATH), fhirType, FHIR3_TAG);
     }
   }
 
   public static ResourceIdentifier mintAssetID(
       URI namespace,
-      String fhirType, String version,
+      String fhirType,
       boolean isDatatype) {
     if (isDatatype) {
       return assetId(
           namespace,
-          Util.uuid(FHIR3_URL + FHIR_URL_DT_PATH + fhirType),
-          version);
+          Util.uuid(FHIR_URL + FHIR_URL_DT_PATH + fhirType),
+          FHIR3_VERSION);
     } else {
       return assetId(
           namespace,
-          Util.uuid(FHIR3_URL + FHIR_URL_RES_PATH + fhirType),
-          version);
+          Util.uuid(FHIR_URL + FHIR_URL_RES_PATH + fhirType),
+          FHIR3_VERSION);
     }
   }
 
@@ -150,23 +149,16 @@ public class StructureDefinitionMetadataIntrospector extends AbstractFhirIntrosp
     if (isDatatype) {
       return artifactId(
           namespace,
-          Util.uuid(FHIR3_URL + FHIR_URL_DT_PATH + fhirType + "/" + ModelMIMECoder.encode(rep)),
+          Util.uuid(FHIR_URL + FHIR_URL_DT_PATH + fhirType + "/" + ModelMIMECoder.encode(rep)),
           version);
     } else {
       return artifactId(
           namespace,
-          Util.uuid(FHIR3_URL + FHIR_URL_RES_PATH + fhirType + "/" + ModelMIMECoder.encode(rep)),
+          Util.uuid(FHIR_URL + FHIR_URL_RES_PATH + fhirType + "/" + ModelMIMECoder.encode(rep)),
           version);
     }
   }
 
-  public static ResourceIdentifier mintFhirOfficialId(String fhirType, boolean isDatatype) {
-    return mintFhirOfficialId(fhirType, FHIR3_TAG, isDatatype);
-  }
-
-  public static ResourceIdentifier mintAssetID(URI namespace, String fhirType, boolean isDatatype) {
-    return mintAssetID(namespace, fhirType, FHIR3_VERSION, isDatatype);
-  }
 
   @Override
   protected KnowledgeAsset innerIntrospect(StructureDefinition artifact,
