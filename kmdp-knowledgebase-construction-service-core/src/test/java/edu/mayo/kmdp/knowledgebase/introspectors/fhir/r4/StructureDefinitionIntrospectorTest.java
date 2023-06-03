@@ -1,18 +1,20 @@
-package edu.mayo.kmdp.knowledgebase.introspectors.fhir.stu3;
+package edu.mayo.kmdp.knowledgebase.introspectors.fhir.r4;
 
-import static edu.mayo.kmdp.knowledgebase.introspectors.fhir.stu3.StructureDefinitionMetadataIntrospector.OP_ID;
+import static edu.mayo.kmdp.knowledgebase.introspectors.fhir.r4.StructureDefinitionMetadataIntrospector.OP_ID;
+import static org.hl7.fhir.r4.model.Enumerations.ResourceType.CLINICALIMPRESSION;
+import static org.hl7.fhir.r4.model.Enumerations.ResourceType.OBSERVATION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetcategory.KnowledgeAssetCategorySeries.Structured_Information_And_Data_Capture_Models;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries.Information_Model;
-import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
+import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_R4;
 import static org.omg.spec.api4kp._20200801.taxonomy.publicationstatus.PublicationStatusSeries.Published;
 
-import org.hl7.fhir.dstu3.model.Enumerations.PublicationStatus;
-import org.hl7.fhir.dstu3.model.Enumerations.ResourceType;
-import org.hl7.fhir.dstu3.model.StructureDefinition;
-import org.hl7.fhir.dstu3.model.StructureDefinition.StructureDefinitionKind;
+import org.hl7.fhir.r4.model.Enumerations.PublicationStatus;
+import org.hl7.fhir.r4.model.Enumerations.ResourceType;
+import org.hl7.fhir.r4.model.StructureDefinition;
+import org.hl7.fhir.r4.model.StructureDefinition.StructureDefinitionKind;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
@@ -42,26 +44,26 @@ class StructureDefinitionIntrospectorTest {
             .contains("StructureDefinition/Observation"));
     assertTrue(
         officialId.getVersionId().toString()
-            .contains("versions/STU3"));
+            .contains("versions/R4"));
 
     KnowledgeArtifact carrier = metadata.getCarriers().get(0);
 
     assertTrue(
-        "https://www.hl7.org/fhir/STU3/observation.profile.json"
+        "https://www.hl7.org/fhir/R4/observation.profile.json"
             .equalsIgnoreCase(carrier.getLocator().toString()));
   }
 
   @Test
   void testKnownResources() {
-    KnowledgeAsset meta1 = introspect(ResourceType.OBSERVATION);
-    KnowledgeAsset meta2 = introspect(ResourceType.CLINICALIMPRESSION);
+    KnowledgeAsset meta1 = introspect(OBSERVATION);
+    KnowledgeAsset meta2 = introspect(CLINICALIMPRESSION);
 
     assertEquals(
-        "https://clinicalknowledgemanagement.mayo.edu/assets/cdd8645f-d2bc-3d95-bfa2-5e2d8e9b8f1e/versions/3.0.2",
+        "https://clinicalknowledgemanagement.mayo.edu/assets/cdd8645f-d2bc-3d95-bfa2-5e2d8e9b8f1e/versions/4.0.1",
         meta1.getAssetId().getVersionId().toString());
 
     assertEquals(
-        "https://clinicalknowledgemanagement.mayo.edu/assets/3ab1ec21-3fa6-3393-89be-d482222dca4a/versions/3.0.2",
+        "https://clinicalknowledgemanagement.mayo.edu/assets/3ab1ec21-3fa6-3393-89be-d482222dca4a/versions/4.0.1",
         meta2.getAssetId().getVersionId().toString());
   }
 
@@ -75,7 +77,7 @@ class StructureDefinitionIntrospectorTest {
         .setKind(StructureDefinitionKind.RESOURCE)
         .setType(resourceType);
 
-    var kc = AbstractCarrier.ofAst(sd, rep(FHIR_STU3));
+    var kc = AbstractCarrier.ofAst(sd, rep(FHIR_R4));
 
     return introspector.applyNamedIntrospectDirect(OP_ID, kc, null)
         .flatOpt(x -> x.as(KnowledgeAsset.class))
