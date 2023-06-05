@@ -26,6 +26,7 @@
     <module>kmdp-inference-broker-core</module>
     <module>kmdp-complex-ops-impl</module>
     <module>kmdp-terminology-provider</module>
+    <module>api4kp-examples</module>
   </modules>
 
 
