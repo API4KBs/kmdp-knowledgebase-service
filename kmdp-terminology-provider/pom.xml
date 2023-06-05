@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>edu.mayo.kmdp</groupId>
+    <artifactId>kmdp-knowledgebase-components</artifactId>
+     <version>6.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>kmdp-terminology-provider</artifactId>
+
+  <name>KMDP :: Terminology Broker :: Provider</name>
+
+  <properties>
+    <kmdp.servers.impl>6.0.1-SNAPSHOT</kmdp.servers.impl>
+  </properties>
+
+
+  <dependencies>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-terminology-service-server</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-asset-repository-service-client</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-structures-dstu3</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>kmdp-knowledge-transrepresentation-core</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+      <version>${kmdp.servers.impl}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-spring-monitoring</artifactId>
+      <version>${kmdp.impl.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>lucene-queryparser</artifactId>
+      <groupId>org.apache.lucene</groupId>
+      <version>9.4.2</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+
+  </dependencies>
+
+</project>

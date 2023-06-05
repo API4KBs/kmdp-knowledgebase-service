@@ -1,0 +1,38 @@
+{
+  "resourceType": "CodeSystem",
+  "url": "https://ontology.mayo.edu/taxonomies/clinicalsituations#2627c581-b7e6-448f-9b17-f7f97bdb043d",
+  "identifier": {
+    "value": "https://ontology.mayo.edu/taxonomies/clinicalsituations#2627c581-b7e6-448f-9b17-f7f97bdb043d"
+  },
+  "version": "20210401.0.0",
+  "name": "Mock Ontology",
+  "title": "Mock Ontology",
+  "compositional": true,
+  "concept": [
+    {
+      "code": "fd0e8faa-7dd2-499d-b0c6-eb176822485f",
+      "display": "clinical case",
+      "definition": "http://ontology.mayo.edu/ontologies/clinicalsituationontology/fd0e8faa-7dd2-499d-b0c6-eb176822485f",
+      "designation": [
+        {
+          "language": "en",
+          "use": {
+            "system": "http://www.w3.org/2004/02/skos/core#",
+            "code": "prefLabel"
+          },
+          "value": "test 1"
+        }
+      ],
+      "property": [
+        {
+          "code": "notation",
+          "valueString": "fd0e8faa-7dd2-499d-b0c6-eb176822485f"
+        },
+        {
+          "code": "identifier",
+          "valueString": "fd0e8faa-7dd2-499d-b0c6-eb176822485f"
+        }
+      ]
+    }
+  ]
+}

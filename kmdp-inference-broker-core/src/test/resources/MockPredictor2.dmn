@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="http://www.foo.bar.com/dmn/1.1/diagram/45d9ab96e7d84be3afe6f578e20c029b.xml"
+  name="MockPredictor" id="id-1eaf8d13ff5344b0aea312292f61112a"
+  xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd"
+  xmlns:mock="http://www.foo.bar.com/dmn/1.1/diagram/45d9ab96e7d84be3afe6f578e20c029b.xml"
+  xmlns:feel="http://www.omg.org/spec/FEEL/20140401">
+    <itemDefinition isCollection="false" name="riskOfHeartFailure" id="id-7fcee8c47420ae84073a785010e078b6" label="Risk of Heart Failure">
+        <itemComponent isCollection="false" name="newElement" id="id-7fcee8c47420ae84073a785010e078b6-relation-E94D81E3-7811-4983-A831-FE51775C7DD7" label="">
+            <typeRef>mock:Risk of Heart Failure</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="newElement2" id="id-7fcee8c47420ae84073a785010e078b6-relation-9135FC90-CBC0-47CC-AC1A-E6811C8724F0" label="">
+            <typeRef>mock:Risk of Heart Failure</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="newElement3" id="id-7fcee8c47420ae84073a785010e078b6-relation-E5ACEB55-1567-4609-AEA3-AC44C632911E" label="">
+            <typeRef>mock:Risk of Heart Failure</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="newElement4" id="id-7fcee8c47420ae84073a785010e078b6-relation-2869B597-D56F-474A-8745-3D6059F6E44B" label="">
+            <typeRef>mock:Risk of Heart Failure</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="newElement7" id="id-8543f6203a575848e27db41be2853bfa" label="">
+        <typeRef>feel:number</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="newElement6" id="id-c1cedc84a08844f28729c309a35cb687" label="">
+        <typeRef>feel:string</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="Risk of Heart Failure" id="id-e2edfd5e65863e00620a393bb6c921f1" label="Risk of Heart Failure">
+        <itemComponent isCollection="false" name="value" id="id-e2edfd5e65863e00620a393bb6c921f1-relation-0" label="value">
+            <typeRef>feel:number</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="unit" id="id-e2edfd5e65863e00620a393bb6c921f1-relation-1" label="unit">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="code" id="id-e2edfd5e65863e00620a393bb6c921f1-relation-2" label="code">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="system" id="id-e2edfd5e65863e00620a393bb6c921f1-relation-3" label="system">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="currentCaffeineUser" id="id-ab730f47d5353d64602ddb9b96c3fc89" label="Current caffeine user">
+        <itemComponent isCollection="false" name="value" id="id-ab730f47d5353d64602ddb9b96c3fc89-relation-0" label="value">
+            <typeRef>feel:boolean</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="newElement8" id="id-ee989599cbc250da767049005cb0173e" label="">
+        <typeRef>feel:string</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="newElement9" id="id-220e5fb722709390def440302758bf7b" label="">
+        <typeRef>feel:string</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="currentChronologicalAge" id="id-8a0a73381770cf3c955823b2b4b2df28" label="Current chronological age" >
+        <itemComponent isCollection="false" name="unit" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-0" label="unit">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="value" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-1" label="value">
+            <typeRef>feel:number</typeRef>
+            <allowedValues>
+                <text>[0.0..125.0]</text>
+            </allowedValues>
+        </itemComponent>
+        <itemComponent isCollection="false" name="code" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-2" label="code">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="system" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-3" label="system">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <inputData name="currentCaffeineUser" id="id-f80bb30da1d6f99fb59cbbca31398a6b" label="Current caffeine user" >
+        <variable typeRef="mock:currentCaffeineUser" name="currentCaffeineUser" id="id-f80bb30da1d6f99fb59cbbca31398a6b_variable"/>
+    </inputData>
+    <inputData name="currentChronologicalAge" id="id-7cbeddece4f9577ce81a21bb88e99083" label="Current chronological age">
+        <variable typeRef="mock:currentChronologicalAge" name="currentChronologicalAge" id="id-7cbeddece4f9577ce81a21bb88e99083_variable"/>
+    </inputData>
+    <decision name="riskOfHeartFailure" id="id-b75fa7b662d7b861380c16bac0b3d5a0" label="Risk of Heart Failure">
+        <variable typeRef="mock:riskOfHeartFailure" name="riskOfHeartFailure" id="id-b75fa7b662d7b861380c16bac0b3d5a0_variable"/>
+        <informationRequirement>
+            <requiredInput href="#id-7cbeddece4f9577ce81a21bb88e99083"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#id-f80bb30da1d6f99fb59cbbca31398a6b"/>
+        </informationRequirement>
+        <decisionTable hitPolicy="FIRST">
+            <input id="id-a71b7809d81a89d02fcda91e73a213cf" label="">
+                <inputExpression>
+                    <text>currentCaffeineUser.value</text>
+                </inputExpression>
+            </input>
+            <input id="id-eb1d0d9ed4d1d8c306cfa79e1a3789e3" label="">
+                <inputExpression>
+                    <text>currentChronologicalAge.value</text>
+                </inputExpression>
+            </input>
+            <output name="newElement" typeRef="feel:string" id="id-1a4889ed6c8b4d84e84482994ffde752" label=""/>
+            <output name="newElement2" typeRef="feel:number" id="id-fe75d042f1754dfb8e2e5c7e175d25b4" label=""/>
+            <output name="newElement3" typeRef="feel:string" id="id-ccce4b88a87cd9aff39d631e5ce77406" label=""/>
+            <output name="newElement4" typeRef="feel:string" id="id-265b97cbbdb14f8f0db070a21389b780" label=""/>
+            <rule id="id-f1fdc6ddf2efda8e631b33de7893ffe3">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>true</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>&gt;= 18</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"mock"</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>42</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>"%"</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>"%"</text>
+                </outputEntry>
+            </rule>
+            <rule id="id-a1dceb714fd25b0297fac9ae125af440">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"mock"</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>33</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>"%"</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>"%"</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+</definitions>

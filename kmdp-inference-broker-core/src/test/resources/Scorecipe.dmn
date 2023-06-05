@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="http://foo.bar.com/dmn/1.1/diagram/503a07ad54734fb7a25736c2512f56e3.xml"
+  xmlns:mock="http://foo.bar.com/dmn/1.1/diagram/503a07ad54734fb7a25736c2512f56e3.xml"
+  name="Scorecipe"
+  id="id-03f81afae4f547489919b238d830b3b2"
+  xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd"
+  xmlns:feel="http://www.omg.org/spec/FEEL/20140401">
+    <itemDefinition isCollection="false" name="quality" id="id-9107575793a9102b4b4dba24b9c15b07" label="Quality">
+        <typeRef>feel:string</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="linguine" id="id-482c1a0cd4944b5193a51eeb2d4931f2" label="Linguine">
+        <typeRef>feel:string</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="spaghetti" id="id-e36ecdcf388307a534f6668d8b717a82" label="Spaghetti">
+        <itemComponent isCollection="false" name="value" id="id-e36ecdcf388307a534f6668d8b717a82-relation-0" label="value">
+            <typeRef>feel:number</typeRef>
+            <allowedValues>
+                <text>[0.5..77.0]</text>
+            </allowedValues>
+        </itemComponent>
+        <itemComponent isCollection="false" name="unit" id="id-e36ecdcf388307a534f6668d8b717a82-relation-1" label="unit">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="newElement7" id="id-3f2e76471c005607fc9a83dbf3e92b9d" label="">
+        <typeRef>feel:number</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="tagliatelle" id="id-86ea773438a4364e04877195acc61a74" label="Tagliatelle">
+        <itemComponent isCollection="false" name="amount" id="id-86ea773438a4364e04877195acc61a74-relation-0" label="amount">
+                <typeRef>mock:quantity</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="quantity" id="id-71ca429baa3faaffc5c56af7fd92aa81" label="Quantity">
+        <itemComponent isCollection="false" name="value" id="id-71ca429baa3faaffc5c56af7fd92aa81-relation-0" label="value">
+            <typeRef>feel:number</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="unit" id="id-71ca429baa3faaffc5c56af7fd92aa81-relation-1" label="unit">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="code" id="id-71ca429baa3faaffc5c56af7fd92aa81-relation-2" label="code">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="system" id="id-71ca429baa3faaffc5c56af7fd92aa81-relation-3" label="system">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="calories" id="id-aaa8af59e6940bca9feab431b7019975" label="Calories">
+        <typeRef>feel:number</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="sauce" id="id-2f9fdaa9f15c6f3e07c6c42348d1d258" label="Sauce">
+        <typeRef>feel:number</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="amount" id="id-ec8414ef77ef17463f61ee317bde9290" label="Amount
+">
+        <itemComponent isCollection="false" name="quality" id="id-ec8414ef77ef17463f61ee317bde9290-relation-D67303D3-13D2-4524-A394-39A39259E95C" label="Quality">
+            <typeRef>mock:quality</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="size" id="id-ec8414ef77ef17463f61ee317bde9290-relation-CAAF8ED5-7C18-4906-A468-7A6F00319AF0" label="Size">
+            <typeRef>mock:size</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="size" id="id-981e9dc40cd9356a8db1c50c35534fdc" label="Size">
+        <typeRef>feel:number</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="sauce2" id="id-cb8094b43ff87f64889eee70a1dee802" label="Sauce">
+        <typeRef>feel:number</typeRef>
+    </itemDefinition>
+    <inputData name="spaghetti" id="id-f5727346b15770af3baad1a06dca2284" label="Spaghetti">
+        <variable typeRef="mock:spaghetti" name="spaghetti" id="id-f5727346b15770af3baad1a06dca2284_variable"/>
+    </inputData>
+    <inputData name="linguine" id="id-02baf26c3fb175b200e7f1307509508b" label="Linguine">
+        <variable typeRef="mock:linguine" name="linguine" id="id-02baf26c3fb175b200e7f1307509508b_variable"/>
+    </inputData>
+    <inputData name="tagliatelle" id="id-8c8d879857354be8093e24ffd0090e30" label="Tagliatelle">
+        <variable typeRef="mock:tagliatelle" name="tagliatelle" id="id-8c8d879857354be8093e24ffd0090e30_variable"/>
+    </inputData>
+    <decision name="sauce" id="id-ab052dece574d5a0ef9671a46871e29e" label="Sauce">
+        <variable typeRef="mock:sauce" name="sauce" id="id-ab052dece574d5a0ef9671a46871e29e_variable"/>
+        <informationRequirement>
+            <requiredInput href="#id-02baf26c3fb175b200e7f1307509508b"/>
+        </informationRequirement>
+        <decisionTable hitPolicy="UNIQUE">
+            <input id="id-7eea77d98200f25e76db04fff91c642f" label="Linguine">
+                <inputExpression>
+                    <text>linguine</text>
+                </inputExpression>
+            </input>
+            <output name="sauce" typeRef="mock:sauce2" id="id-e030b3d5683d3bb42db158f4e202568c" label="Sauce"/>
+            <rule id="id-ed889d6ed7df1f146c72814e37d1239f">
+                <description>string("Nice job!")</description>
+                <inputEntry>
+                    <text>"aaa"</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>0.42</text>
+                </outputEntry>
+            </rule>
+            <rule id="id-f60939474d4eed513de507f49b4de53d">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>not("aaa")</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>0.87</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+    <decision name="calories" id="id-578497654385a2bb19df3e5ab9a7c63c" label="Calories">
+        <variable typeRef="mock:calories" name="calories" id="id-578497654385a2bb19df3e5ab9a7c63c_variable"/>
+        <informationRequirement>
+            <requiredInput href="#id-f5727346b15770af3baad1a06dca2284"/>
+        </informationRequirement>
+        <decisionTable hitPolicy="UNIQUE">
+            <input id="id-7bb1d9b2480bdf703f7d19c7167b3264" label="">
+                <inputExpression>
+                    <text>spaghetti.value</text>
+                </inputExpression>
+            </input>
+            <output name="calories" typeRef="mock:newElement7" id="id-53899152bddfeb228471270450200eaf" label="Calories"/>
+            <rule id="id-577eba6603f0776fb9b2dcc618025e9a">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>&gt; 0</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>400</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+    <decision name="amount" id="id-a89a3d1008407e92b43ef18cd0dc81ce" label="Amount" >
+        <variable typeRef="mock:amount" name="amount" id="id-a89a3d1008407e92b43ef18cd0dc81ce_variable"/>
+        <informationRequirement>
+            <requiredInput href="#id-f5727346b15770af3baad1a06dca2284"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#id-8c8d879857354be8093e24ffd0090e30"/>
+        </informationRequirement>
+        <decisionTable hitPolicy="UNIQUE">
+            <input id="id-0b39def9807cb19364f59476e24da5ef" label="">
+                <inputExpression>
+                    <text>tagliatelle.amount.value</text>
+                </inputExpression>
+            </input>
+            <input id="id-4d4d2a447715ed236cc735dd2b068895" label="">
+                <inputExpression>
+                    <text>spaghetti.value</text>
+                </inputExpression>
+            </input>
+            <output name="quality" typeRef="mock:quality" id="id-cf5290b453d6b0293cb0a97c0ef74d0a" label="Quality"/>
+            <output name="size" typeRef="mock:size" id="id-2b5a29e8fd4e5538b3caca5dc809b392" label="Size"/>
+            <rule id="id-ed6dc46a2cc60d2c1a92e46857e845a8">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>&gt;= 5</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>1</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"Nice"</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>42</text>
+                </outputEntry>
+            </rule>
+            <rule id="id-6cf7f0e4f0c14e708ad295f7fe29b52a">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>&lt; 5</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>1</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"Poor"</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>11</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+</definitions>

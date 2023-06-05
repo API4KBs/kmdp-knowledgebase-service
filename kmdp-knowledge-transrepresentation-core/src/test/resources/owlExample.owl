@@ -1,0 +1,11 @@
+Prefix: : <http://ex.com/owl/families#>
+
+Ontology: <http://example.com/owl/families> <http://example.com/owl/families-v1>
+
+  DataProperty: hasAge
+    Characteristics: Functional
+    Domain: Person
+    Range: integer
+
+  Class: Person
+

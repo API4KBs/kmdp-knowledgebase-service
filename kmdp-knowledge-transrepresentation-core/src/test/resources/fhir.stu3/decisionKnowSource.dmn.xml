@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  id="_6c5d0e9c-a925-46e3-8b5b-8ef96404ceff"
+  name="Sample Knowledge Source"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/8eb9c8b1-c4f5-4f5d-aab3-40b289fd6a93">
+  <semantic:extensionElements/>
+  <semantic:decision id="_e6ee9273-aecb-4161-a263-1d64cce499d2" name="SampleWithSource">
+    <semantic:variable id="_a36510ac-1eeb-4749-9342-9c6d533d9a5b"
+      name="SampleWithSource"
+      typeRef="Any"/>
+    <semantic:authorityRequirement id="_ef1d9063-8f5c-4303-9a19-6d6abfd0078f">
+      <semantic:requiredAuthority href="#_1c03d86e-b45a-4172-9195-a4dbc99e2899"/>
+    </semantic:authorityRequirement>
+  </semantic:decision>
+  <semantic:knowledgeSource id="_1c03d86e-b45a-4172-9195-a4dbc99e2899"
+    locationURI="https://foo.bar/baz"
+    name="Sample Source">
+    <semantic:type>*/*</semantic:type>
+  </semantic:knowledgeSource>
+</semantic:definitions>

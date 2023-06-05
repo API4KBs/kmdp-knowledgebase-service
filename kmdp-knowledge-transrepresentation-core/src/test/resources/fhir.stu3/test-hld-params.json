@@ -1,0 +1,436 @@
+{
+  "parameter": [
+    {
+      "extension": [
+        {
+          "valueString": "Custodian",
+          "url": "https://kmd.mayo.edu/fhirExtensions/questionnaireResponseSource"
+        }
+      ],
+      "resource": {
+        "entry": [
+          {
+            "resource": {
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11239372_LOW DENSITY LIPOPROTEIN CHOLESTEROL_2021-06-18T15:24:00.0000000-05:00"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://terms.mayo.edu/mcfhir/codesystem/epic-mpiid-LRROUT",
+                    "code": "929",
+                    "display": "LOW DENSITY LIPOPROTEIN CHOLESTEROL"
+                  },
+                  {
+                    "system": "http://terms.mayo.edu/codesystem/LOINC",
+                    "code": "18261-8",
+                    "display": "LOW DENSITY LIPOPROTEIN CHOLESTEROL"
+                  }
+                ],
+                "text": "LDL Chol (Beta-Quantification), S"
+              },
+              "effectiveDateTime": "2022-03-05T09:05:31-06:00",
+              "subject": {
+                "reference": "Patient/11239372"
+              },
+              "specimen": {
+                "display": "Blood, Venous"
+              },
+              "comment": "----REFERENCE VALUE----\r\nDesirable: <100 mg/dL\r\nAbove Desirable: 100-129 mg/dL\r\nBorderline High: 130-159 mg/dL\r\nHigh: 160-189 mg/dL\r\nVery High: >=190 mg/dL\r\n\r\n----ADDITIONAL INFORMATION----\r\nThis test has been modified from the manufacturer's\r\ninstructions. Its performance characteristics were\r\ndetermined by Mayo Clinic in a manner consistent with\r\nCLIA requirements. This test has not been cleared or\r\napproved by the U.S. Food and Drug Administration.",
+              "id": "t891.RG7T.mcS-1ztoeRiscl.tdl.2zA.OMKIGECB",
+              "category": [
+                {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/observation-category",
+                      "code": "laboratory",
+                      "display": "Laboratory"
+                    }
+                  ],
+                  "text": "Laboratory"
+                }
+              ],
+              "resourceType": "Observation",
+              "status": "final",
+              "valueQuantity": {
+                "unit": "mg/dL",
+                "system": "http://unitsofmeasure.org",
+                "code": "mg/dL",
+                "value": 189
+              }
+            }
+          }
+        ],
+        "total": 3,
+        "id": "9D15B4145E98466D831534E205519992",
+        "type": "searchset",
+        "resourceType": "Bundle"
+      },
+      "name": "6d0623af-2650-37f2-87e1-0b5facc31472",
+      "id": "#664bfcf8-641b-45a5-91ff-7c40ac1819e7"
+    },
+    {
+      "extension": [
+        {
+          "valueString": "Custodian",
+          "url": "https://kmd.mayo.edu/fhirExtensions/questionnaireResponseSource"
+        }
+      ],
+      "resource": {
+        "entry": [
+          {
+            "resource": {
+              "identifier": [
+                {
+                  "use": "official",
+                  "value": "Epic_11239372_TSH HIGH SENSITIVITY_2022-01-13T11:43:00.0000000-06:00"
+                }
+              ],
+              "referenceRange": [
+                {
+                  "high": {
+                    "unit": "mIU/L",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "m[IU]/L",
+                    "value": 4.2
+                  },
+                  "low": {
+                    "unit": "mIU/L",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "m[IU]/L",
+                    "value": 0.3
+                  },
+                  "text": "0.3-4.2"
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "http://terms.mayo.edu/mcfhir/codesystem/epic-mpiid-LRROUT",
+                    "code": "1629168",
+                    "display": "TSH HIGH SENSITIVITY"
+                  },
+                  {
+                    "system": "http://terms.mayo.edu/codesystem/LOINC",
+                    "code": "11579-0",
+                    "display": "TSH HIGH SENSITIVITY"
+                  }
+                ],
+                "text": "TSH, Sensitive, S"
+              },
+              "effectiveDateTime": "2022-03-05T09:05:31-06:00",
+              "subject": {
+                "reference": "Patient/11239372"
+              },
+              "specimen": {
+                "display": "Blood, Venous"
+              },
+              "id": "t891.J6rgUF9U.ndTB43rhXFRbHM.WHO.eco.31ywusqp",
+              "category": [
+                {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/observation-category",
+                      "code": "laboratory",
+                      "display": "Laboratory"
+                    }
+                  ],
+                  "text": "Laboratory"
+                }
+              ],
+              "resourceType": "Observation",
+              "status": "final",
+              "valueQuantity": {
+                "comparator": ">",
+                "unit": "mIU/L",
+                "system": "http://unitsofmeasure.org",
+                "code": "m[IU]/L",
+                "value": 9
+              }
+            }
+          }
+        ],
+        "total": 1,
+        "id": "54CFFD5AF3234170A6B88CF7BBB4ECF6",
+        "type": "searchset",
+        "resourceType": "Bundle"
+      },
+      "name": "441148f3-b436-3c29-840d-37093caaae3d",
+      "id": "#3cdafd6c-cf47-42fc-bbf9-2d1582cbae99"
+    },
+    {
+      "extension": [
+        {
+          "valueString": "Custodian",
+          "url": "https://kmd.mayo.edu/fhirExtensions/questionnaireResponseSource"
+        }
+      ],
+      "resource": {
+        "identifier": [
+          {
+            "extension": [
+              {
+                "valueString": "xxx-xx-4545",
+                "url": "http://hl7.org/fhir/StructureDefinition/rendered-value"
+              }
+            ],
+            "system": "urn:oid:2.16.840.1.113883.4.1",
+            "use": "usual",
+            "type": {
+              "extension": [
+                {
+                  "valueString": "xxx-xx-4545",
+                  "url": "http://hl7.org/fhir/StructureDefinition/rendered-value"
+                }
+              ]
+            }
+          },
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.451.2.7.5.737384.14",
+            "use": "usual",
+            "type": {
+              "text": "14"
+            },
+            "value": "11-242-722"
+          },
+          {
+            "use": "usual",
+            "type": {
+              "text": "CEID"
+            },
+            "value": "MAY-036-043C"
+          },
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.451.2.7.5.737384.0",
+            "use": "usual",
+            "type": {
+              "text": "EPIC"
+            },
+            "value": "Z97271"
+          },
+          {
+            "use": "usual",
+            "type": {
+              "text": "EXTERNAL"
+            }
+          },
+          {
+            "use": "usual",
+            "type": {
+              "text": "FHIR"
+            },
+            "value": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+          },
+          {
+            "use": "usual",
+            "type": {
+              "text": "FHIR STU3"
+            },
+            "value": "29f09ab1-a98e-4657-9871-0429305feb11"
+          },
+          {
+            "use": "usual",
+            "type": {
+              "text": "INTERNAL"
+            }
+          },
+          {
+            "system": "http://terms.mayo.edu/systemid/registration/mrn",
+            "use": "usual",
+            "type": {
+              "text": "MC"
+            },
+            "value": "11242722"
+          },
+          {
+            "use": "usual",
+            "type": {
+              "text": "WPRINTERNAL"
+            }
+          },
+          {
+            "extension": [
+              {
+                "valueString": "xxx-xx-0000",
+                "url": "http://hl7.org/fhir/StructureDefinition/rendered-value"
+              }
+            ],
+            "system": "urn:oid:2.16.840.1.113883.4.1",
+            "use": "usual"
+          }
+        ],
+        "extension": [
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.6.238",
+                      "code": "2054-5",
+                      "userSelected": false,
+                      "display": "Black or African American"
+                    }
+                  ],
+                  "text": "Black or African American"
+                },
+                "url": "ombCategory"
+              },
+              {
+                "valueString": "Black or African American",
+                "url": "text"
+              }
+            ],
+            "url": "http://hl7.org/fhir/StructureDefinition/us-core-race"
+          },
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/ValueSet/v3-Ethnicity",
+                      "code": "2054-5",
+                      "display": "Not Hispanic or Latino"
+                    }
+                  ]
+                },
+                "url": "ombCategory"
+              },
+              {
+                "valueString": "Not Hispanic or Latino",
+                "url": "text"
+              }
+            ],
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+          },
+          {
+            "extension": [
+              {
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/ValueSet/v3-Race",
+                      "code": "2054-5",
+                      "display": "Black or African American"
+                    }
+                  ]
+                },
+                "url": "ombCategory"
+              },
+              {
+                "valueString": "Black or African American",
+                "url": "text"
+              }
+            ],
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+          },
+          {
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/v3/AdministrativeGender",
+                  "code": "F",
+                  "display": "Female"
+                }
+              ]
+            },
+            "url": "http://hl7.org/fhir/StructureDefinition/us-core-birth-sex"
+          }
+        ],
+        "address": [
+          {
+            "city": "ROCHESTER",
+            "use": "home",
+            "line": [
+              "123"
+            ],
+            "district": "OLMSTED",
+            "postalCode": "55901",
+            "state": "MN"
+          }
+        ],
+        "gender": "female",
+        "active": true,
+        "birthDate": "1972-03-10",
+        "deceasedBoolean": false,
+        "managingOrganization": {
+          "reference": "Organization/eKBUMPNkVMW0zMCoRDL7cbw3",
+          "display": "Mayo Clinic"
+        },
+        "generalPractitioner": [
+          {
+            "reference": "Practitioner/edsuE2Iy2BNxVMGLkw2f2iw3",
+            "display": "1677388"
+          }
+        ],
+        "name": [
+          {
+            "given": [
+              "Donotuse",
+              "Fifty"
+            ],
+            "use": "official",
+            "text": "MEATESTING,DONOTUSE FIFTY",
+            "family": "Meatesting"
+          },
+          {
+            "given": [
+              "Donotuse",
+              "Fifty"
+            ],
+            "use": "usual",
+            "text": "MEATESTING,DONOTUSE FIFTY",
+            "family": "Meatesting"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "home",
+            "value": "555-555-5555"
+          },
+          {
+            "system": "phone",
+            "use": "work"
+          }
+        ],
+        "id": "29f09ab1-a98e-4657-9871-0429305feb11",
+        "text": {
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>Name</b>:MEATESTING,DONOTUSE FIFTY</p><p><b>Date Of Birth</b>:28-Jan-1982</p><p><b>Address</b>:123 null</p><p><b>City, State</b>: <span>ROCHESTER MN</span></p><p><b>Postal Code</b>:55901</p></div>",
+          "status": "generated"
+        },
+        "communication": [
+          {
+            "language": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/ValueSet/languages",
+                  "code": "en",
+                  "display": "English"
+                }
+              ],
+              "text": "English"
+            },
+            "preferred": true
+          }
+        ],
+        "maritalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/MaritalStatus"
+            }
+          ],
+          "text": "Married"
+        },
+        "resourceType": "Patient"
+      },
+      "name": "f562aa71-5d74-3612-afda-fcd04b2580dd",
+      "id": "#f4d490cc-f580-489f-9d90-cc7cab7ee6f5"
+    }
+  ],
+  "resourceType": "Parameters"
+}

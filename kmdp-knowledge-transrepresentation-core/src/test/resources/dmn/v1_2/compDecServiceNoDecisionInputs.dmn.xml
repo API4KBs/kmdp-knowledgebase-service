@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  id="_fe6db819-d69b-49ab-bc6c-218ba6e64a55" name="Drawing 1"
+  namespace="http://www.foo.com/definitions/_fe6db819-d69b-49ab-bc6c-218ba6e64a55"
+  exporter="Decision Modeler" exporterVersion="7.13.2" xml:lang="en">
+  <semantic:extensionElements/>
+  <semantic:decision id="_47524a63-25cb-4bd0-b87a-e953fdfed9e8" name="Output Decision">
+    <semantic:variable name="Output Decision" id="_f3519b7d-85ef-4986-b054-1fe341779eb0"
+      typeRef="Any"/>
+    <semantic:informationRequirement id="_5c8a7458-afc2-429b-852f-5cc181ad3aba">
+      <semantic:requiredInput href="#_976d5d68-c30d-46bc-84ab-17697d52153e"/>
+    </semantic:informationRequirement>
+    <semantic:informationRequirement id="_c4f08146-c09d-4e8f-bcf3-beb609f854fa">
+      <semantic:requiredDecision href="#_40aa57c5-bcfe-459e-9dea-78904e548fd9"/>
+    </semantic:informationRequirement>
+  </semantic:decision>
+  <semantic:inputData id="_976d5d68-c30d-46bc-84ab-17697d52153e" name="My Input">
+    <semantic:variable name="My Input" id="_9024e745-d66c-45d1-adbb-47b514b9e31d" typeRef="string"/>
+  </semantic:inputData>
+  <semantic:decision id="_40aa57c5-bcfe-459e-9dea-78904e548fd9" name="My SubDecision">
+    <semantic:variable name="My SubDecision" id="_04e94fec-7ee7-44f2-b81d-caf9da26f25e"
+      typeRef="Any"/>
+  </semantic:decision>
+  <semantic:decisionService id="_f65bd32c-1259-4d6d-86d8-a5cb5c0bc417" name="Decision Service Y">
+    <semantic:variable name="Decision Service Y" id="_7f68953e-d097-4c42-a96c-f1f9db2b25f0"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_47524a63-25cb-4bd0-b87a-e953fdfed9e8"/>
+    <semantic:encapsulatedDecision href="#_40aa57c5-bcfe-459e-9dea-78904e548fd9"/>
+    <semantic:inputData href="#_976d5d68-c30d-46bc-84ab-17697d52153e"/>
+  </semantic:decisionService>
+</semantic:definitions>

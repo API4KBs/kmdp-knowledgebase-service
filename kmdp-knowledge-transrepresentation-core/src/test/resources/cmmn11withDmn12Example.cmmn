@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cmmn:definitions
+  targetNamespace="http://bpmn.io/schema/cmmn"
+  xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL">
+  <cmmn:caseFileItemDefinition/>
+
+  <cmmn:case name="Simple">
+    <cmmn:extensionElements>
+       <dmn:context/>
+    </cmmn:extensionElements>
+  </cmmn:case>
+</cmmn:definitions>

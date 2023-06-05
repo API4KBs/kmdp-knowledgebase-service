@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>edu.mayo.kmdp</groupId>
+    <artifactId>kmdp-knowledge-artifact-repository</artifactId>
+    <version>6.0.1-SNAPSHOT</version>
+  </parent>
+
+  <name>KMDP :: Service :: Knowledge Artifact Repository :: Impl</name>
+
+  <artifactId>kmdp-knowledge-artifact-repository-core</artifactId>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-artifact-repository-service-server</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-rest-ws-utils</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>dev.aspectj</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <configuration>
+          <weaveDependencies>
+            <weaveDependency>
+              <groupId>edu.mayo.kmdp</groupId>
+              <artifactId>kmdp-service-descr</artifactId>
+            </weaveDependency>
+          </weaveDependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>

@@ -6,17 +6,20 @@
 
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
-    <artifactId>kmdp-knowledgebase-construction-service</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <artifactId>kmdp-knowledgebase-components</artifactId>
+    <version>6.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>kmdp-knowledgebase-construction-service-core</artifactId>
 
   <name>KMDP :: Service :: KnowledgeBase Construction Service :: Impl</name>
 
- 
-
   <dependencies>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-knowledgebase-service-server</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>edu.mayo.kmdp</groupId>
+    <artifactId>kmdp-knowledgebase-components</artifactId>
+    <version>6.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>kmdp-knowledge-transrepresentation-core</artifactId>
+
+  <name>KMDP :: Service :: Knowledge Transrepresentation Service :: Impl</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-artifact-transrepresentation-service-server</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-rest-ws-utils</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-service-descr</artifactId>
+    </dependency>
+
+    <dependency>
+      <artifactId>omg-cmmn-11</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>omg-bpmn-202</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-asset-surrogate</artifactId>
+    </dependency>
+
+    <dependency>
+      <artifactId>omg-dmn-11</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+    </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>omg-dmn-12</artifactId>
+    </dependency>
+    <dependency>
+      <artifactId>ihtsdo-scg</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>omg-mvf-10b</artifactId>
+      <groupId>edu.mayo.kmdp</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>poi-ooxml</artifactId>
+      <groupId>org.apache.poi</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>opencsv</artifactId>
+      <groupId>com.opencsv</groupId>
+    </dependency>
+
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-structures-dstu3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-structures-r4</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-converter</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.swagger.parser.v3</groupId>
+      <artifactId>swagger-parser</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sourceforge.owlapi</groupId>
+      <artifactId>owlapi-apibinding</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>terms-owl-to-skos</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-utils</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-core</artifactId>
+    </dependency>
+
+  </dependencies>
+
+
+</project>

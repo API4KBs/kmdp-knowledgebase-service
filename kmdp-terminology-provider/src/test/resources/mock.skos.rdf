@@ -1,0 +1,135 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://ontology.mayo.edu/ontologies/clinicaltaskontology/"
+    xmlns:dce="http://www.opengroup.org/dce/"
+    xmlns:afn="http://jena.apache.org/ARQ/function#"
+    xmlns:lcc-lr="https://www.omg.org/spec/LCC/Languages/LanguageRepresentation/"
+    xmlns:tgt="https://ontology.mayo.edu/taxonomies/ClinicalTasks#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:metadata="http://topbraid.org/metadata#"
+    xmlns:olex="http://www.w3.org/ns/lemon/ontolex#"
+    xmlns:dct="http://purl.org/dc/terms/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:swa="http://topbraid.org/swa#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:f="http://kmdp.mayo.edu/sparql/function#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Ontology rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks">
+    <owl:imports rdf:resource="http://purl.org/dc/terms/"/>
+    <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+    <owl:versionIRI rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks/20201101"/>
+  </owl:Ontology>
+  <owl:NamedIndividual rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#408de062-c8b1-3c65-9877-21ddead19bbf">
+    <dct:identifier>408de062-c8b1-3c65-9877-21ddead19bbf</dct:identifier>
+    <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/408de062-c8b1-3c65-9877-21ddead19bbf</rdfs:isDefinedBy>
+    <rdfs:label xml:lang="en">Plan</rdfs:label>
+    <skos:notation>408de062-c8b1-3c65-9877-21ddead19bbf</skos:notation>
+    <skos:inScheme>
+      <skos:ConceptScheme rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+        <rdfs:label>ClinicalTasks</rdfs:label>
+        <skos:prefLabel>ClinicalTasks</skos:prefLabel>
+        <skos:hasTopConcept>
+          <skos:Concept rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d">
+            <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+            <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+            <rdfs:label>ClinicalTask</rdfs:label>
+            <skos:prefLabel>ClinicalTask</skos:prefLabel>
+          </skos:Concept>
+        </skos:hasTopConcept>
+      </skos:ConceptScheme>
+    </skos:inScheme>
+    <rdfs:comment>Concieve an intervention, or orchestrated set of interventions, intended to achieve some goal within a context</rdfs:comment>
+    <skos:broader rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+    <skos:prefLabel xml:lang="en">Plan</skos:prefLabel>
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+  </owl:NamedIndividual>
+  <owl:NamedIndividual rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#f59bd979-1b24-39bc-87f8-ff64eb1d3bb5">
+    <skos:notation>f59bd979-1b24-39bc-87f8-ff64eb1d3bb5</skos:notation>
+    <rdfs:label xml:lang="en">Evaluate</rdfs:label>
+    <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/f59bd979-1b24-39bc-87f8-ff64eb1d3bb5</rdfs:isDefinedBy>
+    <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+    <rdfs:comment>Analyze potentially relevant information about a patient to determine its significance in a clinical case (has no formal output)</rdfs:comment>
+    <dct:identifier>f59bd979-1b24-39bc-87f8-ff64eb1d3bb5</dct:identifier>
+    <skos:broader>
+      <skos:Concept rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#624ac551-2f99-3ccd-81af-609ca02a878e">
+        <rdfs:comment>Analyze relevant information to evaluate a situation and possibly answer a question about the situation</rdfs:comment>
+        <rdfs:label xml:lang="en">Assess</rdfs:label>
+        <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+        <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+        <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/624ac551-2f99-3ccd-81af-609ca02a878e</rdfs:isDefinedBy>
+        <skos:notation>624ac551-2f99-3ccd-81af-609ca02a878e</skos:notation>
+        <skos:broader rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+        <dct:identifier>624ac551-2f99-3ccd-81af-609ca02a878e</dct:identifier>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+        <skos:prefLabel xml:lang="en">Assess</skos:prefLabel>
+      </skos:Concept>
+    </skos:broader>
+    <skos:prefLabel xml:lang="en">Evaluate</skos:prefLabel>
+  </owl:NamedIndividual>
+  <skos:Concept rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#5a99f023-1665-3da3-8980-55298ecf000a">
+    <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+    <skos:notation>5a99f023-1665-3da3-8980-55298ecf000a</skos:notation>
+    <rdfs:comment>Select from among possible, alternative interventions intended to achieve the same goal</rdfs:comment>
+    <rdfs:label xml:lang="en">Choose</rdfs:label>
+    <dct:identifier>5a99f023-1665-3da3-8980-55298ecf000a</dct:identifier>
+    <skos:prefLabel xml:lang="en">Choose</skos:prefLabel>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+    <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/5a99f023-1665-3da3-8980-55298ecf000a</rdfs:isDefinedBy>
+    <skos:broader rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+  </skos:Concept>
+  <owl:NamedIndividual rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#fe6c8a1e-8c08-3690-953b-8b199f3ebece">
+    <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+    <dct:identifier>fe6c8a1e-8c08-3690-953b-8b199f3ebece</dct:identifier>
+    <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/fe6c8a1e-8c08-3690-953b-8b199f3ebece</rdfs:isDefinedBy>
+    <skos:notation>fe6c8a1e-8c08-3690-953b-8b199f3ebece</skos:notation>
+    <skos:broader rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+    <skos:prefLabel xml:lang="en">Treat</skos:prefLabel>
+    <rdfs:label xml:lang="en">Treat</rdfs:label>
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+    <rdfs:comment>Peform intervention intended to achieve a reduction in symptoms or a slowing or reversal of the disease process</rdfs:comment>
+  </owl:NamedIndividual>
+  <skos:Concept rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#14e929a2-a22a-3107-8a38-692107b0f7c5">
+    <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/14e929a2-a22a-3107-8a38-692107b0f7c5</rdfs:isDefinedBy>
+    <dct:identifier>14e929a2-a22a-3107-8a38-692107b0f7c5</dct:identifier>
+    <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+    <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+    <skos:broader>
+      <owl:NamedIndividual rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#dc37fbcc-3048-3841-9cba-5ff6d471747c">
+        <rdfs:comment>Provide information</rdfs:comment>
+        <skos:broader rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+        <dct:identifier>dc37fbcc-3048-3841-9cba-5ff6d471747c</dct:identifier>
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:notation>dc37fbcc-3048-3841-9cba-5ff6d471747c</skos:notation>
+        <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+        <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/dc37fbcc-3048-3841-9cba-5ff6d471747c</rdfs:isDefinedBy>
+        <skos:prefLabel xml:lang="en">Inform</skos:prefLabel>
+        <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+        <rdfs:label xml:lang="en">Inform</rdfs:label>
+      </owl:NamedIndividual>
+    </skos:broader>
+    <skos:notation>14e929a2-a22a-3107-8a38-692107b0f7c5</skos:notation>
+    <rdfs:label xml:lang="en">Educate</rdfs:label>
+    <rdfs:comment>Provide information to develop an agent's capability to manage a situation</rdfs:comment>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <skos:prefLabel xml:lang="en">Educate</skos:prefLabel>
+  </skos:Concept>
+  <owl:NamedIndividual rdf:about="https://ontology.mayo.edu/taxonomies/ClinicalTasks#0acf2095-dcf9-3b0a-8a98-3b5490a27130">
+    <rdfs:comment>Analyze relevant information about a patient to determine membership in a cohort with like characteristics (has formal output)</rdfs:comment>
+    <dct:identifier>0acf2095-dcf9-3b0a-8a98-3b5490a27130</dct:identifier>
+    <rdfs:label xml:lang="en">Classify</rdfs:label>
+    <skos:inScheme rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#7fee57de-ad70-384b-ba8c-c03be5e2d80f"/>
+    <skos:broaderTransitive rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#c1e36e66-d92f-3c98-a08d-b84880c90c6d"/>
+    <skos:broader rdf:resource="https://ontology.mayo.edu/taxonomies/ClinicalTasks#624ac551-2f99-3ccd-81af-609ca02a878e"/>
+    <rdfs:isDefinedBy>http://ontology.mayo.edu/ontologies/clinicaltaskontology/0acf2095-dcf9-3b0a-8a98-3b5490a27130</rdfs:isDefinedBy>
+    <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <skos:notation>0acf2095-dcf9-3b0a-8a98-3b5490a27130</skos:notation>
+    <skos:prefLabel xml:lang="en">Classify</skos:prefLabel>
+  </owl:NamedIndividual>
+</rdf:RDF>

@@ -4,24 +4,28 @@
 
   <parent>
     <groupId>edu.mayo.kmdp</groupId>
-    <artifactId>kmdp-knowledgebase-service-base</artifactId>
+    <artifactId>kmdp-bom</artifactId>
     <version>12.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>kmdp-knowledgebase-construction-service</artifactId>
-  <version>6.0.0-SNAPSHOT</version>
+  <artifactId>kmdp-knowledgebase-components</artifactId>
+  <version>6.0.1-SNAPSHOT</version>
 
-  <name>KMDP :: Service :: KnowledgeBase Construction Service</name>
+  <name>KMDP :: Service :: KnowledgeBase Platform Components</name>
 
   <packaging>pom</packaging>
 
    <properties>
-    <kmdp.servers.version>6.0.0-SNAPSHOT</kmdp.servers.version>
+    <kmdp.servers.version>6.0.1-SNAPSHOT</kmdp.servers.version>
   </properties>
 
   <modules>
-<!--    <module>kmdp-knowledgebase-construction-service-impl</module>-->
+    <module>kmdp-knowledge-artifact-repository-service</module>
+    <module>kmdp-knowledge-transrepresentation-core</module>
     <module>kmdp-knowledgebase-construction-service-core</module>
+    <module>kmdp-inference-broker-core</module>
+    <module>kmdp-complex-ops-impl</module>
+    <module>kmdp-terminology-provider</module>
   </modules>
 
 

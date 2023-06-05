@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/CMMN/20151109/MODEL"  xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI"  xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI"  xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC"  xmlns:trisocmmn="http://www.trisotech.com/2014/triso/cmmn"  xmlns:triso="http://www.trisotech.com/2015/triso/modeling"  xmlns:feel="https://www.omg.org/spec/DMN/20191111/FEEL/"  xmlns:rss="http://purl.org/rss/2.0/"   xmlns:i18n="http://www.omg.org/spec/BPMN/non-normative/extensions/i18n/1.0"  xmlns:dmn="https://www.omg.org/spec/DMN/20191111/MODEL/"  xmlns:boxedext="https://www.trisotech.com/spec/DMN/20191111/EXT/"  xmlns="http://www.trisotech.com/definitions/_da056439-6fb2-488c-9ea0-69081fc536fe" id="_da056439-6fb2-488c-9ea0-69081fc536fe" name="Drawing 1" targetNamespace="http://www.trisotech.com/definitions/_da056439-6fb2-488c-9ea0-69081fc536fe" expressionLanguage="https://www.omg.org/spec/DMN/20191111/FEEL/" exporter="Case Modeler" exporterVersion="7.13.3" xml:lang="en" triso:logoChoice="Default">
+    <semantic:caseFileItemDefinition name="Applic of X" id="_5cd35ab6-af45-4ba0-86c2-4774987382af"/>
+    <semantic:case id="Case_cf5c9c36-5e41-4a89-b290-bd791a0b95ff" name="DiscrCase">
+        <semantic:casePlanModel id="_cf5c9c36-5e41-4a89-b290-bd791a0b95ff" name="DiscrCase">
+            <semantic:planItem id="_d8d6480a-5a84-412f-b207-9bae0b92c9e6" definitionRef="PID__d8d6480a-5a84-412f-b207-9bae0b92c9e6"/>
+            <semantic:stage id="PID__d8d6480a-5a84-412f-b207-9bae0b92c9e6" name="NStage">
+                <semantic:planningTable id="PT__d8d6480a-5a84-412f-b207-9bae0b92c9e6">
+                    <semantic:discretionaryItem id="_60a582f5-0c98-47c9-ac03-576d94711cb0" definitionRef="PID__60a582f5-0c98-47c9-ac03-576d94711cb0"/>
+                    <semantic:discretionaryItem id="_d0899180-8b52-4bf9-94c4-525c6d28a83f" definitionRef="PID__d0899180-8b52-4bf9-94c4-525c6d28a83f"/>
+                </semantic:planningTable>
+                <semantic:task id="PID__60a582f5-0c98-47c9-ac03-576d94711cb0" name="DTaskA">
+                    <semantic:defaultControl>
+                        <semantic:manualActivationRule id="_636f2fd7-cb13-4d58-89ad-d37d51879de0"/>
+                    </semantic:defaultControl>
+                </semantic:task>
+                <semantic:stage id="PID__d0899180-8b52-4bf9-94c4-525c6d28a83f" name="DStage">
+                    <semantic:planItem id="_ac1d7c09-a185-4263-aa53-846c4df17e1f" definitionRef="PID__ac1d7c09-a185-4263-aa53-846c4df17e1f"/>
+                    <semantic:planningTable id="PT__d0899180-8b52-4bf9-94c4-525c6d28a83f">
+                        <semantic:discretionaryItem id="_8434285d-c6b0-4f04-bb3a-a30d0dcfc2d6" definitionRef="PID__8434285d-c6b0-4f04-bb3a-a30d0dcfc2d6"/>
+                    </semantic:planningTable>
+                    <semantic:task id="PID__ac1d7c09-a185-4263-aa53-846c4df17e1f" name="TaskB">
+                        <semantic:defaultControl>
+                            <semantic:manualActivationRule id="_ad199db3-0e35-4fba-a71b-afa7f20cdbcb"/>
+                        </semantic:defaultControl>
+                    </semantic:task>
+                    <semantic:task id="PID__8434285d-c6b0-4f04-bb3a-a30d0dcfc2d6" name="DTaskC">
+                        <semantic:defaultControl>
+                            <semantic:manualActivationRule id="_21d43fa8-9e45-4998-9a2b-22695681a241"/>
+                        </semantic:defaultControl>
+                    </semantic:task>
+                </semantic:stage>
+            </semantic:stage>
+        </semantic:casePlanModel>
+    </semantic:case>
+    <cmmndi:CMMNDI>
+        <cmmndi:CMMNDiagram id="_9f20af9e-9465-48f5-9540-b70bfbae6233" name="Page 1" cmmnElementRef="_da056439-6fb2-488c-9ea0-69081fc536fe">
+            <cmmndi:Size width="1545" height="1050"/>
+            <cmmndi:CMMNShape id="_ce293ef8-e8ef-4513-95d7-6ca0200b4af2" cmmnElementRef="_cf5c9c36-5e41-4a89-b290-bd791a0b95ff">
+                <cmmndi:CMMNStyle>
+                    <cmmndi:FillColor red="255" green="255" blue="255"/>
+                    <cmmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <cmmndi:FontColor red="0" green="0" blue="0"/>
+                </cmmndi:CMMNStyle>
+                <dc:Bounds x="202" y="64" width="731" height="380"/>
+                <cmmndi:CMMNLabel triso:defaultBounds="true">
+                    <dc:Bounds height="16" width="195" x="208" y="65"/>
+                </cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="_8fe9dce1-a443-4d38-bebb-c91bbb331e6d" cmmnElementRef="_d8d6480a-5a84-412f-b207-9bae0b92c9e6">
+                <cmmndi:CMMNStyle>
+                    <cmmndi:FillColor red="255" green="255" blue="255"/>
+                    <cmmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <cmmndi:FontColor red="0" green="0" blue="0"/>
+                </cmmndi:CMMNStyle>
+                <dc:Bounds x="303.5" y="143" width="543" height="246"/>
+                <cmmndi:CMMNLabel triso:defaultBounds="true">
+                    <dc:Bounds height="16" width="499" x="325.5" y="148"/>
+                </cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="_cfdb556c-7033-408c-a060-bdb0a53e130c" cmmnElementRef="_60a582f5-0c98-47c9-ac03-576d94711cb0">
+                <cmmndi:CMMNStyle>
+                    <cmmndi:FillColor red="255" green="255" blue="255"/>
+                    <cmmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <cmmndi:FontColor red="0" green="0" blue="0"/>
+                </cmmndi:CMMNStyle>
+                <dc:Bounds x="708" y="214" width="96" height="76"/>
+                <cmmndi:CMMNLabel triso:defaultBounds="true">
+                    <dc:Bounds height="16" width="90" x="711" y="244"/>
+                </cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="_38bf5f13-9db0-4981-a62f-0650b1330964" cmmnElementRef="_d0899180-8b52-4bf9-94c4-525c6d28a83f">
+                <cmmndi:CMMNStyle>
+                    <cmmndi:FillColor red="255" green="255" blue="255"/>
+                    <cmmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <cmmndi:FontColor red="0" green="0" blue="0"/>
+                </cmmndi:CMMNStyle>
+                <dc:Bounds x="346.5" y="179" width="272.5" height="146"/>
+                <cmmndi:CMMNLabel triso:defaultBounds="true">
+                    <dc:Bounds height="16" width="229" x="368.5" y="184"/>
+                </cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="_d5bfed9e-de69-4f11-8a68-f53b93d52291" cmmnElementRef="_ac1d7c09-a185-4263-aa53-846c4df17e1f">
+                <cmmndi:CMMNStyle>
+                    <cmmndi:FillColor red="255" green="255" blue="255"/>
+                    <cmmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <cmmndi:FontColor red="0" green="0" blue="0"/>
+                </cmmndi:CMMNStyle>
+                <dc:Bounds x="372" y="214" width="96" height="76"/>
+                <cmmndi:CMMNLabel triso:defaultBounds="true">
+                    <dc:Bounds height="16" width="90" x="375" y="244"/>
+                </cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+            <cmmndi:CMMNShape id="_2aa49f8f-052b-49f5-9535-a0c87b4d3888" cmmnElementRef="_8434285d-c6b0-4f04-bb3a-a30d0dcfc2d6">
+                <cmmndi:CMMNStyle>
+                    <cmmndi:FillColor red="255" green="255" blue="255"/>
+                    <cmmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <cmmndi:FontColor red="0" green="0" blue="0"/>
+                </cmmndi:CMMNStyle>
+                <dc:Bounds x="498" y="214" width="96" height="76"/>
+                <cmmndi:CMMNLabel triso:defaultBounds="true">
+                    <dc:Bounds height="16" width="90" x="501" y="244"/>
+                </cmmndi:CMMNLabel>
+            </cmmndi:CMMNShape>
+        </cmmndi:CMMNDiagram>
+    </cmmndi:CMMNDI>
+</semantic:definitions>
