@@ -96,7 +96,7 @@ public class SwaggerToMessageBundleTranscreator {
    * @throws URISyntaxException
    */
   public static void main(String[] args) throws URISyntaxException {
-    var base = "/openapi/v2/org/omg/spec/api4kp/5.0.0/";
+    var base = "/openapi/v3/org/omg/spec/api4kp/5.0.0/";
     var tgtURI = requireNonNull(SwaggerToMessageBundleTranscreator.class.getResource("/")).toURI();
     var tgt = new File(tgtURI).getParentFile().getAbsolutePath();
 
