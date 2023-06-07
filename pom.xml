@@ -20,7 +20,7 @@
   </properties>
 
   <modules>
-    <module>kmdp-knowledge-artifact-repository-service</module>
+    <module>kmdp-knowledge-artifact-repository</module>
     <module>kmdp-knowledge-transrepresentation-core</module>
     <module>kmdp-knowledgebase-construction-service-core</module>
     <module>kmdp-inference-broker-core</module>
