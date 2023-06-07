@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+  xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
+  xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  name="Basic Decision Model"
+  namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  xsi:schemaLocation="https://www.omg.org/spec/API4KP/20200801/surrogate xsd/API4KP/surrogate/surrogate.xsd">
+  <semantic:extensionElements/>
+  <semantic:decisionService id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_DS"
+    name="Whole Model Decision Service">
+    <semantic:variable id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_DS_VAR"
+      name="Whole Model Decision Service"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"/>
+    <semantic:inputData href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
+    <semantic:inputData href="#_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"/>
+  </semantic:decisionService>
+  <semantic:decisionService id="_b1cbbae9-a4c0-4a85-bb26-4c10bf35a750_DS" name="Diagram Page 1">
+    <semantic:variable id="_b1cbbae9-a4c0-4a85-bb26-4c10bf35a750_DS_VAR"
+      name="Diagram Page 1"
+      typeRef="Any"/>
+    <semantic:outputDecision href="#_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"/>
+    <semantic:inputData href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
+    <semantic:inputData href="#_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"/>
+  </semantic:decisionService>
+  <semantic:decision id="_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"
+    name="Basic Decision - History Pertinent to Condition">
+    <semantic:extensionElements>
+      <surr:annotation
+      >
+        <surr:ref
+          name="KnowledgeAssetTypes - 20190801 - Semantic Decision Modelin 'KnowledgeAssetTypes - 20190801'"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#"
+          referentId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#56b58fc2-b66f-3175-878e-bc3ef01cb916"
+          tag="_1ab9d894-42a5-48af-aed6-d76ba965214a"/>
+      </surr:annotation>
+      <surr:annotation
+      >
+        <surr:rel name="captures"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/captures"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/captures"
+          tag="captures"/>
+        <surr:ref name="DecisionTypes - 20190801 - Naturalistic Decision"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#"
+          referentId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#20953273-18b7-3ec2-813f-1e71808e9823"
+          tag="_46270393-6eb6-413c-a35c-d7855d82625a"/>
+      </surr:annotation>
+      <surr:annotation
+      >
+        <surr:rel name="captures"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/captures"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/captures"
+          tag="captures"/>
+        <surr:ref name="DecisionTypes - 20190801 - Assessment Decision"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#"
+          referentId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#d03ea564-0d31-3e72-a98b-cb93aa4c5cce"
+          tag="_9e4aa1ab-a596-4b76-b19d-3af497cffff7"/>
+      </surr:annotation>
+      <surr:annotation
+      >
+        <surr:rel name="captures"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/captures"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/captures"
+          tag="captures"/>
+        <surr:ref name="DecisionTypes - 20190801 - Aggregation Decision"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#"
+          referentId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#7a42c227-08ed-36af-a332-b6f04cc457b3"
+          tag="_24df23eb-c409-419d-b0d7-40e74c23b28d"/>
+      </surr:annotation>
+    </semantic:extensionElements>
+    <semantic:variable id="_55bda1ac-16c0-4a1d-9450-0ee7d32fc632"
+      name="Basic Decision - History Pertinent to Condition"
+      typeRef="boolean"/>
+    <semantic:informationRequirement id="_d6bd23cf-1f09-4b3d-b595-e6a490e6f016">
+      <semantic:requiredInput href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
+    </semantic:informationRequirement>
+    <semantic:informationRequirement id="_4334690b-df9c-49ba-b84b-9127af742d31">
+      <semantic:requiredInput href="#_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"/>
+    </semantic:informationRequirement>
+    <semantic:decisionTable hitPolicy="UNIQUE"
+      id="_9f5d8814-fad2-47c0-b6f2-1e1ebffb9f34"
+      outputLabel="Basic Decision - History Pertinent to Condition"
+      typeRef="boolean">
+      <semantic:input id="_52381df1-592e-4605-b61a-3f3496eea584" label="Input 1">
+        <semantic:inputExpression typeRef="boolean">
+          <semantic:text>Input 1</semantic:text>
+        </semantic:inputExpression>
+      </semantic:input>
+      <semantic:input id="_29cea758-7ec3-46c9-9213-37b7c935ac46" label="Input 2">
+        <semantic:inputExpression typeRef="boolean">
+          <semantic:text>Input 2</semantic:text>
+        </semantic:inputExpression>
+      </semantic:input>
+      <semantic:output id="_777c65cf-c91f-4bcb-9240-e38024dfeb4e"/>
+      <semantic:annotation name="Description"/>
+      <semantic:rule id="_65bf988e-b8e6-4233-8bd5-0ce87fc1a4b2">
+        <semantic:inputEntry id="_7fd997a9-9b09-4200-b4dc-2e43cfc37581">
+          <semantic:text>true</semantic:text>
+        </semantic:inputEntry>
+        <semantic:inputEntry id="_63d00b7f-ca9e-4abd-a777-20dd1d4d9d3d">
+          <semantic:text>-</semantic:text>
+        </semantic:inputEntry>
+        <semantic:outputEntry id="_f78e1959-b83b-4ea6-af57-9eac41fd0c00">
+          <semantic:text>true</semantic:text>
+        </semantic:outputEntry>
+        <semantic:annotationEntry>
+          <semantic:text/>
+        </semantic:annotationEntry>
+      </semantic:rule>
+      <semantic:rule id="_15716694-38d4-418b-b738-3c824417e751">
+        <semantic:inputEntry id="_2663148b-fc27-41af-a22c-29f077ce1215">
+          <semantic:text>-</semantic:text>
+        </semantic:inputEntry>
+        <semantic:inputEntry id="_6541f22e-dc19-459e-82b7-bc26615d43c4">
+          <semantic:text>"t"</semantic:text>
+        </semantic:inputEntry>
+        <semantic:outputEntry id="_c58d3990-8512-4696-8c64-604305046be2">
+          <semantic:text>true</semantic:text>
+        </semantic:outputEntry>
+        <semantic:annotationEntry>
+          <semantic:text/>
+        </semantic:annotationEntry>
+      </semantic:rule>
+      <semantic:rule id="_e5e2fcb5-594c-44e2-b0cb-60d2a26d5fa1">
+        <semantic:inputEntry id="_96fec382-fbfa-4cf1-93c8-859bf9224e50">
+          <semantic:text>false</semantic:text>
+        </semantic:inputEntry>
+        <semantic:inputEntry id="_3d6dd97b-3455-4141-a862-dcc4bf00aa88">
+          <semantic:text>false</semantic:text>
+        </semantic:inputEntry>
+        <semantic:outputEntry id="_8f0dea3e-e615-4a13-8e97-349d2f6a029d">
+          <semantic:text>false</semantic:text>
+        </semantic:outputEntry>
+        <semantic:annotationEntry>
+          <semantic:text/>
+        </semantic:annotationEntry>
+      </semantic:rule>
+    </semantic:decisionTable>
+  </semantic:decision>
+  <semantic:inputData id="_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"
+    name="Test History of Medication Therapy">
+    <semantic:extensionElements>
+      <surr:annotation
+      >
+        <surr:rel name="in terms of"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/defined-in-terms-of"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/defined-in-terms-of"
+          tag="defined-in-terms-of"/>
+        <surr:ref
+          name="PropositionalConcepts - 20190801 - Has Hypertension - Isin 'PropositionalConcepts - 20190801'"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/propositionalconcepts#"
+          referentId="https://ontology.mayo.edu/taxonomies/propositionalconcepts/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/propositionalconcepts#a34c157c-4495-4039-92a5-7bf2ddece5a8"
+          tag="_899d6481-b87f-4fab-90c1-34ab84b19878"/>
+      </surr:annotation>
+    </semantic:extensionElements>
+    <semantic:variable id="_c52decf4-65c7-49d3-8cc8-8dda5a2580ce"
+      name="Test History of Medication Therapy"
+      typeRef="boolean"/>
+  </semantic:inputData>
+  <semantic:inputData id="_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"
+    name="Test History of Condition">
+    <semantic:extensionElements>
+      <surr:annotation
+      >
+        <surr:rel name="in terms of"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/defined-in-terms-of"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/defined-in-terms-of"
+          tag="defined-in-terms-of"/>
+        <surr:ref
+          name="PropositionalConcepts - 20190801 - Has Diabetes Mellitus - Isin 'PropositionalConcepts - 20190801'"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/propositionalconcepts#"
+          referentId="https://ontology.mayo.edu/taxonomies/propositionalconcepts/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/propositionalconcepts#31f92480-1ed8-4b26-81e1-f402df21235b"
+          tag="b9c64c5c-3e82-4658-811b-372d35db9369"/>
+      </surr:annotation>
+    </semantic:extensionElements>
+    <semantic:variable id="_5445c35a-23e6-4791-ada7-58ea4311b339"
+      name="Test History of Condition"
+      typeRef="boolean"/>
+  </semantic:inputData>
+  <semantic:textAnnotation id="_beaf959c-3920-4839-9ba7-03bd1193e5b1">
+    <semantic:text>Test model with:
+      1. top level decision annotated with fragment type, asset type and asset ID
+      2. two test inputs with multiple resources
+    </semantic:text>
+  </semantic:textAnnotation>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_b1cbbae9-a4c0-4a85-bb26-4c10bf35a750" name="Page 1">
+      <di:extension>
+         <surr:annotation
+         >
+          <surr:ref
+            name="KnowledgeAssetTypes - 20190801 - Semantic Decision Modelin 'KnowledgeAssetTypes - 20190801'"
+            namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#"
+            referentId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType/20190801/"
+            resourceId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#56b58fc2-b66f-3175-878e-bc3ef01cb916"
+            tag="_07028747-26d2-4f2f-95e3-b9a0e383c130"/>
+        </surr:annotation>
+      </di:extension>
+      <dmndi:Size height="1050" width="1485"/>
+      <dmndi:DMNShape dmnElementRef="_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"
+        id="_5698065e-e606-41f9-aeab-f3026019b501">
+        <dc:Bounds height="60" width="153" x="663.5" y="173.5"/>
+        <dmndi:DMNLabel sharedStyle="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"
+        id="_3dbb332c-543e-4977-a33d-b1282fbffba8">
+        <dc:Bounds height="60.00000762939453"
+          width="135.48234176635742"
+          x="567.2588291168213"
+          y="305.49999618530273"/>
+        <dmndi:DMNLabel sharedStyle="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"
+        id="_40f0346c-8852-4513-81bb-0e5a60043d17">
+        <dc:Bounds height="60.00000762939453"
+          width="135.48234176635742"
+          x="779.2588291168213"
+          y="305.49999618530273"/>
+        <dmndi:DMNLabel sharedStyle="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="_beaf959c-3920-4839-9ba7-03bd1193e5b1"
+        id="_3290b63c-1173-4b8a-a598-dcb9e399315c">
+        <dc:Bounds height="65" width="251" x="984" y="178.5"/>
+        <dmndi:DMNLabel sharedStyle="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge dmnElementRef="_d6bd23cf-1f09-4b3d-b595-e6a490e6f016"
+        id="_43c46338-c78f-4247-ba5f-69c28b1b2754">
+        <di:waypoint x="634.9968013763428" y="365.49999618530273"/>
+        <di:waypoint x="740" y="173.5"/>
+        <dmndi:DMNLabel sharedStyle="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge dmnElementRef="_4334690b-df9c-49ba-b84b-9127af742d31"
+        id="_9f1d3a97-78ec-4f4d-9fb8-dcc4b6c99435">
+        <di:waypoint x="846.9968013763428" y="365.49999618530273"/>
+        <di:waypoint x="740" y="173.5"/>
+        <dmndi:DMNLabel sharedStyle="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+    <dmndi:DMNStyle fontBold="false"
+      fontFamily="arial,helvetica,sans-serif"
+      fontItalic="false"
+      fontSize="11"
+      fontStrikeThrough="false"
+      fontUnderline="false"
+      id="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
+  </dmndi:DMNDI>
+</semantic:definitions>

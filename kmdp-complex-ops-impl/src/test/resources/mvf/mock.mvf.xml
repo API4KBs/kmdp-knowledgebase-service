@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvf:mVFDictionary xmlns:assets="https://clinicalknowledgemanagement.mayo.edu/assets/"
+  xmlns:mvf="https://www.omg.org/spec/MVF/20220702/MODEL"
+  xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://www.omg.org/spec/API4KP/20200801/surrogate xsd/API4KP/surrogate/surrogate.xsd">
+  <mvf:name>Kidney Transplant Concepts</mvf:name>
+  <mvf:uri>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec</mvf:uri>
+  <mvf:entry>
+    <mvf:name>Most Recent Comprehensive Metabolic Labs</mvf:name>
+    <mvf:uri>urn:uuid:c926d88b-596e-404f-8fb5-093af94a9909</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#c926d88b-596e-404f-8fb5-093af94a9909</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Comprehensive Metabolic Labs</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#b9da7adf-6745-38d7-ac44-e70cd8fe36cb</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Creatinine Blood Level</mvf:name>
+    <mvf:uri>urn:uuid:c09b0df4-16a5-4c17-8dce-edcd316699f8</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#c09b0df4-16a5-4c17-8dce-edcd316699f8</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Creatinine Blood Level</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#88d67396-c8b6-3665-b75a-7351fac7cc07</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>On Immunosuppressive</mvf:name>
+    <mvf:uri>urn:uuid:78ad47d0-b93e-41a7-9cd3-0861f48d47db</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#78ad47d0-b93e-41a7-9cd3-0861f48d47db</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/medicationstatement.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>On Immunosuppressive</mvf:term>
+      <mvf:definition>Active prescriptions of Immunosuppressants</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#347efb43-9c04-36ea-8322-400d9768cca0</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Immune System Cells</mvf:name>
+    <mvf:uri>urn:uuid:84fae273-083a-44ce-b87a-11ea1a996937</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#84fae273-083a-44ce-b87a-11ea1a996937</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Immune System Cells</mvf:term>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Albumin to Creatinine Ratio</mvf:name>
+    <mvf:uri>urn:uuid:1b21895f-dde9-47b8-b0fc-d44065266833</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#1b21895f-dde9-47b8-b0fc-d44065266833</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Albumin to Creatinine Ratio</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#e0107cf3-a19a-4623-85f4-60f21d7d0630</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Prior Transplant Notes</mvf:name>
+    <mvf:uri>urn:uuid:b6f08181-7fc5-4d99-bbef-93239ade7b78</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#b6f08181-7fc5-4d99-bbef-93239ade7b78</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/documentreference.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Prior Transplant Notes</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#adc0cf1b-a262-4d90-ae4c-1cb5dcab2da1</mvf:externalReference>
+    <mvf:broader>
+      <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituationpatterns#f6912019-9e35-3c0a-8513-af6f8be75d47</mvf:externalReference>
+    </mvf:broader>
+    <mvf:context>
+      <mvf:uri>urn:uuid:bc09f47d-e30b-4d31-a411-6f64c9779255</mvf:uri>
+    </mvf:context>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Blood Disorder related to Kidney Transplant</mvf:name>
+    <mvf:uri>urn:uuid:6fe2b0cb-d8d5-4d99-af0d-d32a8426872d</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#6fe2b0cb-d8d5-4d99-af0d-d32a8426872d</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Blood Disorder related to Kidney Transplant</mvf:term>
+      <mvf:note>The blood disorders typically associated with renal transplantation can be divided into two main categories: (1) Common disorders including post-transplant anemia (PTA), post-transplant lymphoproliferative disorder (PTLD), post-transplant erythrocytosis (PTE), and post-transplant cytopenias (PTC, leukopenia/neutropenia, thrombocytopenia, and pancytopenia); and (2) Uncommon but serious disorders including hemophagocytic syndrome (HPS), thrombotic microangiopathy (TMA), therapy-related myelodysplasia (t-MDS), and therapy-related acute myeloid leukemia (t-AML).</mvf:note>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Total Urine Protein Test</mvf:name>
+    <mvf:uri>urn:uuid:919c275a-7210-420a-8bad-d42f876746f2</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#919c275a-7210-420a-8bad-d42f876746f2</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Total Urine Protein Test</mvf:term>
+      <mvf:definition>Test that measures the presence of all proteins, including albumin, in a urine sample.</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:7cb77d9e-6fbe-4de1-afde-5a9409509b52</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Kidney Failure</mvf:name>
+    <mvf:uri>urn:uuid:85529259-d59a-460f-8037-7855d3a4fcd6</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#85529259-d59a-460f-8037-7855d3a4fcd6</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Kidney Failure</mvf:term>
+      <mvf:definition>A condition in which the kidneys lose (part of) their functionality</mvf:definition>
+      <mvf:note>Can be acute or chronic. Irreversible failure requires dialysis or kidney transplant</mvf:note>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Renal Panel Tests</mvf:name>
+    <mvf:uri>urn:uuid:c0125d0b-5568-4533-af95-2f9a2b52ca90</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#c0125d0b-5568-4533-af95-2f9a2b52ca90</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Renal Panel Tests</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#80e35fdd-c536-4cdf-87fc-9bd4804ed3d9</mvf:externalReference>
+    <mvf:broader>
+      <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituationpatterns#007da497-e647-31c6-82fd-96b13026d5d7</mvf:externalReference>
+    </mvf:broader>
+    <mvf:context>
+      <mvf:uri>urn:uuid:7b166eda-f5fa-4eb3-9497-42a0fbc4772d</mvf:uri>
+    </mvf:context>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Surgical Note</mvf:name>
+    <mvf:uri>urn:uuid:9aa4f0b1-c70a-45ac-93e7-fe9aeea5447b</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#9aa4f0b1-c70a-45ac-93e7-fe9aeea5447b</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Surgical Note</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f6466541-3e43-4d21-b1b1-b586927749f9</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Infectious Disease Labs</mvf:name>
+    <mvf:uri>urn:uuid:d8a20534-a20e-4df9-bfc5-a3b99dc95106</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#d8a20534-a20e-4df9-bfc5-a3b99dc95106</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Infectious Disease Labs</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:94ea76af-f5af-4970-80c2-7aeb1649a0a3</mvf:uri>
+    </mvf:broader>
+    <mvf:context>
+      <mvf:uri>urn:uuid:3a6dbe09-d7c5-3b3f-a4f5-aa8274236f3c</mvf:uri>
+      <mvf:context>
+        <mvf:uri>urn:uuid:392cb50a-457b-45f8-adc1-2fb3046a81a9</mvf:uri>
+      </mvf:context>
+    </mvf:context>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Infectious Disease Labs</mvf:name>
+    <mvf:uri>urn:uuid:399be816-7c37-4476-b8be-76f77e452a52</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#399be816-7c37-4476-b8be-76f77e452a52</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Infectious Disease Labs</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#5fee73fb-78a0-42b7-9cf2-b5c19e9a5559</mvf:externalReference>
+    <mvf:broader>
+      <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituationpatterns#007da497-e647-31c6-82fd-96b13026d5d7</mvf:externalReference>
+    </mvf:broader>
+    <mvf:context>
+      <mvf:uri>urn:uuid:d8a20534-a20e-4df9-bfc5-a3b99dc95106</mvf:uri>
+    </mvf:context>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Immunosuppressive Labs</mvf:name>
+    <mvf:uri>urn:uuid:a11d6812-285d-403e-ae10-534c81602ac3</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#a11d6812-285d-403e-ae10-534c81602ac3</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Immunosuppressive Labs</mvf:term>
+      <mvf:definition>Laboratory tests that are used to measure the levels of immunosuppressant medications in a person's bloodstream</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#70649e9a-0450-43b6-8d9e-a77479d86a8c</mvf:externalReference>
+    <mvf:broader>
+      <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituationpatterns#007da497-e647-31c6-82fd-96b13026d5d7</mvf:externalReference>
+    </mvf:broader>
+    <mvf:context>
+      <mvf:uri>urn:uuid:1559ff92-89f1-4f5f-adaa-bd7b2e4e8290</mvf:uri>
+    </mvf:context>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Infectious Disease</mvf:name>
+    <mvf:uri>urn:uuid:392cb50a-457b-45f8-adc1-2fb3046a81a9</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#392cb50a-457b-45f8-adc1-2fb3046a81a9</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Infectious Disease</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/40733004</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Renal Function Finding</mvf:name>
+    <mvf:uri>urn:uuid:8af982c3-c416-4bcf-8021-d5ad80e39a59</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#8af982c3-c416-4bcf-8021-d5ad80e39a59</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Renal Function Finding</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/1148582006</mvf:externalReference>
+    <mvf:context>
+      <mvf:uri>urn:uuid:2eb1d239-46b7-3e51-88e4-d77c3f4e5497</mvf:uri>
+      <mvf:context>
+        <mvf:uri>urn:uuid:a194a7f8-7708-4f07-98d7-6f51bdab7b51</mvf:uri>
+      </mvf:context>
+    </mvf:context>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Urinalysis</mvf:name>
+    <mvf:uri>urn:uuid:4b594e7b-291e-444e-a660-8a6bdae93646</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#4b594e7b-291e-444e-a660-8a6bdae93646</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Urinalysis</mvf:term>
+      <mvf:definition>panel of medical tests that includes physical (macroscopic) examination of the urine, chemical evaluation using urine test strips, and microscopic examination.</mvf:definition>
+      <mvf:note>Macroscopic examination targets parameters such as color, clarity, odor, and specific gravity; urine test strips measure chemical properties such as pH, glucose concentration, and protein levels; and microscopy is performed to identify elements such as cells, urinary casts, crystals, and organisms.</mvf:note>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:7cb77d9e-6fbe-4de1-afde-5a9409509b52</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Prior Medical History</mvf:name>
+    <mvf:uri>urn:uuid:cd3e546e-b0a3-4259-847a-28df72e646ff</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#cd3e546e-b0a3-4259-847a-28df72e646ff</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/condition.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Prior Medical History</mvf:term>
+      <mvf:definition>All problems and conditions experienced by a patient in their lifetime</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#f4ec4e31-399d-3831-9580-38f992e9ce06</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Complete Blood Count</mvf:name>
+    <mvf:uri>urn:uuid:52291ed5-620b-484a-b7f4-3e03f311c6cc</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#52291ed5-620b-484a-b7f4-3e03f311c6cc</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Complete Blood Count</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#ffe2bf00-6d5a-3069-a3fe-aebb343f21e5</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Kidney Transplant Note</mvf:name>
+    <mvf:uri>urn:uuid:bc09f47d-e30b-4d31-a411-6f64c9779255</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#bc09f47d-e30b-4d31-a411-6f64c9779255</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Kidney Transplant Note</mvf:term>
+      <mvf:definition>Clinical note relative to a Kidney Transplant</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f6466541-3e43-4d21-b1b1-b586927749f9</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Lab Test</mvf:name>
+    <mvf:uri>urn:uuid:94ea76af-f5af-4970-80c2-7aeb1649a0a3</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#94ea76af-f5af-4970-80c2-7aeb1649a0a3</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Lab Test</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/15220000</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Renal Panel Tests</mvf:name>
+    <mvf:uri>urn:uuid:7b166eda-f5fa-4eb3-9497-42a0fbc4772d</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#7b166eda-f5fa-4eb3-9497-42a0fbc4772d</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Renal Panel Tests</mvf:term>
+      <mvf:definition>Renal function tests (or renal panel) are a series of tests that examine how well the kidneys are working in removing waste products (urea, toxins, uric acid) and extra water from the blood (urine) and ensuring proper balance of key chemical elements such as sodium, potassium, calcium</mvf:definition>
+      <mvf:note>Includes Albumin, serum; BUN; BUN:creatinine ratio; calcium, serum; carbon dioxide, total; chloride, serum; creatinine, serum; glucose, serum; phosphorus, serum; potassium, serum; sodium, serum</mvf:note>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:uri>
+    </mvf:broader>
+    <mvf:context>
+      <mvf:uri>urn:uuid:3a6dbe09-d7c5-3b3f-a4f5-aa8274236f3c</mvf:uri>
+      <mvf:context>
+        <mvf:uri>urn:uuid:8af982c3-c416-4bcf-8021-d5ad80e39a59</mvf:uri>
+      </mvf:context>
+    </mvf:context>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Prior Medical History relevant to Kidney Transplant</mvf:name>
+    <mvf:uri>urn:uuid:d813d466-89ce-4e8e-94a0-b21cba8ed7db</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#d813d466-89ce-4e8e-94a0-b21cba8ed7db</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Prior Medical History relevant to Kidney Transplant</mvf:term>
+      <mvf:definition>Prior Medical history, scoped in type and time to those problems and conditions that are relevant to the patient kidney transplant</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:cd3e546e-b0a3-4259-847a-28df72e646ff</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Clinical Note</mvf:name>
+    <mvf:uri>urn:uuid:f6466541-3e43-4d21-b1b1-b586927749f9</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#f6466541-3e43-4d21-b1b1-b586927749f9</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Clinical Note</mvf:term>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Blood Albumin</mvf:name>
+    <mvf:uri>urn:uuid:7fe625cc-c15e-4829-8269-501cddabc69e</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#7fe625cc-c15e-4829-8269-501cddabc69e</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Blood Albumin</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#4a83d39a-e584-3d22-bcf3-79da7665cfb2</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Progress Note</mvf:name>
+    <mvf:uri>urn:uuid:d11afa29-9c17-420f-a58f-0a73edc231cb</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#d11afa29-9c17-420f-a58f-0a73edc231cb</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Progress Note</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f6466541-3e43-4d21-b1b1-b586927749f9</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Kidney Function</mvf:name>
+    <mvf:uri>urn:uuid:a194a7f8-7708-4f07-98d7-6f51bdab7b51</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#a194a7f8-7708-4f07-98d7-6f51bdab7b51</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Kidney Function</mvf:term>
+      <mvf:definition>The ability of the kidney to filter out waste from the bloodstream</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/11953005</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Immunosuppressive medication</mvf:name>
+    <mvf:uri>urn:uuid:9ec89a8c-e214-4c37-aec8-9f0809b6efb4</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#9ec89a8c-e214-4c37-aec8-9f0809b6efb4</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Immunosuppressive medication</mvf:term>
+      <mvf:definition>drugs that suppress the immune system</mvf:definition>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Urinalysis wth Microscopy</mvf:name>
+    <mvf:uri>urn:uuid:4185007d-48fb-4a41-9031-bb3437ca23ab</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#4185007d-48fb-4a41-9031-bb3437ca23ab</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Urinalysis wth Microscopy</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#7748f872-2ac3-3cc3-ab25-235188518bce</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Albumin to Creatinine Ratio in Urine</mvf:name>
+    <mvf:uri>urn:uuid:648d5965-990e-4adf-be86-e9e6980886f8</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#648d5965-990e-4adf-be86-e9e6980886f8</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Albumin to Creatinine Ratio in Urine</mvf:term>
+      <mvf:abbreviation>
+        <mvf:term>ACR</mvf:term>
+        <mvf:isAbbreviation>true</mvf:isAbbreviation>
+      </mvf:abbreviation>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:7cb77d9e-6fbe-4de1-afde-5a9409509b52</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Complete Blood Cell Count Tests</mvf:name>
+    <mvf:uri>urn:uuid:4ff1eacd-795d-40f0-bfdb-67023c357714</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#4ff1eacd-795d-40f0-bfdb-67023c357714</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Complete Blood Cell Count Tests</mvf:term>
+      <mvf:note>Renal transplantation faces a risk of developing various blood disorders. Although many etiological factors involve the development of post-transplant blood disorders, immunosuppressive agents, and viral infections could be the two major contributors to most blood disorders and cause hematological abnormalities and immunodeficiency by suppressing hematopoietic function of bone marrow.</mvf:note>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Immunosuppressive Lab Test</mvf:name>
+    <mvf:uri>urn:uuid:1559ff92-89f1-4f5f-adaa-bd7b2e4e8290</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#1559ff92-89f1-4f5f-adaa-bd7b2e4e8290</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Immunosuppressive Lab Test</mvf:term>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Organ Transplant</mvf:name>
+    <mvf:uri>urn:uuid:6457aede-48b0-46f7-8a90-600f65bf0780</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#6457aede-48b0-46f7-8a90-600f65bf0780</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Organ Transplant</mvf:term>
+      <mvf:definition>Organ transplantation is a medical procedure in which an organ is removed from one body and placed in the body of a recipient, to replace a damaged or missing organ</mvf:definition>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Interprets</mvf:name>
+    <mvf:uri>urn:uuid:2eb1d239-46b7-3e51-88e4-d77c3f4e5497</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#2eb1d239-46b7-3e51-88e4-d77c3f4e5497</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Interprets</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/363714003</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Comprehensive Metabolic Panel Tests</mvf:name>
+    <mvf:uri>urn:uuid:f372b34c-3698-4957-969b-37f7e9a6b04b</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#f372b34c-3698-4957-969b-37f7e9a6b04b</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Comprehensive Metabolic Panel Tests</mvf:term>
+      <mvf:note>A CMP includes all of the components of a Renal Panel except Phosphorus (?)</mvf:note>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Blood Creatinine Test</mvf:name>
+    <mvf:uri>urn:uuid:ab37c40a-f798-4386-b49d-0d4e63a0a321</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#ab37c40a-f798-4386-b49d-0d4e63a0a321</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Blood Creatinine Test</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Most Recent Total Urine Protein</mvf:name>
+    <mvf:uri>urn:uuid:adbe0ccc-d7fd-4c4f-89d7-9ea64eb8c3fd</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#adbe0ccc-d7fd-4c4f-89d7-9ea64eb8c3fd</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Most Recent Total Urine Protein</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#ee0ac4e5-df68-316e-8540-0524b5a76e18</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Has focus</mvf:name>
+    <mvf:uri>urn:uuid:3a6dbe09-d7c5-3b3f-a4f5-aa8274236f3c</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#3a6dbe09-d7c5-3b3f-a4f5-aa8274236f3c</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Has focus</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/363702006</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Blood Test</mvf:name>
+    <mvf:uri>urn:uuid:f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Blood Test</mvf:term>
+      <mvf:definition>Test performed on a Blood Sample</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/396550006</mvf:externalReference>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:94ea76af-f5af-4970-80c2-7aeb1649a0a3</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Kidney Transplant</mvf:name>
+    <mvf:uri>urn:uuid:fb6200ea-0cf6-4fc2-bf87-d5e1644e1ce8</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#fb6200ea-0cf6-4fc2-bf87-d5e1644e1ce8</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Kidney Transplant</mvf:term>
+      <mvf:definition>Transplant of a kidney.</mvf:definition>
+      <mvf:note>Kidney transplant may be used to treat chronic kidney failure. If an option, has better long term outcomes than dialysis Kidney transplants do not necessarily require to remove the diseased kidneys</mvf:note>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:6457aede-48b0-46f7-8a90-600f65bf0780</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Prior Urinalysis</mvf:name>
+    <mvf:uri>urn:uuid:3240d60b-e713-4b71-8b6b-971e4bec76ce</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#3240d60b-e713-4b71-8b6b-971e4bec76ce</mvf:reference>
+    <mvf:reference>https://www.hl7.org/fhir/R4/observation.profile.json</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Prior Urinalysis</mvf:term>
+      <mvf:definition>History of analysis of the urine results, up to the present</mvf:definition>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>https://ontology.mayo.edu/taxonomies/clinicalsituations#6da4da41-d278-3e78-9d52-760eecc0c3f3</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Blood Albumin Test</mvf:name>
+    <mvf:uri>urn:uuid:02940f18-8d96-4d7e-8c45-6973d472379e</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#02940f18-8d96-4d7e-8c45-6973d472379e</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Blood Albumin Test</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:broader>
+      <mvf:uri>urn:uuid:f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:uri>
+    </mvf:broader>
+  </mvf:entry>
+  <mvf:entry>
+    <mvf:name>Urine Test</mvf:name>
+    <mvf:uri>urn:uuid:7cb77d9e-6fbe-4de1-afde-5a9409509b52</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#7cb77d9e-6fbe-4de1-afde-5a9409509b52</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Urine Test</mvf:term>
+      <mvf:definition>Test performed on a Urine Sample</mvf:definition>
+    </mvf:vocabularyEntry>
+  </mvf:entry>
+  <mvf:vocabulary>
+    <mvf:name>SNOMEDCT</mvf:name>
+    <mvf:uri>http://snomed.info/sct</mvf:uri>
+    <mvf:entry>
+      <mvf:name>Infectious disease (disorder)</mvf:name>
+      <mvf:reference>http://snomed.info/sct|40733004</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:392cb50a-457b-45f8-adc1-2fb3046a81a9</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>40733004</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Finding of renal function (finding)</mvf:name>
+      <mvf:reference>http://snomed.info/sct|1148582006</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:8af982c3-c416-4bcf-8021-d5ad80e39a59</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>1148582006</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Laboratory test (procedure)</mvf:name>
+      <mvf:reference>http://snomed.info/sct|15220000</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:94ea76af-f5af-4970-80c2-7aeb1649a0a3</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>15220000</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Renal function (observable entity)</mvf:name>
+      <mvf:reference>http://snomed.info/sct|11953005</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:a194a7f8-7708-4f07-98d7-6f51bdab7b51</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>11953005</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Interprets</mvf:name>
+      <mvf:reference>http://snomed.info/sct|363714003</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:2eb1d239-46b7-3e51-88e4-d77c3f4e5497</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>363714003</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Has focus</mvf:name>
+      <mvf:reference>http://snomed.info/sct|363702006</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:3a6dbe09-d7c5-3b3f-a4f5-aa8274236f3c</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>363702006</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Blood test (procedure)</mvf:name>
+      <mvf:reference>http://snomed.info/sct|396550006</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:f40fd84b-6f8c-4cb3-83e1-2f44c954333d</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>396550006</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Infectious Disease Labs</mvf:name>
+      <mvf:reference>http://snomed.info/id/71388002</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:d8a20534-a20e-4df9-bfc5-a3b99dc95106</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>d8a20534-a20e-4df9-bfc5-a3b99dc95106</mvf:term>
+      <mvf:definition>15220000 | Lab Test | : 363702006 | Has focus | = 40733004 | Infectious Disease |</mvf:definition>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Renal Panel Tests</mvf:name>
+      <mvf:reference>http://snomed.info/id/71388002</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:7b166eda-f5fa-4eb3-9497-42a0fbc4772d</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>7b166eda-f5fa-4eb3-9497-42a0fbc4772d</mvf:term>
+      <mvf:definition>396550006 | Blood Test | : 363702006 | Has focus | = ( 1148582006 | Renal Function Finding | : 363714003 | Interprets | = 11953005 | Kidney Function | )</mvf:definition>
+    </mvf:entry>
+  </mvf:vocabulary>
+  <mvf:vocabulary>
+    <mvf:name>Clinical Situation Vocabulary</mvf:name>
+    <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations</mvf:uri>
+    <mvf:entry>
+      <mvf:name>Most Recent Comprehensive Metabolic Labs</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#b9da7adf-6745-38d7-ac44-e70cd8fe36cb</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:c926d88b-596e-404f-8fb5-093af94a9909</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Creatinine Blood Level</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#88d67396-c8b6-3665-b75a-7351fac7cc07</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:c09b0df4-16a5-4c17-8dce-edcd316699f8</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>On Immunosuppressive</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#347efb43-9c04-36ea-8322-400d9768cca0</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:78ad47d0-b93e-41a7-9cd3-0861f48d47db</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Albumin to Creatinine Ratio</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#e0107cf3-a19a-4623-85f4-60f21d7d0630</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:1b21895f-dde9-47b8-b0fc-d44065266833</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Prior Transplant Notes</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#adc0cf1b-a262-4d90-ae4c-1cb5dcab2da1</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:b6f08181-7fc5-4d99-bbef-93239ade7b78</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition>csv:f6912019-9e35-3c0a-8513-af6f8be75d47 that targets some urn:uuid:bc09f47d-e30b-4d31-a411-6f64c9779255</mvf:definition>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Renal Panel Tests</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#80e35fdd-c536-4cdf-87fc-9bd4804ed3d9</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:c0125d0b-5568-4533-af95-2f9a2b52ca90</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition>csv:007da497-e647-31c6-82fd-96b13026d5d7 that targets some urn:uuid:7b166eda-f5fa-4eb3-9497-42a0fbc4772d</mvf:definition>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Infectious Disease Labs</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#5fee73fb-78a0-42b7-9cf2-b5c19e9a5559</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:399be816-7c37-4476-b8be-76f77e452a52</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition>csv:007da497-e647-31c6-82fd-96b13026d5d7 that targets some urn:uuid:d8a20534-a20e-4df9-bfc5-a3b99dc95106</mvf:definition>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Immunosuppressive Labs</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#70649e9a-0450-43b6-8d9e-a77479d86a8c</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:a11d6812-285d-403e-ae10-534c81602ac3</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition>csv:007da497-e647-31c6-82fd-96b13026d5d7 that targets some urn:uuid:1559ff92-89f1-4f5f-adaa-bd7b2e4e8290</mvf:definition>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Prior Medical History</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#f4ec4e31-399d-3831-9580-38f992e9ce06</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:cd3e546e-b0a3-4259-847a-28df72e646ff</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Complete Blood Count</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#ffe2bf00-6d5a-3069-a3fe-aebb343f21e5</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:52291ed5-620b-484a-b7f4-3e03f311c6cc</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Blood Albumin</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#4a83d39a-e584-3d22-bcf3-79da7665cfb2</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:7fe625cc-c15e-4829-8269-501cddabc69e</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Urinalysis wth Microscopy</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#7748f872-2ac3-3cc3-ab25-235188518bce</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:4185007d-48fb-4a41-9031-bb3437ca23ab</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Most Recent Total Urine Protein</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#ee0ac4e5-df68-316e-8540-0524b5a76e18</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:adbe0ccc-d7fd-4c4f-89d7-9ea64eb8c3fd</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+    <mvf:entry>
+      <mvf:name>Prior Urinalysis</mvf:name>
+      <mvf:uri>https://ontology.mayo.edu/taxonomies/clinicalsituations#6da4da41-d278-3e78-9d52-760eecc0c3f3</mvf:uri>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:3240d60b-e713-4b71-8b6b-971e4bec76ce</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:definition/>
+    </mvf:entry>
+  </mvf:vocabulary>
+</mvf:mVFDictionary>

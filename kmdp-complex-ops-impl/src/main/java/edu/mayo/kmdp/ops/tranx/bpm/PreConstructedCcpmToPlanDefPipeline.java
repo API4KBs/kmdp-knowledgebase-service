@@ -1,0 +1,32 @@
+package edu.mayo.kmdp.ops.tranx.bpm;
+
+import java.net.URI;
+import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.api.inference.v4.server.ReasoningApiInternal._askQuery;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetCatalogApi;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetRepositoryApi;
+import org.omg.spec.api4kp._20200801.id.Pointer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+
+/**
+ * Implementation of the {@link CcpmToPlanDefPipeline} based on a pre-assembled Composite, which is
+ * passed to this pipeline's {@link #initKnowledgeBase(KnowledgeCarrier, String)}
+ * <p>
+ * Assumes the client has assembled the composite
+ */
+public class PreConstructedCcpmToPlanDefPipeline extends CcpmToPlanDefPipeline {
+
+  public PreConstructedCcpmToPlanDefPipeline(
+      KnowledgeAssetCatalogApi cat,
+      KnowledgeAssetRepositoryApi repo,
+      _askQuery dataShapeQuery,
+      URI... annotationVocabularies) {
+    super(cat, repo, dataShapeQuery, annotationVocabularies);
+  }
+
+  @Override
+  public Answer<Pointer> initKnowledgeBase(KnowledgeCarrier kc, String params) {
+    return kbManager.initKnowledgeBase(kc, params);
+  }
+
+}

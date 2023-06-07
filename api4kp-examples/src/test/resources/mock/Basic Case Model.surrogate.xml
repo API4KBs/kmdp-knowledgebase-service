@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<surr:knowledgeAsset
+  xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
+  xmlns:api="https://www.omg.org/spec/API4KP/20200801/services"
+  xmlns:id="https://www.omg.org/spec/API4KP/20200801/id" name="Basic Case Model">
+  <surr:formalType
+    referentId="http://ontology.mayo.edu/ontologies/clinicalknowledgeassets/CareProcessModel"
+    resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType#434e06c0-e3df-3e57-9862-144f7c7857c4"
+    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType/versions/20210401#434e06c0-e3df-3e57-9862-144f7c7857c4"
+    tag="CareProcessModel" versionTag="20210401" name="Care Process Model"
+    namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType"
+    establishedOn="2019-08-01T00:00:00">
+    <id:uuid>434e06c0-e3df-3e57-9862-144f7c7857c4</id:uuid>
+  </surr:formalType>
+  <surr:formalCategory referentId="https://www.omg.org/spec/API4KP/api4kp-kao/ProcessAsset"
+    resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory#f9e2a69d-0f6e-3a2b-94c4-beaf6fdadaea"
+    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory/versions/20210401#f9e2a69d-0f6e-3a2b-94c4-beaf6fdadaea"
+    tag="ProcessAsset" versionTag="20210401"
+    name="Plans, Processes, Pathways and Protocol Definitions"
+    namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory"
+    establishedOn="2019-08-01T00:00:00">
+    <id:uuid>f9e2a69d-0f6e-3a2b-94c4-beaf6fdadaea</id:uuid>
+  </surr:formalCategory>
+  <surr:assetId
+    resourceId="https://clinicalknowledgemanagement.mayo.edu/assets/14321e7c-cb9a-427f-abf5-1420bf26e03c"
+    versionId="https://clinicalknowledgemanagement.mayo.edu/assets/14321e7c-cb9a-427f-abf5-1420bf26e03c/versions/1.0.1"
+    tag="14321e7c-cb9a-427f-abf5-1420bf26e03c" versionTag="1.0.1"
+    namespaceUri="https://clinicalknowledgemanagement.mayo.edu/assets/"
+    establishedOn="2020-09-11T00:00:00">
+    <id:uuid>14321e7c-cb9a-427f-abf5-1420bf26e03c</id:uuid>
+  </surr:assetId>
+  <surr:carriers name="Basic Case Model">
+    <surr:localization
+      referentId="https://www.omg.org/spec/LCC/Languages/ISO639-1-LanguageCodes/English"
+      resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/ISO639-2-LanguageCode#78463a38-4a5a-34fa-95fa-73e2f506ecfc"
+      versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/ISO639-2-LanguageCode/versions/20190201#78463a38-4a5a-34fa-95fa-73e2f506ecfc"
+      tag="en" versionTag="20190201" name="English"
+      namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/ISO639-2-LanguageCode"
+      establishedOn="2019-02-01T00:00:00">
+      <id:uuid>78463a38-4a5a-34fa-95fa-73e2f506ecfc</id:uuid>
+    </surr:localization>
+    <surr:artifactId
+      resourceId="https://clinicalknowledgemanagement.mayo.edu/artifacts/16086bb8-c1fc-49b0-800b-c9b995dc5ed5"
+      versionId="https://clinicalknowledgemanagement.mayo.edu/artifacts/16086bb8-c1fc-49b0-800b-c9b995dc5ed5/versions/1.8.1+1599115205000"
+      tag="16086bb8-c1fc-49b0-800b-c9b995dc5ed5" versionTag="1.8.1+1599115205000"
+      namespaceUri="https://clinicalknowledgemanagement.mayo.edu/artifacts/"
+      establishedOn="2020-09-03T01:40:05">
+      <id:uuid>16086bb8-c1fc-49b0-800b-c9b995dc5ed5</id:uuid>
+    </surr:artifactId>
+    <surr:expressionCategory referentId="http://purl.org/dc/dcmitype/Software"
+      resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeArtifactCategory#719d067b-2291-38f0-bbcf-a1da4ac4dede"
+      versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeArtifactCategory/versions/20200911-165835#719d067b-2291-38f0-bbcf-a1da4ac4dede"
+      tag="Software" versionTag="20210401" name="Software"
+      namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeArtifactCategory"
+      establishedOn="2020-09-11T00:00:00">
+      <id:uuid>719d067b-2291-38f0-bbcf-a1da4ac4dede</id:uuid>
+    </surr:expressionCategory>
+    <surr:links xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="surr:Dependency">
+      <surr:rel referentId="https://www.omg.org/spec/API4KP/api4kp-rel/imports"
+        resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType#a6878bf5-d858-3676-83a1-ef2871d36f47"
+        versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType/versions/20200911-165881#a6878bf5-d858-3676-83a1-ef2871d36f47"
+        tag="imports" versionTag="20210401" name="imports"
+        namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType"
+        establishedOn="2020-08-01T00:00:00">
+        <id:uuid>a6878bf5-d858-3676-83a1-ef2871d36f47</id:uuid>
+      </surr:rel>
+      <surr:href
+        resourceId="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+        versionId="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356/versions/1.4.0+1599178206000"
+        tag="ee0c768a-a0d4-4052-a6ea-fc0a3889b356" versionTag="1.4.0+1599178206000"
+        namespaceUri="https://clinicalknowledgemanagement.mayo.edu/artifacts/"
+        establishedOn="2020-09-11T00:00:00">
+        <id:uuid>ee0c768a-a0d4-4052-a6ea-fc0a3889b356</id:uuid>
+      </surr:href>
+    </surr:links>
+    <surr:representation>
+      <api:language referentId="https://www.omg.org/spec/CMMN/1.1/"
+        resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage#a995c317-45b1-3dca-ab12-d9aaa95b461b"
+        versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage/versions/20200911-165868#a995c317-45b1-3dca-ab12-d9aaa95b461b"
+        tag="cmmn-v11" versionTag="20210401" name="CMMN 1.1"
+        namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage"
+        establishedOn="2020-09-11T00:00:00">
+        <id:uuid>a995c317-45b1-3dca-ab12-d9aaa95b461b</id:uuid>
+      </api:language>
+      <api:format referentId="http://www.w3.org/TR/xml11"
+        resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRFormat#0f635d0e-0f38-34ff-b8b5-81c132e6c7a7"
+        versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRFormat/versions/20200911-165821#0f635d0e-0f38-34ff-b8b5-81c132e6c7a7"
+        tag="xml" versionTag="20200911-165821" name="XML 1.1"
+        namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRFormat"
+        establishedOn="2020-09-11T00:00:00">
+        <id:uuid>0f635d0e-0f38-34ff-b8b5-81c132e6c7a7</id:uuid>
+      </api:format>
+      <api:serialization referentId="http://www.omg.org/spec/CMMN/20151109/MODEL"
+        resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRSerialization#1242068b-2a42-3b68-88be-d62cb7ee2a68"
+        versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRSerialization/versions/20200911-165880#1242068b-2a42-3b68-88be-d62cb7ee2a68"
+        tag="cmmn-v11+xml" versionTag="20200911-165880" name="CMMN 1.1 XML Syntax"
+        namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRSerialization"
+        establishedOn="2020-09-11T00:00:00">
+        <id:uuid>1242068b-2a42-3b68-88be-d62cb7ee2a68</id:uuid>
+      </api:serialization>
+    </surr:representation>
+    <surr:lifecycle>
+      <surr:publicationStatus referentId="http://purl.org/spar/pso/published"
+        resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus#8f888fed-f6bd-3ff7-893c-6d76bb8dc21c"
+        versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus/versions/20200911-165847#8f888fed-f6bd-3ff7-893c-6d76bb8dc21c"
+        tag="published" versionTag="20200911-165847" name="published"
+        namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus"
+        establishedOn="2020-09-11T00:00:00">
+        <id:uuid>8f888fed-f6bd-3ff7-893c-6d76bb8dc21c</id:uuid>
+      </surr:publicationStatus>
+    </surr:lifecycle>
+  </surr:carriers>
+  <surr:surrogate mimeType="application/cmmn-1-1+xml">
+    <surr:artifactId
+      resourceId="https://clinicalknowledgemanagement.mayo.edu/artifacts/a0240977-f789-4922-90c8-e6468e59f5c2"
+      versionId="https://clinicalknowledgemanagement.mayo.edu/artifacts/a0240977-f789-4922-90c8-e6468e59f5c2/versions/1.8.1"
+      tag="a0240977-f789-4922-90c8-e6468e59f5c2" versionTag="1.8.1"
+      namespaceUri="https://clinicalknowledgemanagement.mayo.edu/artifacts/"
+      establishedOn="2020-09-11T00:00:00">
+      <id:uuid>a0240977-f789-4922-90c8-e6468e59f5c2</id:uuid>
+    </surr:artifactId>
+    <surr:representation>
+      <api:language referentId="https://jdk.java.net/8/"
+        resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage#d634b04c-227e-318c-8850-db74ade609aa"
+        versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage/versions/20200911-165868#d634b04c-227e-318c-8850-db74ade609aa"
+        tag="java-v8" versionTag="20200911-165868" name="Java 8"
+        namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage"
+        establishedOn="2020-09-11T00:00:00">
+        <id:uuid>d634b04c-227e-318c-8850-db74ade609aa</id:uuid>
+      </api:language>
+      <api:format referentId="http://json.org/20171201"
+        resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRFormat#466deec7-6ecd-35fc-a6d3-8571f6324d54"
+        versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRFormat/versions/20200911-165821#466deec7-6ecd-35fc-a6d3-8571f6324d54"
+        tag="json" versionTag="20200911-165821" name="JSON"
+        namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRFormat"
+        establishedOn="2020-09-11T00:00:00">
+        <id:uuid>466deec7-6ecd-35fc-a6d3-8571f6324d54</id:uuid>
+      </api:format>
+    </surr:representation>
+  </surr:surrogate>
+  <surr:links xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="surr:Dependency">
+    <surr:rel referentId="https://www.omg.org/spec/API4KP/api4kp/dependsOn"
+      resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType#fdc5cdcb-de66-3674-8607-2a8ae01b6c38"
+      versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType/versions/20200801#fdc5cdcb-de66-3674-8607-2a8ae01b6c38"
+      tag="dependsOn" versionTag="20210401" name="depends on"
+      namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType"
+      establishedOn="2020-08-01T00:00:00">
+      <id:uuid>fdc5cdcb-de66-3674-8607-2a8ae01b6c38</id:uuid>
+    </surr:rel>
+    <surr:href
+      resourceId="https://clinicalknowledgemanagement.mayo.edu/assets/261543d9-90b6-4fe0-a26d-f329111d77ca"
+      versionId="https://clinicalknowledgemanagement.mayo.edu/assets/261543d9-90b6-4fe0-a26d-f329111d77ca/versions/1.0.0"
+      tag="261543d9-90b6-4fe0-a26d-f329111d77ca" versionTag="1.0.0"
+      namespaceUri="https://clinicalknowledgemanagement.mayo.edu/assets/"
+      establishedOn="2020-09-11T00:00:00">
+      <id:uuid>261543d9-90b6-4fe0-a26d-f329111d77ca</id:uuid>
+    </surr:href>
+  </surr:links>
+  <surr:lifecycle>
+    <surr:publicationStatus referentId="http://purl.org/spar/pso/published"
+      resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus#8f888fed-f6bd-3ff7-893c-6d76bb8dc21c"
+      versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus/versions/20200911-165847#8f888fed-f6bd-3ff7-893c-6d76bb8dc21c"
+      tag="published" versionTag="202010401" name="published"
+      namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus"
+      establishedOn="2020-09-11T00:00:00">
+      <id:uuid>8f888fed-f6bd-3ff7-893c-6d76bb8dc21c</id:uuid>
+    </surr:publicationStatus>
+  </surr:lifecycle>
+</surr:knowledgeAsset>

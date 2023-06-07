@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="http://www.foo.bar.com/dmn/1.1/diagram/45d9ab96e7d84be3afe6f578e20c029b.xml"
+  exporterVersion="12.6.1" name="MockPredictor" id="id-6ca3a829ab8e4240989ac681f6aadae6"
+  xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd"
+  xmlns:mock="http://www.foo.bar.com/dmn/1.1/diagram/45d9ab96e7d84be3afe6f578e20c029b.xml"
+  xmlns:feel="http://www.omg.org/spec/FEEL/20140401">
+    <itemDefinition isCollection="false" name="newElement6" id="id-dfc1d12d6f898379ee93b20e20872bfa" label="">
+        <typeRef>feel:number</typeRef>
+        <allowedValues>
+            <text>[0.0..100.0]</text>
+        </allowedValues>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="currentChronologicalAge" id="id-8a0a73381770cf3c955823b2b4b2df28" label="Current chronological age">
+        <itemComponent isCollection="false" name="unit" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-0" label="unit">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="value" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-1" label="value">
+            <typeRef>feel:number</typeRef>
+            <allowedValues>
+                <text>[0.0..125.0]</text>
+            </allowedValues>
+        </itemComponent>
+        <itemComponent isCollection="false" name="code" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-2" label="code">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent isCollection="false" name="system" id="id-8a0a73381770cf3c955823b2b4b2df28-relation-3" label="system">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="false" name="currentCaffeineUser" id="id-ab730f47d5353d64602ddb9b96c3fc89" label="Current caffeine user">
+        <itemComponent isCollection="false" name="value" id="id-ab730f47d5353d64602ddb9b96c3fc89-relation-0" label="value">
+            <typeRef>feel:boolean</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <inputData name="currentCaffeineUser" id="id-f80bb30da1d6f99fb59cbbca31398a6b" label="Current caffeine user">
+        <variable typeRef="mock:currentCaffeineUser" name="currentCaffeineUser" id="id-f80bb30da1d6f99fb59cbbca31398a6b_variable"/>
+    </inputData>
+    <inputData name="currentChronologicalAge" id="id-7cbeddece4f9577ce81a21bb88e99083" label="Current chronological age">
+        <variable typeRef="mock:currentChronologicalAge" name="currentChronologicalAge" id="id-7cbeddece4f9577ce81a21bb88e99083_variable"/>
+    </inputData>
+    <decision name="hodgkinLymphoma5YearSurvivalRate" id="id-9ca07aeaa8088a98e014e910dd9bbadb" label="Hodgkin Lymphoma 5 year survival rate">
+        <variable typeRef="mock:newElement6" name="hodgkinLymphoma5YearSurvivalRate" id="id-9ca07aeaa8088a98e014e910dd9bbadb_variable"/>
+        <informationRequirement>
+            <requiredInput href="#id-7cbeddece4f9577ce81a21bb88e99083"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#id-f80bb30da1d6f99fb59cbbca31398a6b"/>
+        </informationRequirement>
+        <decisionTable hitPolicy="UNIQUE">
+            <input id="id-b001ceab1e0e081ec240b656076489d6" label="">
+                <inputExpression>
+                    <text>currentCaffeineUser.value</text>
+                </inputExpression>
+            </input>
+            <input id="id-397bb75b860a19ea1f7f94ac8b5ec6e3" label="">
+                <inputExpression>
+                    <text>currentChronologicalAge.value</text>
+                </inputExpression>
+            </input>
+            <output name="hodgkinLymphoma5YearSurvivalRate" typeRef="feel:number" id="id-7658e800ff4cdac97850f5d4b7306ff0" label="Hodgkin Lymphoma 5 year survival rate"/>
+            <rule id="id-850d4d3d40057f03b758337587927e48">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>true</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>&gt;= 18</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>42</text>
+                </outputEntry>
+            </rule>
+            <rule id="id-c5264f1e13411232681d320222f26c9d">
+                <description>string(-)</description>
+                <inputEntry>
+                    <text>false</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>33</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+</definitions>

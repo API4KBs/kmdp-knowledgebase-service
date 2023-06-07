@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
+  xmlns:triso="http://www.trisotech.com/2015/triso/modeling"
+  namespace="http://www.trisotech.com/definitions/_deda9ce8-ca68-456e-b9d1-96d338469988" name="CS"
+  id="_deda9ce8-ca68-456e-b9d1-96d338469988">
+  <semantic:inputData name="Management of Aortic Stenosis"
+    id="_af0e87de-6f39-3847-a90d-29ea105a174a">
+    <semantic:extensionElements>
+      <triso:semanticLink name="Management of Aortic Stenosis"
+        id="_1a8a755c-407a-30cd-855e-36bb2b8f4b8e"
+        modelURI="https://ontology.mayo.edu/taxonomies/propositionalconcepts/20200109/"
+        uri="https://ontology.mayo.edu/taxonomies/clinicalsituations#e9b34549-7e35-3e85-8d35-d01321c87bf3"/>
+      <triso:customAttribute key="conceptUUID" id="_7f51fdac-f9e8-3b74-a961-3b7acf6f4e4d"
+        value="e9b34549-7e35-3e85-8d35-d01321c87bf3" type="string"/>
+    </semantic:extensionElements>
+    <semantic:variable name="managementOfAorticStenosis"
+      id="_fd237603-be43-30a1-8ac3-59e228e30640"/>
+  </semantic:inputData>
+  <semantic:inputData name="Has Diabetes Mellitus - Is" id="_4dc1e0a9-b3e8-36f7-9941-08a4cd58dba6">
+    <semantic:extensionElements>
+      <triso:semanticLink name="Has Diabetes Mellitus - Is"
+        id="_eb400b02-936e-3351-96a3-0696fe40d11e"
+        modelURI="https://ontology.mayo.edu/taxonomies/propositionalconcepts/20200109/"
+        uri="https://ontology.mayo.edu/taxonomies/propositionalconcepts#31f92480-1ed8-4b26-81e1-f402df21235b"/>
+      <triso:customAttribute key="conceptUUID" id="_7492a879-327d-31e5-89d8-fbf9750d4ce3"
+        value="31f92480-1ed8-4b26-81e1-f402df21235b" type="string"/>
+    </semantic:extensionElements>
+    <semantic:variable name="hasDiabetesMellitusIs" id="_f40bef0a-3e09-3316-a54f-0e901955f7cd"/>
+  </semantic:inputData>
+  <semantic:inputData name="Has Hypertension - Is" id="_24f24960-dbec-3903-9125-8a33146954a6">
+    <semantic:extensionElements>
+      <triso:semanticLink name="Has Hypertension - Is" id="_6e167d3b-f77e-304f-8be7-25d863831452"
+        modelURI="https://ontology.mayo.edu/taxonomies/propositionalconcepts/20200109/"
+        uri="https://ontology.mayo.edu/taxonomies/propositionalconcepts#a34c157c-4495-4039-92a5-7bf2ddece5a8"/>
+      <triso:customAttribute key="conceptUUID" id="_f718ed4e-3a57-3068-96d0-458c98d8f02c"
+        value="a34c157c-4495-4039-92a5-7bf2ddece5a8" type="string"/>
+    </semantic:extensionElements>
+    <semantic:variable name="hasHypertensionIs" id="_c091b9f0-ffdc-3e11-a570-29d3e9cb05d1"/>
+  </semantic:inputData>
+
+</semantic:definitions>
