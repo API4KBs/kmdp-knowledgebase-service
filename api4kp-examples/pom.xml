@@ -31,12 +31,6 @@
   <dependencies>
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-knowledge-asset-repository-core</artifactId>
-      <version>${kmdp.servers.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>edu.mayo.kmdp</groupId>
       <artifactId>kmdp-inference-broker-core</artifactId>
       <version>${kmdp.servers.version}</version>
       <scope>test</scope>
