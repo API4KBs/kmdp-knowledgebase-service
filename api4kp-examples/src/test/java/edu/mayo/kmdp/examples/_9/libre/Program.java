@@ -7,7 +7,7 @@ import cyclops.data.tuple.Tuple;
 import cyclops.instances.reactive.IOInstances;
 import cyclops.typeclasses.Do;
 import cyclops.typeclasses.monad.Monad;
-import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
+import edu.mayo.kmdp.examples.MockAssetRepository;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries;
@@ -32,7 +32,7 @@ public class Program<W,A,T> {
   }
 
   public static void main(String[] args) {
-    KnowledgeAssetRepositoryService kars = KnowledgeAssetRepositoryService.mockTestRepository();
+    MockAssetRepository kars = new MockAssetRepository();
     kars.clearKnowledgeAssetCatalog();
     kars.publish(new KnowledgeAsset()
         .withAssetId(SemanticIdentifier.randomId())

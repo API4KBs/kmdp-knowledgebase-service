@@ -11,13 +11,13 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 
+import edu.mayo.kmdp.examples.MockAssetRepository;
 import edu.mayo.kmdp.examples.PlatformConfig;
+import edu.mayo.kmdp.language.detectors.dmn.v1_2.DMN12Detector;
 import edu.mayo.kmdp.language.detectors.html.HTMLDetector;
 import edu.mayo.kmdp.language.parsers.dmn.v1_2.DMN12Parser;
 import edu.mayo.kmdp.language.parsers.surrogate.v2.Surrogate2Parser;
-import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -42,12 +42,9 @@ public class CarrierTest {
   @Inject
   DeserializeApiInternal parser;
 
-  KnowledgeAssetRepositoryService assetRepo
-      = KnowledgeAssetRepositoryService.selfContainedRepository(
-      Arrays.asList(new Surrogate2Parser(), new DMN12Parser()),
-      Collections.singletonList(new HTMLDetector()),
-      Collections.emptyList(),
-      Collections.emptyList()
+  MockAssetRepository assetRepo = new MockAssetRepository(
+      List.of(new Surrogate2Parser(), new DMN12Parser()),
+      List.of(new HTMLDetector(), new DMN12Detector())
   );
 
   @BeforeEach

@@ -7,8 +7,8 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationForma
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 
+import edu.mayo.kmdp.examples.MockAssetRepository;
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
@@ -32,8 +32,7 @@ public class DiscoverTest {
   @Inject
   DeserializeApiInternal parser;
 
-  KnowledgeAssetRepositoryService assetRepo
-      = KnowledgeAssetRepositoryService.selfContainedRepository();
+  MockAssetRepository assetRepo = new MockAssetRepository();
 
   @BeforeEach
   void setup() {
@@ -52,8 +51,8 @@ public class DiscoverTest {
 
   private void publish(InputStream modelIs, InputStream surrIs) {
     KnowledgeAsset surrogate = parser.applyLift(
-        of(surrIs,rep(Knowledge_Asset_Surrogate_2_0, XML_1_1)),
-        Abstract_Knowledge_Expression.getTag())
+            of(surrIs, rep(Knowledge_Asset_Surrogate_2_0, XML_1_1)),
+            Abstract_Knowledge_Expression.getTag())
         .flatOpt(kc -> kc.as(KnowledgeAsset.class))
         .orElseGet(Assertions::fail);
     KnowledgeCarrier artifact = of(modelIs)
@@ -79,7 +78,7 @@ public class DiscoverTest {
     assertFalse(pointers.isEmpty());
     Pointer vid = pointers.get(0);
     KnowledgeAsset asset
-        = assetRepo.getKnowledgeAsset(vid.getUuid(), vid.getVersionTag())
+        = assetRepo.getKnowledgeAssetVersion(vid.getUuid(), vid.getVersionTag())
         .orElse(null);
 
     System.out.println("Asset name >> " + asset.getName());

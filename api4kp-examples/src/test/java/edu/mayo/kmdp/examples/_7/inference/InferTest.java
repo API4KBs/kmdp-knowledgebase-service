@@ -8,10 +8,10 @@ import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.assetId;
 import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.XML_1_1;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_1;
 
+import edu.mayo.kmdp.examples.MockAssetRepository;
 import edu.mayo.kmdp.examples._3.publish.PublicationTest;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.knowledgebase.introspectors.dmn.v1_1.DMN11MetadataIntrospector;
-import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.util.FileUtil;
 import java.nio.charset.Charset;
 import java.util.UUID;
@@ -36,8 +36,8 @@ public class InferTest {
 
   DMN11MetadataIntrospector introspector = new DMN11MetadataIntrospector();
 
-  KnowledgeAssetRepositoryService assetRepo = KnowledgeAssetRepositoryService
-      .selfContainedRepository();
+  MockAssetRepository assetRepo = new MockAssetRepository();
+
   KnowledgeBaseApiInternal kbaseManager = new KnowledgeBaseProvider(assetRepo)
       .withNamedIntrospector(introspector);
 

@@ -7,8 +7,8 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationForma
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 
+import edu.mayo.kmdp.examples.MockAssetRepository;
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.util.Util;
 import java.io.InputStream;
 import java.util.Collections;
@@ -30,8 +30,7 @@ public class PublicationTest {
   @Inject
   DeserializeApiInternal parser;
 
-  KnowledgeAssetRepositoryService assetRepo
-      = KnowledgeAssetRepositoryService.selfContainedRepository();
+  MockAssetRepository assetRepo = new MockAssetRepository();
 
   @Test
   void testIntrospectDMN() {

@@ -27,6 +27,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Encoded_Knowledge_Expression;
 
+import edu.mayo.kmdp.examples.MockAssetRepository;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.knowledgebase.assemblers.rdf.GraphBasedAssembler;
 import edu.mayo.kmdp.knowledgebase.constructors.DependencyBasedConstructor;
@@ -38,7 +39,6 @@ import edu.mayo.kmdp.language.parsers.dmn.v1_2.DMN12Parser;
 import edu.mayo.kmdp.language.parsers.surrogate.v2.Surrogate2Parser;
 import edu.mayo.kmdp.language.translators.cmmn.v1_1.fhir.stu3.CmmnToPlanDefTranslator;
 import edu.mayo.kmdp.language.translators.dmn.v1_2.fhir.stu3.DmnToPlanDefTranslator;
-import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.util.FileUtil;
 import java.net.URI;
 import java.util.List;
@@ -49,21 +49,16 @@ import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._assembleCompositeArtifact;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._flattenArtifact;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._getKnowledgeBaseStructure;
-import org.omg.spec.api4kp._20200801.api.terminology.v4.server.TermsApiInternal;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DeserializeApiInternal;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.TransxionApiInternal;
-import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
-import org.omg.spec.api4kp._20200801.terms.model.ConceptDescriptor;
 
 public abstract class CmmnToPlanDefIntegrationTestBase {
 
-  KnowledgeAssetRepositoryService repo
-      = KnowledgeAssetRepositoryService.selfContainedRepository();
-
+  MockAssetRepository repo = new MockAssetRepository();
   DeserializeApiInternal metadataParser =
       new LanguageDeSerializer(singletonList(new Surrogate2Parser()));
 
@@ -125,7 +120,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
   }
 
   private KnowledgeCarrier readTestArtifact(String xml, KnowledgeAsset surrogate) {
-    Answer<KnowledgeCarrier> ans = Answer.of(
+    Answer<KnowledgeCarrier> ans = Answer.ofTry(
         FileUtil.readBytes(
             CmmnToPlanDefIntegrationTestBase.class.getResourceAsStream(xml)))
         .map(bytes -> AbstractCarrier.of(bytes)
@@ -147,7 +142,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
   }
 
   private KnowledgeAsset readTestAssetMetadata(String surrFilePath) {
-    Answer<KnowledgeAsset> ans = Answer.of(
+    Answer<KnowledgeAsset> ans = Answer.ofTry(
         FileUtil.readBytes(
             CmmnToPlanDefIntegrationTestBase.class.getResourceAsStream(surrFilePath)))
         .map(bytes -> AbstractCarrier.of(bytes)
@@ -159,7 +154,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
   }
 
   protected KnowledgeCarrier loadDictionary() {
-    return Answer.of(
+    return Answer.ofTry(
         FileUtil.readBytes(
             CmmnToPlanDefIntegrationTestBase.class.getResourceAsStream(getDictionarySource())))
         .map(bytes -> AbstractCarrier.of(bytes)
@@ -180,25 +175,6 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
 
   protected String getDictionaryURI() {
     return "https://clinicalknowledgemanagement.mayo.edu/artifacts/deda9ce8-ca68-456e-b9d1-96d338469988";
-  }
-
-
-  // TODO This is a placeholder until we can implement the TerminologyProvider
-  private TermsApiInternal getMockTermServer() {
-    return new TermsApiInternal() {
-      @Override
-      public Answer<ConceptDescriptor> getTerm(UUID vocabularyId, String versionTag,
-          String conceptId) {
-        return Answer.unsupported();
-      }
-
-      @Override
-      public Answer<List<Pointer>> listTerminologies() {
-        return Answer.of(
-            singletonList(new Pointer().withHref(URI.create(getDictionaryURI())))
-        );
-      }
-    };
   }
 
 

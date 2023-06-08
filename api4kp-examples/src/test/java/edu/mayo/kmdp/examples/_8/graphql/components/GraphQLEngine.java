@@ -75,7 +75,7 @@ public class GraphQLEngine implements _askQuery {
 
     GraphQL engine = getEngine(tdf, runtimeWiring);
 
-    return Answer.of(queryCarrier.asString())
+    return Answer.ofTry(queryCarrier.asString())
         .map(engine::execute)
         .flatMap(this::processResult);
   }
@@ -106,7 +106,7 @@ public class GraphQLEngine implements _askQuery {
   private Map<String, KnowledgeCarrier> findResolvers(KnowledgeAsset schemaSurrogate) {
     return links(schemaSurrogate, Dependency.class, Imports)
         .map(rid -> repo
-            .getKnowledgeAssetCanonicalCarrier(rid.getUuid(), rid.getVersionTag())
+            .getKnowledgeAssetVersionCanonicalCarrier(rid.getUuid(), rid.getVersionTag())
             .flatMap(kc -> sqlLifter
                 .applyLift(kc, Abstract_Knowledge_Expression.getTag(), codedRep(SPARQL_1_1), null)))
         .flatMap(Answer::trimStream)
@@ -124,7 +124,7 @@ public class GraphQLEngine implements _askQuery {
   private Answer<KnowledgeAsset> getSurrogate(KnowledgeCarrier schema) {
     return Answer.of(schema)
         .map(KnowledgeCarrier::getAssetId)
-        .flatMap(aId -> cat.getKnowledgeAsset(aId.getUuid(), aId.getVersionTag()));
+        .flatMap(aId -> cat.getKnowledgeAssetVersion(aId.getUuid(), aId.getVersionTag()));
   }
 
   private Answer<TypeDefinitionRegistry> parse(KnowledgeCarrier schema) {

@@ -1,6 +1,5 @@
 package edu.mayo.kmdp.examples._8.graphql;
 
-import static edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService.selfContainedRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.of;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
@@ -9,11 +8,11 @@ import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newId;
 import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.TXT;
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.GraphQL_Queries;
 
+import edu.mayo.kmdp.examples.MockAssetRepository;
 import edu.mayo.kmdp.examples._8.graphql.components.GraphQLEngine;
 import edu.mayo.kmdp.examples._8.graphql.components.MockMetadataIntrospector;
 import edu.mayo.kmdp.examples._8.graphql.components.PublicationHelper;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
-import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.UUID;
@@ -81,9 +80,9 @@ class GraphQLTest {
 
   @BeforeEach
   void setup() {
-    KnowledgeAssetRepositoryService kars = selfContainedRepository();
-    cat = KnowledgeAssetCatalogApi.newInstance(kars);
-    repo = KnowledgeAssetRepositoryApi.newInstance(kars);
+    MockAssetRepository assetRepo = new MockAssetRepository();
+    cat = KnowledgeAssetCatalogApi.newInstance(assetRepo);
+    repo = KnowledgeAssetRepositoryApi.newInstance(assetRepo);
     introspector = new MockMetadataIntrospector();
     helper = new PublicationHelper(cat, repo, introspector);
 
