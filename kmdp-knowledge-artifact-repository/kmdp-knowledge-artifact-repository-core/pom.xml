@@ -18,14 +18,16 @@
 
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-artifact-repository-service-server</artifactId>
+      <artifactId>kmdp-artifact-repository-service-interfaces</artifactId>
       <version>${kmdp.impl.version}</version>
     </dependency>
-
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-rest-ws-utils</artifactId>
-      <version>${kmdp.impl.version}</version>
+      <artifactId>kmdp-spring-ws-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
     </dependency>
 
 

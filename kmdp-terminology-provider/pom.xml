@@ -23,7 +23,7 @@
 
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-terminology-service-server</artifactId>
+      <artifactId>kmdp-terminology-service-interfaces</artifactId>
       <version>${kmdp.impl.version}</version>
     </dependency>
 

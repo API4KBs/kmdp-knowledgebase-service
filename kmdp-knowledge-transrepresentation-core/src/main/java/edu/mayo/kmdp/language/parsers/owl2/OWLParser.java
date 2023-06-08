@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,7 +61,6 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Named
 @KPOperation(Lowering_Task)
@@ -74,7 +73,7 @@ public class OWLParser extends AbstractDeSerializeOperator {
   public static final String version = "1.0.0";
 
   public OWLParser() {
-    setId(SemanticIdentifier.newId(id,version));
+    setId(SemanticIdentifier.newId(id, version));
   }
 
   @Override
@@ -84,8 +83,9 @@ public class OWLParser extends AbstractDeSerializeOperator {
 
 
   @Override
-  public Optional<KnowledgeCarrier> innerDeserialize(KnowledgeCarrier carrier, Properties properties) {
-    return innerParse(carrier,properties);
+  public Optional<KnowledgeCarrier> innerDeserialize(KnowledgeCarrier carrier,
+      Properties properties) {
+    return innerParse(carrier, properties);
   }
 
   @Override
@@ -94,7 +94,6 @@ public class OWLParser extends AbstractDeSerializeOperator {
       OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
       OWLOntologyLoaderConfiguration conf = getConfiguration(properties);
       manager.setOntologyLoaderConfiguration(conf);
-
 
       Optional<byte[]> bytes = carrier.asBinary();
       if (bytes.isEmpty()) {
@@ -208,13 +207,14 @@ public class OWLParser extends AbstractDeSerializeOperator {
   }
 
 
-
   public static class OWLParserConfiguration
       extends ConfigProperties<OWLParserConfiguration, OWLParserParams> {
-    private static final Properties DEFAULTS = defaulted( OWLParserConfiguration.OWLParserParams.class );
+
+    private static final Properties DEFAULTS = defaulted(
+        OWLParserConfiguration.OWLParserParams.class);
 
     public OWLParserConfiguration() {
-      super( DEFAULTS );
+      super(DEFAULTS);
     }
 
     public OWLParserConfiguration(Properties defaults) {
@@ -237,7 +237,7 @@ public class OWLParser extends AbstractDeSerializeOperator {
 
       private Opt<OWLParserParams> opt;
 
-      OWLParserParams( Opt<OWLParserParams> opt ) {
+      OWLParserParams(Opt<OWLParserParams> opt) {
         this.opt = opt;
       }
 

@@ -18,7 +18,7 @@
 
     <dependency>
       <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-inference-service-server</artifactId>
+      <artifactId>kmdp-inference-service-interfaces</artifactId>
       <version>${kmdp.impl.version}</version>
     </dependency>
 
@@ -68,11 +68,6 @@
       <artifactId>junit-jupiter</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>edu.mayo.kmdp</groupId>
-      <artifactId>kmdp-rest-ws-utils</artifactId>
-      <version>${kmdp.impl.version}</version>
-    </dependency>
 
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
