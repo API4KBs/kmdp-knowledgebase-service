@@ -4,7 +4,7 @@
   xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://www.omg.org/spec/API4KP/20200801/surrogate xsd/API4KP/surrogate/surrogate.xsd">
-  <mvf:name>Kidney Transplant Concepts</mvf:name>
+  <mvf:name>Kidney Transplant MOCK Concepts</mvf:name>
   <mvf:uri>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec</mvf:uri>
   <mvf:entry>
     <mvf:name>Most Recent Comprehensive Metabolic Labs</mvf:name>
@@ -329,6 +329,15 @@
     <mvf:externalReference>http://snomed.info/id/11953005</mvf:externalReference>
   </mvf:entry>
   <mvf:entry>
+    <mvf:name>Kidney</mvf:name>
+    <mvf:uri>urn:uuid:5a41fd57-a688-40f6-90ff-5e1f88f7259d</mvf:uri>
+    <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#5a41fd57-a688-40f6-90ff-5e1f88f7259d</mvf:reference>
+    <mvf:vocabularyEntry>
+      <mvf:term>Kidney</mvf:term>
+    </mvf:vocabularyEntry>
+    <mvf:externalReference>http://snomed.info/id/64033007</mvf:externalReference>
+  </mvf:entry>
+  <mvf:entry>
     <mvf:name>Immunosuppressive medication</mvf:name>
     <mvf:uri>urn:uuid:9ec89a8c-e214-4c37-aec8-9f0809b6efb4</mvf:uri>
     <mvf:reference>https://clinicalknowledgemanagement.mayo.edu/artifacts/32c70703-f37c-4211-afae-4a5eb92779ec#9ec89a8c-e214-4c37-aec8-9f0809b6efb4</mvf:reference>
@@ -535,6 +544,14 @@
       <mvf:term>11953005</mvf:term>
     </mvf:entry>
     <mvf:entry>
+      <mvf:name>Kidney structure (body structure)</mvf:name>
+      <mvf:reference>http://snomed.info/sct|64033007</mvf:reference>
+      <mvf:MVFEntry>
+        <mvf:uri>urn:uuid:5a41fd57-a688-40f6-90ff-5e1f88f7259d</mvf:uri>
+      </mvf:MVFEntry>
+      <mvf:term>64033007</mvf:term>
+    </mvf:entry>
+    <mvf:entry>
       <mvf:name>Interprets</mvf:name>
       <mvf:reference>http://snomed.info/sct|363714003</mvf:reference>
       <mvf:MVFEntry>
@@ -586,6 +603,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:c926d88b-596e-404f-8fb5-093af94a9909</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>b9da7adf-6745-38d7-ac44-e70cd8fe36cb</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -594,6 +612,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:c09b0df4-16a5-4c17-8dce-edcd316699f8</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>88d67396-c8b6-3665-b75a-7351fac7cc07</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -602,6 +621,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:78ad47d0-b93e-41a7-9cd3-0861f48d47db</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>347efb43-9c04-36ea-8322-400d9768cca0</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -610,6 +630,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:1b21895f-dde9-47b8-b0fc-d44065266833</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>e0107cf3-a19a-4623-85f4-60f21d7d0630</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -618,6 +639,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:b6f08181-7fc5-4d99-bbef-93239ade7b78</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>adc0cf1b-a262-4d90-ae4c-1cb5dcab2da1</mvf:term>
       <mvf:definition>csv:f6912019-9e35-3c0a-8513-af6f8be75d47 that targets some urn:uuid:bc09f47d-e30b-4d31-a411-6f64c9779255</mvf:definition>
     </mvf:entry>
     <mvf:entry>
@@ -626,6 +648,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:c0125d0b-5568-4533-af95-2f9a2b52ca90</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>80e35fdd-c536-4cdf-87fc-9bd4804ed3d9</mvf:term>
       <mvf:definition>csv:007da497-e647-31c6-82fd-96b13026d5d7 that targets some urn:uuid:7b166eda-f5fa-4eb3-9497-42a0fbc4772d</mvf:definition>
     </mvf:entry>
     <mvf:entry>
@@ -634,6 +657,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:399be816-7c37-4476-b8be-76f77e452a52</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>5fee73fb-78a0-42b7-9cf2-b5c19e9a5559</mvf:term>
       <mvf:definition>csv:007da497-e647-31c6-82fd-96b13026d5d7 that targets some urn:uuid:d8a20534-a20e-4df9-bfc5-a3b99dc95106</mvf:definition>
     </mvf:entry>
     <mvf:entry>
@@ -642,6 +666,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:a11d6812-285d-403e-ae10-534c81602ac3</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>70649e9a-0450-43b6-8d9e-a77479d86a8c</mvf:term>
       <mvf:definition>csv:007da497-e647-31c6-82fd-96b13026d5d7 that targets some urn:uuid:1559ff92-89f1-4f5f-adaa-bd7b2e4e8290</mvf:definition>
     </mvf:entry>
     <mvf:entry>
@@ -650,6 +675,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:cd3e546e-b0a3-4259-847a-28df72e646ff</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>f4ec4e31-399d-3831-9580-38f992e9ce06</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -658,6 +684,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:52291ed5-620b-484a-b7f4-3e03f311c6cc</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>ffe2bf00-6d5a-3069-a3fe-aebb343f21e5</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -666,6 +693,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:7fe625cc-c15e-4829-8269-501cddabc69e</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>4a83d39a-e584-3d22-bcf3-79da7665cfb2</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -674,6 +702,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:4185007d-48fb-4a41-9031-bb3437ca23ab</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>7748f872-2ac3-3cc3-ab25-235188518bce</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -682,6 +711,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:adbe0ccc-d7fd-4c4f-89d7-9ea64eb8c3fd</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>ee0ac4e5-df68-316e-8540-0524b5a76e18</mvf:term>
       <mvf:definition/>
     </mvf:entry>
     <mvf:entry>
@@ -690,6 +720,7 @@
       <mvf:MVFEntry>
         <mvf:uri>urn:uuid:3240d60b-e713-4b71-8b6b-971e4bec76ce</mvf:uri>
       </mvf:MVFEntry>
+      <mvf:term>6da4da41-d278-3e78-9d52-760eecc0c3f3</mvf:term>
       <mvf:definition/>
     </mvf:entry>
   </mvf:vocabulary>

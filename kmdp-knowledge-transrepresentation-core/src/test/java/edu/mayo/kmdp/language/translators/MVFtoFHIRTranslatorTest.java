@@ -38,7 +38,7 @@ class MVFtoFHIRTranslatorTest {
   void testTranslator() {
     var ans =
         tx.applyTransrepresent(rawData, codedRep(FHIR_STU3, JSON, Charset.defaultCharset()), null)
-        .orElseGet(Assertions::fail);
+            .orElseGet(Assertions::fail);
     assertTrue(ans.getExpression() instanceof String);
 
     var cs = FhirContext.forDstu3().newJsonParser().parseResource(CodeSystem.class, ans.asString()
@@ -59,13 +59,13 @@ class MVFtoFHIRTranslatorTest {
   }
 
   private void testTranslatedModel(CodeSystem cs) {
-    assertEquals(21, cs.getConcept().size());
+    assertEquals(22, cs.getConcept().size());
 
     var map = (ConceptMap) cs.getContained().get(0);
     var sctMap = map.getGroup().stream()
         .filter(g -> g.getTarget().contains("snomed"))
         .findFirst().orElseGet(Assertions::fail);
-    assertEquals(7, sctMap.getElement().size());
+    assertEquals(8, sctMap.getElement().size());
     var csvMap = map.getGroup().stream()
         .filter(g -> g.getTarget().contains("clinicalsituation"))
         .findFirst().orElseGet(Assertions::fail);
@@ -74,10 +74,12 @@ class MVFtoFHIRTranslatorTest {
     for (var x : cs.getConcept()) {
       sctMap.getElement().stream()
           .filter(el -> el.getCode().equals(x.getCode()))
+          .filter(el -> el.getTarget().get(0).getCode() != null)
           .findFirst()
           .or(() -> csvMap.getElement().stream()
-          .filter(el -> el.getCode().equals(x.getCode()))
-          .findFirst())
+              .filter(el -> el.getCode().equals(x.getCode()))
+              .filter(el -> el.getTarget().get(0).getCode() != null)
+              .findFirst())
           .orElseGet(Assertions::fail);
     }
   }
