@@ -10,7 +10,7 @@ import edu.mayo.kmdp.terms.CompositeTermsServer.TYPE;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.omg.spec.api4kp._20200801.Answer;
-import org.omg.spec.api4kp._20200801.api.terminology.v4.server.TermsApiInternal;
+import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal;
 import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;

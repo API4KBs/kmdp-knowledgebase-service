@@ -19,7 +19,7 @@ import edu.mayo.kmdp.terms.TermsTestUtil.MockRepo;
 import java.net.URI;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetCatalogApi;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetRepositoryApi;
-import org.omg.spec.api4kp._20200801.api.terminology.v4.server.TermsApiInternal;
+import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

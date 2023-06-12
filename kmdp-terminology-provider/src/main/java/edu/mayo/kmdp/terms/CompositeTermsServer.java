@@ -1,7 +1,7 @@
 package edu.mayo.kmdp.terms;
 
 import java.util.Optional;
-import org.omg.spec.api4kp._20200801.api.terminology.v4.server.TermsApiInternal;
+import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal;
 
 /**
  * Composite {@link TermsApiInternal} Supports components that implement {@link TermsApiInternal}
