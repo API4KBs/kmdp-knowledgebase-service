@@ -22,6 +22,13 @@
     </dependency>
 
     <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-glossary-library-service-interfaces</artifactId>
+      <version>${kmdp.impl.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
@@ -151,6 +158,20 @@
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-core</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-asset-repository-service-interfaces</artifactId>
+      <version>${kmdp.impl.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-terminology-service-interfaces</artifactId>
+      <version>${kmdp.impl.version}</version>
+      <scope>test</scope>
+    </dependency>
+
 
   </dependencies>
 
