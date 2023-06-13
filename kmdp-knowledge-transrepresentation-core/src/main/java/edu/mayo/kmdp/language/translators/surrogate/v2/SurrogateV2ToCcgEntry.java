@@ -62,7 +62,6 @@ import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
 import org.omg.spec.api4kp._20200801.terms.ConceptTerm;
 
-@Named
 @KPOperation(Syntactic_Translation_Task)
 public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAsset, GlossaryEntry>
     implements TransionApiOperator {
