@@ -60,6 +60,7 @@ import org.omg.spec.api4kp._20200801.surrogate.Dependency;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeArtifact;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
+import org.omg.spec.api4kp._20200801.terms.ConceptTerm;
 
 @Named
 @KPOperation(Syntactic_Translation_Task)
@@ -207,7 +208,8 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
               ? codedRep(expression.getRepresentation()) : null)
           .href(knowledgeAsset.getAssetId().getVersionId().toString())
           .assetType(allReferents(knowledgeAsset.getFormalType()))
-          .inlinedExpr(expression.getInlinedExpression());
+          .inlinedExpr(expression.getInlinedExpression())
+          .publicationStatus(getStatus(expression, knowledgeAsset));
 
       opDef.computableSpec(ref);
     }
@@ -223,6 +225,15 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
         });
 
     return opDef;
+  }
+
+  private String getStatus(KnowledgeArtifact expression, KnowledgeAsset knowledgeAsset) {
+    return Optional.ofNullable(expression.getLifecycle())
+        .flatMap(l -> Optional.ofNullable(l.getPublicationStatus()))
+        .or(() ->Optional.ofNullable(knowledgeAsset.getLifecycle())
+            .flatMap(l -> Optional.ofNullable(l.getPublicationStatus())))
+        .map(ConceptTerm::getTag)
+        .orElse(null);
   }
 
 

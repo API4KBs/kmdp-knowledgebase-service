@@ -103,7 +103,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
         .orElseGet(Assertions::fail);
 
     Answer<GlossaryEntry> ge2 = libraryApi
-        .getGlossaryEntry("default", pcId.getUuid(), null, null);
+        .getGlossaryEntry("default", pcId.getUuid(), null, null, null);
     assertTrue(ge2.isSuccess());
 
     assertEquals(Has_Hypertension.getConceptId().toString(),
@@ -116,7 +116,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     doPublish(entry.buildSurrogate(), entry.buildArtifact());
 
     Answer<GlossaryEntry> ge = libraryApi
-        .getGlossaryEntry("default", UUID.randomUUID(), null, null);
+        .getGlossaryEntry("default", UUID.randomUUID(), null, null, null);
 
     assertFalse(ge.isSuccess());
     assertEquals(Answer.notFound().getOutcomeType(), ge.getOutcomeType());
@@ -196,7 +196,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     semanticRepository.publish(opdef3, null);
 
     Answer<GlossaryEntry> gEntry = libraryApi
-        .getGlossaryEntry("default", Current_Caffeine_Use.getUuid(), null, null);
+        .getGlossaryEntry("default", Current_Caffeine_Use.getUuid(), null, null, null);
     assertNotNull(gEntry);
     assertTrue(gEntry.isSuccess());
     assertEquals(2, gEntry.map(GlossaryEntry::getDef).map(List::size).orElse(-1));
@@ -211,7 +211,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     doPublish(entry.buildSurrogate(), entry.buildArtifact());
 
     Optional<GlossaryEntry> ccgEntryOp = libraryApi
-        .getGlossaryEntry("default",Has_Hypertension_Is.getUuid(), null, null)
+        .getGlossaryEntry("default", Has_Hypertension_Is.getUuid(), null, null, null)
         .getOptionalValue();
 
     assertTrue(ccgEntryOp.isPresent());
@@ -261,7 +261,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     // Using the SemRepo API to check that OpDefs can be generated transparently on the fly
     // This should point to the same as repoApi
     Optional<GlossaryEntry> ccgEntryOp = libraryApi
-        .getGlossaryEntry("default",Has_Hypertension_Is.getUuid(), null, null)
+        .getGlossaryEntry("default", Has_Hypertension_Is.getUuid(), null, null, null)
         .getOptionalValue();
     assertTrue(ccgEntryOp.isPresent());
     GlossaryEntry ccgEntry = ccgEntryOp.get();
@@ -277,10 +277,10 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
 
     List<KnowledgeCarrier> bundle =
         semanticRepository.getAnonymousCompositeKnowledgeAssetCarrier(
-            id.getUuid(),id.getVersionTag())
-        .flatOpt(Util.as(CompositeKnowledgeCarrier.class))
-        .map(CompositeKnowledgeCarrier::getComponent)
-        .orElse(Collections.emptyList());
+                id.getUuid(), id.getVersionTag())
+            .flatOpt(Util.as(CompositeKnowledgeCarrier.class))
+            .map(CompositeKnowledgeCarrier::getComponent)
+            .orElse(Collections.emptyList());
 
     assertEquals(3, bundle.size());
     Set<String> exprs = bundle.stream()
@@ -307,12 +307,12 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     doPublish(complexAsset, entry.buildArtifact());
 
     var opDefs2 = libraryApi.listGlossaryEntries(
-        "default", Has_Hypertension.getUuid())
+            "default", Has_Hypertension.getUuid(), null, null)
         .orElse(Collections.emptyList());
     assertEquals(1, opDefs2.size());
 
     var opDefs3 = libraryApi.listGlossaryEntries(
-        "default", Has_Diabetes_Mellitus.getUuid())
+            "default", Has_Diabetes_Mellitus.getUuid(), null, null)
         .orElse(Collections.emptyList());
     assertEquals(0, opDefs3.size());
   }
@@ -352,9 +352,9 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     semanticRepository.publish(opdef3, null);
 
     Answer<GlossaryEntry> gEntry = libraryApi
-        .getGlossaryEntry("default",Current_Caffeine_Use.getUuid(),
+        .getGlossaryEntry("default", Current_Caffeine_Use.getUuid(),
             Has_Allergy_To_Statins.getUuid(),
-            null);
+            null, null);
     assertNotNull(gEntry);
     assertTrue(gEntry.isSuccess());
     assertEquals(1, gEntry.map(GlossaryEntry::getDef).map(List::size).orElse(-1));
@@ -405,16 +405,16 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     semanticRepository.publish(opdef4, null);
 
     Answer<GlossaryEntry> gEntry = libraryApi
-        .getGlossaryEntry("default",Current_Caffeine_Use.getUuid(),
+        .getGlossaryEntry("default", Current_Caffeine_Use.getUuid(),
             null,
-            Computational_Technique.getTag());
+            Computational_Technique.getTag(),
+            null);
 
     assertNotNull(gEntry);
     assertTrue(gEntry.isSuccess());
     assertEquals(3, gEntry.map(GlossaryEntry::getDef).map(List::size).orElse(-1));
 
   }
-
 
 
   @Test
@@ -445,7 +445,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
 
     assertEquals(t1.getUuid(), t2.getUuid());
     Answer<GlossaryEntry> gEntry = libraryApi
-        .getGlossaryEntry("default",t1.getUuid());
+        .getGlossaryEntry("default", t1.getUuid());
 
     assertNotNull(gEntry);
     assertTrue(gEntry.isSuccess());
@@ -470,7 +470,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     doPublish(entry2.buildSurrogate(), entry2.buildArtifact());
 
     Answer<GlossaryEntry> ansGLEntry = this.libraryApi
-        .getGlossaryEntry("default",MockOpDef2.definedConcept.getUuid());
+        .getGlossaryEntry("default", MockOpDef2.definedConcept.getUuid());
     assertTrue(ansGLEntry.isSuccess());
 
     GlossaryEntry glEntry = ansGLEntry.get();
@@ -482,8 +482,7 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
   }
 
 
-  MockOpDef2 createMockOpDefinition()
-  {
+  MockOpDef2 createMockOpDefinition() {
     MockOpDef2 operationalDefinition = new MockOpDef2();
     doPublish(operationalDefinition.buildSurrogate(), operationalDefinition.buildArtifact());
 
@@ -498,12 +497,11 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     doPublish(entry2.buildSurrogate(), entry2.buildArtifact());
 
     Answer<GlossaryEntry> ge = libraryApi
-            .getGlossaryEntry("default",Has_Allergy_To_Statins.getUuid(), null, null);
+        .getGlossaryEntry("default", Has_Allergy_To_Statins.getUuid(), null, null, null);
 
     assertTrue(ge.isSuccess());
     assertEquals(2, ge.get().getDef().size());
   }
-
 
 
 }

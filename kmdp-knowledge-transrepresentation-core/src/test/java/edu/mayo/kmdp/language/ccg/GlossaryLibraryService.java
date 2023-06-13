@@ -13,10 +13,6 @@
  */
 package edu.mayo.kmdp.language.ccg;
 
-import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
-import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
-import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal._lookupTerm;
-
 import static edu.mayo.kmdp.util.PropertiesUtil.serializeProps;
 import static edu.mayo.ontology.taxonomies.kmdo.semanticannotationreltype.SemanticAnnotationRelTypeSeries.Defines;
 import static java.util.Collections.emptyList;
@@ -27,6 +23,7 @@ import static org.omg.spec.api4kp._20200801.surrogate.SurrogateHelper.getAnnotat
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeassetrole.KnowledgeAssetRoleSeries.Operational_Concept_Definition;
 
 import edu.mayo.kmdp.api.ccgl.v3.server.GlossaryLibraryApiInternal;
+import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal._lookupTerm;
 import edu.mayo.kmdp.ccg.model.Glossary;
 import edu.mayo.kmdp.ccg.model.GlossaryEntry;
 import edu.mayo.kmdp.language.translators.surrogate.v2.SurrogateV2ToCcgEntry;
@@ -41,6 +38,8 @@ import java.util.UUID;
 import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.TransxionApiInternal._applyTransrepresent;
 import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
@@ -103,7 +102,8 @@ public class GlossaryLibraryService implements GlossaryLibraryApiInternal {
   }
 
   @Override
-  public Answer<List<GlossaryEntry>> listGlossaryEntries(String glossaryId, UUID scope) {
+  public Answer<List<GlossaryEntry>> listGlossaryEntries(
+      String glossaryId, UUID scope, String method, String qAccept) {
     var g = getGlossary(glossaryId);
     if (g.isFailure()) {
       return Answer.failed(g);
@@ -123,7 +123,8 @@ public class GlossaryLibraryService implements GlossaryLibraryApiInternal {
       String glossaryId,
       UUID definedConceptId,
       UUID applicabilityScope,
-      String method) {
+      String method,
+      String qAccept) {
 
     // Future: we may also return assets that exactly define a concept X, where X isA 'pcID'...
     // conversely, if an Asset defines 2+ concepts, the Asset is indexed once per concept...
