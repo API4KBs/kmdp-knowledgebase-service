@@ -87,9 +87,7 @@ public class StructureDefinitionMetadataIntrospector extends
                 .withArtifactId(
                     mintArtifactId(namespace, rep, resourceType, false))
                 .withRepresentation(rep)
-                .withLocator(URI.create(
-                    FHIR_URL + FHIR4_TAG + "/" + resourceType.toLowerCase()
-                        + ".profile.json")));
+                .withLocator(mintProfileUrl(resourceType)));
   }
 
   /**
@@ -123,6 +121,10 @@ public class StructureDefinitionMetadataIntrospector extends
     } else {
       return newId(URI.create(FHIR_URL + FHIR_URL_RES_PATH), fhirType, FHIR4_TAG);
     }
+  }
+
+  public static URI mintProfileUrl(String fhirType) {
+    return URI.create(FHIR_URL + FHIR4_TAG + "/" + fhirType.toLowerCase() + ".profile.json");
   }
 
   public static ResourceIdentifier mintAssetID(
