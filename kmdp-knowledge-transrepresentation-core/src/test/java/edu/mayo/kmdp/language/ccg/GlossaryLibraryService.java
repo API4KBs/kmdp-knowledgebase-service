@@ -103,7 +103,12 @@ public class GlossaryLibraryService implements GlossaryLibraryApiInternal {
 
   @Override
   public Answer<List<GlossaryEntry>> listGlossaryEntries(
-      String glossaryId, UUID scope, String method, String qAccept) {
+      String glossaryId,
+      UUID scope,
+      String method,
+      Boolean pubOnly,
+      Boolean greatOnly,
+      String qAccept) {
     var g = getGlossary(glossaryId);
     if (g.isFailure()) {
       return Answer.failed(g);
@@ -124,6 +129,8 @@ public class GlossaryLibraryService implements GlossaryLibraryApiInternal {
       UUID definedConceptId,
       UUID applicabilityScope,
       String method,
+      Boolean pubOnly,
+      Boolean greatOnly,
       String qAccept) {
 
     // Future: we may also return assets that exactly define a concept X, where X isA 'pcID'...

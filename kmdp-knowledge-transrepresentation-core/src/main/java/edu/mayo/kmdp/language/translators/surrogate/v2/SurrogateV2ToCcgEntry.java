@@ -35,6 +35,7 @@ import edu.mayo.kmdp.language.TransionApiOperator;
 import edu.mayo.kmdp.language.parsers.surrogate.v2.Surrogate2Parser;
 import edu.mayo.kmdp.language.translators.AbstractSimpleTranslator;
 import edu.mayo.kmdp.util.StreamUtil;
+import edu.mayo.kmdp.util.Util;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +43,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.inject.Named;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.id.KeyIdentifier;
@@ -170,8 +170,9 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
     var definedConceptId = getDefines(mainAsset, focusConceptId)
         .orElseThrow(
             () -> new IllegalStateException("CCG ENTRIES MUST HAVE A 'defines PC' ANNOTATION "));
+    glossaryEntry.id(mintGlossaryEntryId(mainAsset.getAssetId(), definedConceptId));
 
-    var od = toOpDef(mainAsset, definedConceptId, true, includeds);
+    var od = toOpDef(mainAsset, definedConceptId, includeds);
 
     return glossaryEntry
         .focus(focusConceptId != null ? focusConceptId.toString() : null)
@@ -179,17 +180,20 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
         .addDefItem(od);
   }
 
+  public static UUID mintGlossaryEntryId(ResourceIdentifier assetId, String definedConceptId) {
+    var key = assetId.getVersionId().toString() + Defines.getTag() + definedConceptId;
+    return Util.uuid(key);
+  }
+
 
   OperationalDefinition toOpDef(
       KnowledgeAsset knowledgeAsset,
       String definedConcept,
-      boolean main,
       Set<KnowledgeAsset> includedKnowledgeAssets) {
     OperationalDefinition opDef = new OperationalDefinition()
         .id(knowledgeAsset.getAssetId().getVersionId().toString())
         .description(knowledgeAsset.getDescription())
         .name(knowledgeAsset.getName())
-        ._default(main)
         .processingMethod(allConcepts(knowledgeAsset.getProcessingMethod()))
         .defines(definedConcept)
         .applicabilityScope(getAnnotation(Is_Applicable_To, knowledgeAsset))
@@ -202,7 +206,8 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
           knowledgeAsset.getCarriers().get(0);
       KnowledgeResourceRef ref = new KnowledgeResourceRef()
           .assetId(knowledgeAsset.getAssetId().getVersionId().toString())
-          .artifactId(expression.getArtifactId().getVersionId().toString())
+          .artifactId(
+              expression.getArtifactId().getVersionId().toString())
           .mimeCode(expression.getRepresentation() != null
               ? codedRep(expression.getRepresentation()) : null)
           .href(knowledgeAsset.getAssetId().getVersionId().toString())
@@ -219,7 +224,7 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
         .filter(
             asset -> asset.getRole().stream().anyMatch(Operational_Concept_Definition::sameAs))
         .forEach(subDef -> {
-          var sd = this.toOpDef(subDef, definedConcept, false, includedKnowledgeAssets);
+          var sd = this.toOpDef(subDef, definedConcept, includedKnowledgeAssets);
           opDef.addIncludesItem(sd);
         });
 
@@ -321,7 +326,12 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
   }
 
   public static GlossaryEntry merge(GlossaryEntry g1, GlossaryEntry g2) {
+    g1.setId(Util.hashUUID(g1.getId(), g2.getId()));
     g1.getDef().addAll(g2.getDef());
+
+
+
+
     return g1;
   }
 
