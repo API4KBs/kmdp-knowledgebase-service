@@ -15,7 +15,6 @@ import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.Deseriali
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.TransxionApiInternal;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
-import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal._lookupTerm;
 import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal;
 
 public class GlossaryLibraryTestBase {

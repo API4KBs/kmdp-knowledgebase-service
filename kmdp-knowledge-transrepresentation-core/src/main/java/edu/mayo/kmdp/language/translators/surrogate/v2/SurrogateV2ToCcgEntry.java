@@ -329,9 +329,6 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
     g1.setId(Util.hashUUID(g1.getId(), g2.getId()));
     g1.getDef().addAll(g2.getDef());
 
-
-
-
     return g1;
   }
 
