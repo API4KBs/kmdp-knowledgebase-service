@@ -62,8 +62,11 @@ public class JenaQuery implements _askQuery {
   static SparqlQueryBinder binder = new SparqlQueryBinder();
 
   public static KnowledgeCarrier wholeGraph() {
-    String query = "" +
-        "select ?s ?p ?o where { ?s ?p ?o }";
+    return ofSparqlQuery(
+        "select ?s ?p ?o where { ?s ?p ?o }");
+  }
+
+  public static KnowledgeCarrier ofSparqlQuery(String query) {
     return AbstractCarrier.of(query)
         .withRepresentation(rep(SPARQL_1_1, TXT, Charset.defaultCharset()));
   }
