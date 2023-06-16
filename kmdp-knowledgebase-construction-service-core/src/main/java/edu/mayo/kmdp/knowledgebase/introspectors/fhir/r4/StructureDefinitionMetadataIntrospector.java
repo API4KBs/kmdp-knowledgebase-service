@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.introspectors.fhir.r4;
 
+import static edu.mayo.kmdp.registry.Registry.MAYO_ARTIFACTS_BASE_URI_URI;
 import static edu.mayo.kmdp.registry.Registry.MAYO_ASSETS_BASE_URI_URI;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newId;
@@ -57,6 +58,7 @@ public class StructureDefinitionMetadataIntrospector extends
    * Extra configuration parameter - allows to set the base namespace for the Asset ID.
    */
   public static final String CFG_ASSET_NAMESPACE = "ASSET_NAMESPACE";
+  public static final String CFG_ARTIFACT_NAMESPACE = "ARTIFACT_NAMESPACE";
 
 
   public StructureDefinitionMetadataIntrospector() {
@@ -70,7 +72,8 @@ public class StructureDefinitionMetadataIntrospector extends
    * @param resourceType the FHIR resource type
    * @return the metadata record
    */
-  public static KnowledgeAsset buildFhir4Resource(URI namespace, String resourceType) {
+  public static KnowledgeAsset buildFhir4Resource(
+      URI namespace, URI artifactNamespace, String resourceType) {
     var assetId = mintAssetID(namespace, resourceType, false);
     var rep = rep(FHIR_R4, JSON);
     return new KnowledgeAsset()
@@ -85,7 +88,7 @@ public class StructureDefinitionMetadataIntrospector extends
         .withCarriers(
             new KnowledgeArtifact()
                 .withArtifactId(
-                    mintArtifactId(namespace, rep, resourceType, false))
+                    mintArtifactId(artifactNamespace, rep, resourceType, false))
                 .withRepresentation(rep)
                 .withLocator(mintProfileUrl(resourceType)));
   }
@@ -169,7 +172,10 @@ public class StructureDefinitionMetadataIntrospector extends
     URI assetNamespace = Optional.ofNullable(props.get(CFG_ASSET_NAMESPACE))
         .map(s -> URI.create(s.toString()))
         .orElse(MAYO_ASSETS_BASE_URI_URI);
-    return buildFhir4Resource(assetNamespace, artifact.getType());
+    URI artifactNamespace = Optional.ofNullable(props.get(CFG_ARTIFACT_NAMESPACE))
+        .map(s -> URI.create(s.toString()))
+        .orElse(MAYO_ARTIFACTS_BASE_URI_URI);
+    return buildFhir4Resource(assetNamespace, artifactNamespace, artifact.getType());
   }
 
   @Override
