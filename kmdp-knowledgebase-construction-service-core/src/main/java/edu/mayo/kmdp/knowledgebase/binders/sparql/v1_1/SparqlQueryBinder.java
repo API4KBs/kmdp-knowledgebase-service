@@ -49,7 +49,7 @@ public class SparqlQueryBinder
   private static final SparqlLifter parser = new SparqlLifter();
 
   public SparqlQueryBinder() {
-    super(SemanticIdentifier.newId(id,version));
+    super(SemanticIdentifier.newId(id, version));
   }
 
   protected SparqlQueryBinder(KnowledgeBaseApiInternal kbManager) {
@@ -68,7 +68,7 @@ public class SparqlQueryBinder
     if (!getOperatorId().getUuid().equals(operatorId)) {
       return Answer.failed();
     }
-    return kbManager.getKnowledgeBaseManifestation(kbaseId,versionTag)
+    return kbManager.getKnowledgeBaseManifestation(kbaseId, versionTag)
         .flatMap(paramQuery -> bind(paramQuery, bindings));
   }
 
@@ -77,18 +77,36 @@ public class SparqlQueryBinder
         .applyLift(paramQuery, Concrete_Knowledge_Expression, codedRep(SPARQL_1_1, TXT), null)
         .map(kc -> {
           kc.as(ParameterizedSparqlString.class)
-              .ifPresent(paramQ ->
-                  bindings.forEach((key, value) -> {
-                    if (isURI(value)) {
-                      paramQ.setParam(key, ResourceFactory.createResource(value.toString()));
-                    } else {
-                      paramQ.setLiteral(key, value.toString());
-                    }
-                  }));
+              .ifPresent(paramQ -> kc.setExpression(applyBindings(paramQ, bindings)));
           return kc;
         })
         .flatMap(kc -> parser
             .applyLift(kc, Abstract_Knowledge_Expression, codedRep(SPARQL_1_1), null));
+  }
+
+  private ParameterizedSparqlString applyBindings(
+      ParameterizedSparqlString paramQ, Bindings<String, ?> bindings) {
+    // we need to remove the variable from the 'select', and bind th value in the 'where' sections
+    // we can do it with Query, but it does not work in Jena 3.11 https://issues.apache.org/jira/browse/JENA-1705
+    //
+    var qs = paramQ.toString().toLowerCase();
+    for (var key : bindings.keySet()) {
+      var limit = qs.toLowerCase().indexOf("where");
+      var first = qs.indexOf("?" + key);
+      if (first >=0 && first < limit) {
+        qs = qs.replaceFirst("\\?" + key, "");
+      }
+    }
+
+    var pss = new ParameterizedSparqlString(qs);
+    bindings.forEach((key, value) -> {
+      if (isURI(value)) {
+        pss.setParam(key, ResourceFactory.createResource(value.toString()));
+      } else {
+        pss.setLiteral(key, ResourceFactory.createStringLiteral(value.toString()));
+      }
+    });
+    return pss;
   }
 
   private boolean isURI(Object value) {

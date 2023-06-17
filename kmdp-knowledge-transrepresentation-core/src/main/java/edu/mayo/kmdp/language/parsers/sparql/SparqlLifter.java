@@ -130,7 +130,7 @@ public class SparqlLifter extends AbstractDeSerializeOperator {
         .map(ParameterizedSparqlString::new)
         .orElseThrow(UnsupportedOperationException::new);
     return Optional
-        .of(newVerticalCarrier(carrier, Concrete_Knowledge_Expression, rep(SPARQL_1_1), sparql));
+        .of(newVerticalCarrier(carrier, Concrete_Knowledge_Expression, rep(SPARQL_1_1, TXT), sparql));
   }
 
   @Override
