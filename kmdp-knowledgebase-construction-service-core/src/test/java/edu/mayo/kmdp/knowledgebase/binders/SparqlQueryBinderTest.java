@@ -10,6 +10,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 import edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1.SparqlQueryBinder;
 import java.nio.charset.Charset;
 import org.apache.jena.query.ParameterizedSparqlString;
+import org.apache.jena.query.Query;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
@@ -38,7 +39,7 @@ class SparqlQueryBinderTest {
     Answer<KnowledgeCarrier> ans = binder.bind(kc, toBinds("s", "urn:a", "o", "urn:b"));
     assertTrue(ans.isSuccess());
 
-    var q = ans.flatOpt(x -> x.as(ParameterizedSparqlString.class))
+    var q = ans.flatOpt(x -> x.as(Query.class))
         .orElseGet(Assertions::fail);
     var qs = q.toString();
     assertFalse(qs.contains("?o"));

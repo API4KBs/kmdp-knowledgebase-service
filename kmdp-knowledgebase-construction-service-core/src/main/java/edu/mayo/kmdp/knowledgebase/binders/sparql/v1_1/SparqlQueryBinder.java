@@ -89,7 +89,7 @@ public class SparqlQueryBinder
     // we need to remove the variable from the 'select', and bind th value in the 'where' sections
     // we can do it with Query, but it does not work in Jena 3.11 https://issues.apache.org/jira/browse/JENA-1705
     //
-    var qs = paramQ.toString().toLowerCase();
+    var qs = paramQ.toString();
     for (var key : bindings.keySet()) {
       var limit = qs.toLowerCase().indexOf("where");
       var first = qs.indexOf("?" + key);
