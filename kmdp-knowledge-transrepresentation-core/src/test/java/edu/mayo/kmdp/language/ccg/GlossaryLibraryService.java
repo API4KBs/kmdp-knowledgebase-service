@@ -28,7 +28,6 @@ import edu.mayo.kmdp.ccg.model.Glossary;
 import edu.mayo.kmdp.ccg.model.GlossaryEntry;
 import edu.mayo.kmdp.language.translators.surrogate.v2.SurrogateV2ToCcgEntry;
 import edu.mayo.kmdp.util.StreamUtil;
-import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -87,11 +86,11 @@ public class GlossaryLibraryService implements GlossaryLibraryApiInternal {
   }
 
   @Override
-  public Answer<Glossary> getGlossary(String glossaryId) {
-    if (!Util.isEmpty(glossaryId) && ! "default".equalsIgnoreCase(glossaryId)) {
+  public Answer<List<Glossary>> getGlossary(List<String> glossaryId) {
+    if (!glossaryId.contains("default")) {
       return Answer.notFound();
     }
-    return Answer.of(defaultGlossary());
+    return Answer.of(List.of(defaultGlossary()));
   }
 
   protected Glossary defaultGlossary() {
@@ -103,7 +102,7 @@ public class GlossaryLibraryService implements GlossaryLibraryApiInternal {
 
   @Override
   public Answer<List<GlossaryEntry>> listGlossaryEntries(
-      String glossaryId,
+      List<String> glossaryId,
       UUID scope,
       String method,
       Boolean pubOnly,
@@ -125,7 +124,7 @@ public class GlossaryLibraryService implements GlossaryLibraryApiInternal {
 
   @Override
   public Answer<GlossaryEntry> getGlossaryEntry(
-      String glossaryId,
+      List<String> glossaryId,
       UUID definedConceptId,
       UUID applicabilityScope,
       String method,
