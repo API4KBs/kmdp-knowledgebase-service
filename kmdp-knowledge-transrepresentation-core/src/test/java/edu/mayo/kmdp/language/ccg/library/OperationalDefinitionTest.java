@@ -40,7 +40,7 @@ class OperationalDefinitionTest extends GlossaryLibraryTestBase {
     assertTrue(entry.getDef().stream()
         .flatMap(StreamUtil.filterAs(OperationalDefinition.class))
         .allMatch(
-            od -> od.getProcessingMethod().contains(Natural_Technique.getConceptId().toString())));
+            od -> od.getProcessingMethod().contains(Natural_Technique.getTag())));
   }
 
   @Test
@@ -65,7 +65,7 @@ class OperationalDefinitionTest extends GlossaryLibraryTestBase {
 
     assertEquals(Has_Hypertension.getConceptId().toString(), entry1.getDefines());
     assertTrue(entry1.getDef().stream()
-        .allMatch(e -> Has_Hypertension.getConceptId().toString().equals(e.getDefines())));
+        .allMatch(e -> Has_Hypertension.getUuid().equals(e.getDefines())));
     var opDefId1 = entry1.getDef().get(0).getId();
 
     GlossaryEntry entry2 =
@@ -74,7 +74,7 @@ class OperationalDefinitionTest extends GlossaryLibraryTestBase {
 
     assertEquals(Has_Diabetes_Mellitus.getConceptId().toString(), entry2.getDefines());
     assertTrue(entry2.getDef().stream()
-        .allMatch(e -> Has_Diabetes_Mellitus.getConceptId().toString().equals(e.getDefines())));
+        .allMatch(e -> Has_Diabetes_Mellitus.getUuid().equals(e.getDefines())));
     var opDefId2 = entry2.getDef().get(0).getId();
 
     assertEquals(opDefId1, opDefId2);

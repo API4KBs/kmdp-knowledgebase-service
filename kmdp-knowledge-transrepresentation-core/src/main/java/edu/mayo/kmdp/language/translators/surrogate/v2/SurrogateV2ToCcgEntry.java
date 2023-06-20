@@ -45,6 +45,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.id.ConceptIdentifier;
+import org.omg.spec.api4kp._20200801.id.Identifier;
 import org.omg.spec.api4kp._20200801.id.KeyIdentifier;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
@@ -167,16 +169,17 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
       KnowledgeAsset mainAsset, Set<KnowledgeAsset> includeds, UUID focusConceptId) {
     var glossaryEntry = new GlossaryEntry();
 
-    var definedConceptId = getDefines(mainAsset, focusConceptId)
+    var definedConcept = getDefines(mainAsset, focusConceptId)
         .orElseThrow(
             () -> new IllegalStateException("CCG ENTRIES MUST HAVE A 'defines PC' ANNOTATION "));
-    glossaryEntry.id(mintGlossaryEntryId(mainAsset.getAssetId(), definedConceptId));
+    glossaryEntry.id(
+        mintGlossaryEntryId(mainAsset.getAssetId(), definedConcept.getConceptId().toString()));
 
-    var od = toOpDef(mainAsset, definedConceptId, includeds);
+    var od = toOpDef(mainAsset,definedConcept.getUuid(), includeds);
 
     return glossaryEntry
         .focus(focusConceptId != null ? focusConceptId.toString() : null)
-        .defines(definedConceptId)
+        .defines(definedConcept.getConceptId().toString())
         .addDefItem(od);
   }
 
@@ -188,7 +191,7 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
 
   OperationalDefinition toOpDef(
       KnowledgeAsset knowledgeAsset,
-      String definedConcept,
+      UUID definedConcept,
       Set<KnowledgeAsset> includedKnowledgeAssets) {
     OperationalDefinition opDef = new OperationalDefinition()
         .id(knowledgeAsset.getAssetId().getVersionId().toString())
@@ -211,7 +214,7 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
           .mimeCode(expression.getRepresentation() != null
               ? codedRep(expression.getRepresentation()) : null)
           .href(knowledgeAsset.getAssetId().getVersionId().toString())
-          .assetType(allReferents(knowledgeAsset.getFormalType()))
+          .assetType(allTypes(knowledgeAsset.getFormalType()))
           .inlinedExpr(expression.getInlinedExpression())
           .publicationStatus(getStatus(expression, knowledgeAsset));
 
@@ -241,24 +244,23 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
   }
 
 
-  private List<String> allReferents(List<? extends Term> terms) {
+  private List<String> allTypes(List<? extends Term> terms) {
     return terms.stream()
-        .map(t -> t.getReferentId().toString()).collect(Collectors.toList());
+        .map(Identifier::getTag).collect(Collectors.toList());
   }
 
 
   private List<String> allConcepts(List<? extends Term> terms) {
     return terms.stream()
-        .map(t -> t.getConceptId().toString()).collect(Collectors.toList());
+        .map(Identifier::getTag).collect(Collectors.toList());
   }
 
-  private Optional<String> getDefines(KnowledgeAsset knowledgeAsset, UUID pcId) {
+  private Optional<ConceptIdentifier> getDefines(KnowledgeAsset knowledgeAsset, UUID pcId) {
     return knowledgeAsset.getAnnotation().stream()
         .filter(anno -> Defines.sameTermAs(anno.getRel()))
         .map(Annotation::getRef)
         .filter(cid -> pcId == null || pcId.equals(cid.getUuid()))
-        .findAny()
-        .map(c -> c.getConceptId().toString());
+        .findAny();
   }
 
   private List<String> getAnnotation(Term rel, KnowledgeAsset knowledgeAsset) {

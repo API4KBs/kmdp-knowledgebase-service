@@ -227,15 +227,14 @@ class GlossaryLibraryServiceTest extends GlossaryLibraryTestBase {
     assertNotNull(def);
 
     assertNotNull(def.getDefines());
-    assertEquals(Has_Hypertension_Is.getConceptId().toString(),
+    assertEquals(Has_Hypertension_Is.getUuid(),
         def.getDefines());
 
-    OperationalDefinition opDef = def;
     assertFalse(def.getIncludes().isEmpty());
 
-    assertNotNull(opDef.getComputableSpec());
-    assertEquals("X.exists()", opDef.getComputableSpec().getInlinedExpr());
-    var rep = ModelMIMECoder.decode(opDef.getComputableSpec().getMimeCode())
+    assertNotNull(def.getComputableSpec());
+    assertEquals("X.exists()", def.getComputableSpec().getInlinedExpr());
+    var rep = ModelMIMECoder.decode(def.getComputableSpec().getMimeCode())
         .orElseGet(Assertions::fail);
     assertTrue(FHIRPath_STU1.sameAs(rep.getLanguage()));
 
