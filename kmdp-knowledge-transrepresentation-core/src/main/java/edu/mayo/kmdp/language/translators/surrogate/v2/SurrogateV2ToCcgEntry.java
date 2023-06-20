@@ -196,6 +196,8 @@ public class SurrogateV2ToCcgEntry extends AbstractSimpleTranslator<KnowledgeAss
     OperationalDefinition opDef = new OperationalDefinition()
         .id(knowledgeAsset.getAssetId().getVersionId().toString())
         .description(knowledgeAsset.getDescription())
+        .declaringGlossaries(knowledgeAsset.getMemberOf().stream()
+            .map(ResourceIdentifier::getTag).collect(Collectors.toList()))
         .name(knowledgeAsset.getName())
         .processingMethod(allConcepts(knowledgeAsset.getProcessingMethod()))
         .defines(definedConcept)

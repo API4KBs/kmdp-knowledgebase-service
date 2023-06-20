@@ -45,7 +45,7 @@ public class CompositeEntryTest extends GlossaryLibraryTestBase {
         , publishedAssets.map(List::size).orElse(-1));
 
     Answer<GlossaryEntry> ansGLEntry = this.libraryApi
-        .getGlossaryEntry("default", MockComplexDef.definedConcept.getUuid());
+        .getGlossaryEntry(List.of("default"), MockComplexDef.definedConcept.getUuid());
     assertTrue(ansGLEntry.isSuccess());
     GlossaryEntry glEntry = ansGLEntry.get();
 
@@ -79,7 +79,7 @@ public class CompositeEntryTest extends GlossaryLibraryTestBase {
         fail(asset1.printExplanation())), subDef.buildArtifact());
 
     Answer<GlossaryEntry> ansGLEntry = this.libraryApi
-        .getGlossaryEntry("default", MockOpDef.definedConcept.getUuid());
+        .getGlossaryEntry(List.of("default"), MockOpDef.definedConcept.getUuid());
     assertTrue(ansGLEntry.isSuccess());
     GlossaryEntry glEntry = ansGLEntry.get();
 

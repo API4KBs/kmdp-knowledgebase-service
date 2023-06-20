@@ -13,6 +13,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeprocessingtechniqu
 import edu.mayo.kmdp.ccg.model.GlossaryEntry;
 import edu.mayo.kmdp.ccg.model.OperationalDefinition;
 import edu.mayo.kmdp.util.StreamUtil;
+import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class OperationalDefinitionTest extends GlossaryLibraryTestBase {
     semanticRepository.publish(surrogate, null);
 
     GlossaryEntry entry =
-        libraryApi.getGlossaryEntry("default", Currently_Dehydrated.getUuid())
+        libraryApi.getGlossaryEntry(List.of("default"), Currently_Dehydrated.getUuid())
             .orElseGet(Assertions::fail);
 
     assertEquals(Currently_Dehydrated.getConceptId().toString(), entry.getDefines());
@@ -60,7 +61,7 @@ class OperationalDefinitionTest extends GlossaryLibraryTestBase {
     semanticRepository.publish(surrogate, null);
 
     GlossaryEntry entry1 =
-        libraryApi.getGlossaryEntry("default", Has_Hypertension.getUuid())
+        libraryApi.getGlossaryEntry(List.of("default"), Has_Hypertension.getUuid())
             .orElseGet(Assertions::fail);
 
     assertEquals(Has_Hypertension.getConceptId().toString(), entry1.getDefines());
@@ -69,7 +70,7 @@ class OperationalDefinitionTest extends GlossaryLibraryTestBase {
     var opDefId1 = entry1.getDef().get(0).getId();
 
     GlossaryEntry entry2 =
-        libraryApi.getGlossaryEntry("default", Has_Diabetes_Mellitus.getUuid())
+        libraryApi.getGlossaryEntry(List.of("default"), Has_Diabetes_Mellitus.getUuid())
             .orElseGet(Assertions::fail);
 
     assertEquals(Has_Diabetes_Mellitus.getConceptId().toString(), entry2.getDefines());
