@@ -30,6 +30,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.HTML;
 
 import ca.uhn.fhir.context.FhirContext;
+import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal;
 import edu.mayo.kmdp.language.translators.surrogate.v2.SurrogateV2ToHTML;
 import edu.mayo.kmdp.terms.components.BasicCodeSystemToHTML;
 import edu.mayo.kmdp.terms.components.TermsSearcher;
@@ -46,6 +47,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Flow.Publisher;
+import java.util.concurrent.Flow.Subscriber;
+import java.util.concurrent.Flow.Subscription;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -57,7 +61,8 @@ import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetCatalogApi;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetRepositoryApi;
-import edu.mayo.kmdp.api.terminology.v4.server.TermsApiInternal;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetRepositoryApiInternal;
 import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
 import org.omg.spec.api4kp._20200801.id.KeyIdentifier;
 import org.omg.spec.api4kp._20200801.id.Pointer;
@@ -76,7 +81,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @KPComponent(implementation = "fhir")
-public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer {
+public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, Subscriber<ResourceIdentifier> {
 
   private static final Logger logger = LoggerFactory.getLogger(TermsFHIRFacade.class);
   private static final FhirContext fhirContext = FhirContext.forDstu3();
@@ -118,6 +123,25 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer {
 
     init();
   }
+
+
+  public TermsFHIRFacade(
+      KnowledgeAssetCatalogApiInternal cat,
+      KnowledgeAssetRepositoryApiInternal repo,
+      boolean searchEnabledFlag) {
+    this(KnowledgeAssetCatalogApi.newInstance(cat),
+        KnowledgeAssetRepositoryApi.newInstance(repo),
+        searchEnabledFlag);
+
+    if (cat instanceof Publisher) {
+      try {
+        ((Publisher<? extends ResourceIdentifier>) cat).subscribe(this);
+      } catch (Exception e){
+        // best effort
+      }
+    }
+  }
+
 
   @PostConstruct
   void init() {
@@ -427,6 +451,26 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer {
   @Override
   public Optional<TermsApiInternal> getFHIRBasedComponent() {
     return Optional.of(this);
+  }
+
+  @Override
+  public void onSubscribe(Subscription subscription) {
+    logger.info("Attached to a Terminology event publisher");
+  }
+
+  @Override
+  public void onNext(ResourceIdentifier item) {
+    reindex();
+  }
+
+  @Override
+  public void onError(Throwable throwable) {
+    //
+  }
+
+  @Override
+  public void onComplete() {
+    //
   }
 
 
