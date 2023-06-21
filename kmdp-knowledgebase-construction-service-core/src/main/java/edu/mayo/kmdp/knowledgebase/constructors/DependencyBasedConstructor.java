@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.knowledgebase.constructors;
 
+import static java.util.Objects.requireNonNullElseGet;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.ofAst;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Depends_On;
@@ -13,9 +14,10 @@ import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.StreamUtil;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.inject.Named;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -24,7 +26,6 @@ import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._getKnowledgeBaseStructure;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
-import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
@@ -74,30 +75,22 @@ public class DependencyBasedConstructor
   public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID rootId,
       String rootVersionTag, String params) {
 
-    Answer<List<Pointer>> allAssets = repo.listKnowledgeAssets();
-    if (! allAssets.isSuccess()) {
-      return Answer.failed(allAssets);
-    }
+    var assetClosure = getClosure(rootId, rootVersionTag, repo)
+        .flatMap(Answer::trimStream)
+        .collect(Collectors.groupingBy(ka -> ka.getAssetId().asKey()))
+        .values().stream()
+        .map(l -> l.get(0))
+        .collect(Collectors.toList());
 
     ResourceIdentifier compositeAssetVersionedId;
-    if (compositeId != null) {
-      compositeAssetVersionedId = compositeId;
-    } else {
-      compositeAssetVersionedId = allAssets.get().stream()
-          .map(ResourceIdentifier.class::cast)
-          .reduce(SemanticIdentifier::hashIdentifiers)
-          .orElseThrow();
-    }
+    compositeAssetVersionedId = requireNonNullElseGet(
+        compositeId,
+        () -> assetClosure.stream()
+            .map(ResourceIdentifier.class::cast)
+            .reduce(SemanticIdentifier::hashIdentifiers)
+            .orElseThrow());
 
-
-    // TODO Rather than getting ALL the assets,
-    // there should be a query based on the assetId,
-    return allAssets
-        .flatMap(ptrList ->
-            ptrList.stream()
-                .map(axId -> repo.getKnowledgeAsset(axId.getUuid()))
-                .collect(Answer.toList())
-        )
+    return Answer.of(assetClosure)
         // Now we create a struct based on the analysis of the relationships between the assets
         .map(
             list -> {
@@ -126,6 +119,22 @@ public class DependencyBasedConstructor
             // Need to Generate a new ID for the composite asset just constructed.
             .withAssetId(compositeAssetVersionedId)
         );
+  }
+
+  private Stream<Answer<KnowledgeAsset>> getClosure(
+      UUID rootId, String rootVersionTag,
+      KnowledgeAssetCatalogApiInternal repo) {
+    var surr = repo.getKnowledgeAssetVersion(rootId, rootVersionTag);
+    if (surr.isFailure()) {
+      return Stream.empty();
+    }
+    return Stream.concat(
+        Stream.of(surr),
+        surr.get().getLinks().stream()
+            .flatMap(StreamUtil.filterAs(Dependency.class))
+            .map(Dependency::getHref)
+            .flatMap(ref -> getClosure(ref.getUuid(), ref.getVersionTag(), repo))
+    );
   }
 
   private void structure(ResourceIdentifier compositeAssetId, KnowledgeAsset componentAsset, Model m) {
