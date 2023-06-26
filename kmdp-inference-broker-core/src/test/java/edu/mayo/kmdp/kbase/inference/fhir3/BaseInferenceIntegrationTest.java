@@ -1,6 +1,6 @@
 package edu.mayo.kmdp.kbase.inference.fhir3;
 
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.artifactId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.assetId;
@@ -89,12 +89,12 @@ public abstract class BaseInferenceIntegrationTest {
 
   private KnowledgeCarrier loadCarrier(String modelName,
       String path, SyntacticRepresentation rep) {
-    ResourceIdentifier assetId = assetId(BASE_UUID_URN_URI, Util.uuid(modelName), VTAG);
+    ResourceIdentifier assetId = assetId(DID_URN_URI, Util.uuid(modelName), VTAG);
 
     return AbstractCarrier
         .of(getBytes(path))
         .withAssetId(assetId)
-        .withArtifactId(artifactId(BASE_UUID_URN_URI, UUID.randomUUID().toString(), VTAG))
+        .withArtifactId(artifactId(DID_URN_URI, UUID.randomUUID().toString(), VTAG))
         .withLevel(Encoded_Knowledge_Expression)
         .withRepresentation(rep);
   }

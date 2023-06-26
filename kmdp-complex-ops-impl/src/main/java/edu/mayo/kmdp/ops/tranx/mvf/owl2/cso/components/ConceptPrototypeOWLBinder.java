@@ -146,7 +146,7 @@ public class ConceptPrototypeOWLBinder {
     Optional<OWLOntology> focusDef = parseSnomedConcept(p.getFocusPostCoorDefinition());
     OWLClass focus = focusDef
         .flatMap(SCGtoOWLTranslator::tryGetPreCoordinated)
-        .orElseGet(() -> df.getOWLClass(Registry.BASE_UUID_URN + p.getFocusPostCoorDefinition()));
+        .orElseGet(() -> df.getOWLClass(Registry.UUID_URN + p.getFocusPostCoorDefinition()));
 
     focusDef.ifPresent(
         ax -> localOnto.addAxioms(ax.axioms()));

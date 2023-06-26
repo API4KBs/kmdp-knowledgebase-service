@@ -2,6 +2,7 @@ package edu.mayo.kmdp.examples._7.inference;
 
 
 import static edu.mayo.kmdp.id.helper.DatatypeHelper.resolveTerm;
+import static edu.mayo.kmdp.registry.Registry.UUID_URN;
 
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
@@ -91,7 +92,7 @@ public enum MockVocab implements Term {
 
   @Override
   public URI getResourceId() {
-    return URI.create("urn:uuid:" + uuid.toString());
+    return URI.create(UUID_URN + uuid.toString());
   }
 
   @Override
@@ -106,7 +107,7 @@ public enum MockVocab implements Term {
 
   @Override
   public URI getVersionId() {
-    return URI.create("urn:uuid:" + uuid.toString() + ":" + getVersionTag());
+    return URI.create(UUID_URN + uuid.toString() + ":" + getVersionTag());
   }
 
   @Override

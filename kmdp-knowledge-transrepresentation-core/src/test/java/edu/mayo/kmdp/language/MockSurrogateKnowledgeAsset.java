@@ -1,7 +1,6 @@
 package edu.mayo.kmdp.language;
 
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN;
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static edu.mayo.ontology.taxonomies.kmdo.citationreltype.BibliographicCitationTypeSeries.Cites_As_Authority;
 import static edu.mayo.ontology.taxonomies.kmdo.semanticannotationreltype.SemanticAnnotationRelTypeSeries.Has_Focus;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
@@ -49,7 +48,7 @@ public class MockSurrogateKnowledgeAsset {
   public KnowledgeAsset buildMetadata() {
     return new KnowledgeAsset()
         .withAssetId(
-            newId(URI.create(BASE_UUID_URN + "0c36a4a3-7645-4276-baf5-be957112717b"), "142412"))
+            newId(URI.create(DID_URN_URI + "0c36a4a3-7645-4276-baf5-be957112717b"), "142412"))
         .withFormalCategory(Rules_Policies_And_Guidelines)
         .withFormalType(Clinical_Rule)
         .withProcessingMethod(Quantitative_Technique)
@@ -84,7 +83,7 @@ public class MockSurrogateKnowledgeAsset {
         .withCarriers(
             new KnowledgeArtifact()
                 .withArtifactId(
-                    newId(URI.create(BASE_UUID_URN + "f2b9828d-f84c-4d09-9c88-413c7f1439a4"),
+                    newId(URI.create(DID_URN_URI + "f2b9828d-f84c-4d09-9c88-413c7f1439a4"),
                         "000"))
                 .withLocalization(Italian)
                 .withExpressionCategory(Software)
@@ -97,12 +96,12 @@ public class MockSurrogateKnowledgeAsset {
         .withSurrogate(
             new KnowledgeArtifact()
                 .withArtifactId(
-                    newId(URI.create(BASE_UUID_URN + "a42e2cef-be7f-4aab-82ba-fe6f12495e3f"),
+                    newId(URI.create(DID_URN_URI + "a42e2cef-be7f-4aab-82ba-fe6f12495e3f"),
                         "65464"))
                 .withRepresentation(rep(Knowledge_Asset_Surrogate_2_0)));
   }
 
   private ResourceIdentifier ref(UUID randomUUID, String version) {
-    return newId(URI.create(BASE_UUID_URN_URI + randomUUID.toString()), version);
+    return newId(URI.create(DID_URN_URI + randomUUID.toString()), version);
   }
 }

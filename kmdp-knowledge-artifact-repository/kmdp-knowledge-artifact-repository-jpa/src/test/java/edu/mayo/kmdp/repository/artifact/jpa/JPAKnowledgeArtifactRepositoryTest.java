@@ -13,7 +13,6 @@
  */
 package edu.mayo.kmdp.repository.artifact.jpa;
 
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN;
 import static edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries.Created;
 import static edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries.NoContent;
 import static edu.mayo.ontology.taxonomies.ws.responsecodes.ResponseCodeSeries.NotFound;
@@ -23,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.omg.spec.api4kp._20200801.Answer.failed;
 
+import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.repository.artifact.KnowledgeArtifactRepositoryServerProperties;
 import edu.mayo.kmdp.repository.artifact.KnowledgeArtifactRepositoryServerProperties.KnowledgeArtifactRepositoryOptions;
 import edu.mayo.kmdp.repository.artifact.dao.ArtifactVersion;
@@ -216,7 +216,7 @@ class JPAKnowledgeArtifactRepositoryTest {
 
     assertEquals(1, result.size());
 
-    assertEquals(BASE_UUID_URN + artifactID,
+    assertEquals(Registry.DID_URN + artifactID,
         result.get(0).getResourceId().toString());
   }
 

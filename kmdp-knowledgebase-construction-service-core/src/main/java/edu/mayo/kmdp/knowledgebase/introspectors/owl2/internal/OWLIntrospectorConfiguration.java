@@ -79,7 +79,7 @@ public class OWLIntrospectorConfiguration
         false)),
     ASSET_NS(Opt.of(
         "assetNamespace",
-        Registry.BASE_UUID_URN,
+        Registry.DID_URN,
         "Enterprise Asset ID namespace",
         String.class,
         false)

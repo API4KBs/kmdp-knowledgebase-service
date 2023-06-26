@@ -15,7 +15,7 @@ package edu.mayo.kmdp.language.ccg.library.mock;
 
 import static edu.mayo.kmdp.language.ccg.library.mock.MockVocabulary.Has_Allergy_To_Statins;
 import static edu.mayo.kmdp.language.ccg.library.mock.MockVocabulary.Has_Diabetes_Mellitus;
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateHelper.toAnonymousCompositeAsset;
 import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Effectuates;
@@ -42,11 +42,11 @@ import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentation
 public class MockOpDef3 {
 
   public static final ResourceIdentifier artifactId =
-      SurrogateBuilder.artifactId(BASE_UUID_URN_URI, "fc965815-a927-443c-b433-c879d8ff93fb",
+      SurrogateBuilder.artifactId(DID_URN_URI, "fc965815-a927-443c-b433-c879d8ff93fb",
           "0.0.1");
 
   public static final ResourceIdentifier assetId =
-      SurrogateBuilder.assetId(BASE_UUID_URN_URI, "1eac8cde-ab6f-4741-9564-a8483e1b49db", "0.0.1");
+      SurrogateBuilder.assetId(DID_URN_URI, "1eac8cde-ab6f-4741-9564-a8483e1b49db", "0.0.1");
   public static final MockVocabulary definedConcept = Has_Allergy_To_Statins;
   public static final MockVocabulary definedConcept2 = Has_Diabetes_Mellitus;
   Term theFocalConcept = Term.sct("Statin Allergy (disorder)", "stat");

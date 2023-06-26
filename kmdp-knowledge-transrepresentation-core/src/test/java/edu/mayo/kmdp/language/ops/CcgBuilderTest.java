@@ -14,7 +14,7 @@
 package edu.mayo.kmdp.language.ops;
 
 import static edu.mayo.kmdp.language.ccg.library.mock.MockVocabulary.Current_Caffeine_Use;
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static edu.mayo.ontology.taxonomies.kmdo.semanticannotationreltype.SemanticAnnotationRelTypeSeries.Defines;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -47,7 +47,7 @@ class CcgBuilderTest {
     SurrogateV2ToCcgEntry toCcgEntry = new SurrogateV2ToCcgEntry();
 
     final ResourceIdentifier id =
-        assetId(BASE_UUID_URN_URI, UUID.randomUUID().toString(), "1");
+        assetId(DID_URN_URI, UUID.randomUUID().toString(), "1");
 
     KnowledgeAsset surrogate = newSurrogate(id,true)
         .withAnnotation(Defines,
@@ -81,7 +81,7 @@ class CcgBuilderTest {
     SurrogateV2ToCcgEntry toCcgEntry = new SurrogateV2ToCcgEntry();
 
     final ResourceIdentifier id =
-        assetId(BASE_UUID_URN_URI, UUID.randomUUID().toString(), "1");
+        assetId(DID_URN_URI, UUID.randomUUID().toString(), "1");
 
     KnowledgeAsset surrogate = newSurrogate(id, true)
         .withAnnotation(Defines,

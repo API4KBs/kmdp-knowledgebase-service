@@ -16,7 +16,7 @@
 package edu.mayo.kmdp.language.ccg.library.mock;
 
 import static edu.mayo.kmdp.language.ccg.library.mock.MockVocabulary.Has_Diabetes_Mellitus;
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static edu.mayo.ontology.taxonomies.kmdo.semanticannotationreltype.SemanticAnnotationRelTypeSeries.Defines;
 import static edu.mayo.ontology.taxonomies.kmdo.semanticannotationreltype.SemanticAnnotationRelTypeSeries.Has_Primary_Subject;
 import static edu.mayo.ontology.taxonomies.kmdo.semanticannotationreltype.SemanticAnnotationRelTypeSeries.In_Terms_Of;
@@ -37,7 +37,7 @@ import org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder;
 public class MockComplexDef {
 
   public static final ResourceIdentifier assetId =
-      SurrogateBuilder.assetId(BASE_UUID_URN_URI, "a1a19e62-72b9-478f-ba3a-ace681c61665", "0.0.1");
+      SurrogateBuilder.assetId(DID_URN_URI, "a1a19e62-72b9-478f-ba3a-ace681c61665", "0.0.1");
 
   Term theFocalConcept = Term.sct("Complex diabetes case (disorder)", "dbm");
 

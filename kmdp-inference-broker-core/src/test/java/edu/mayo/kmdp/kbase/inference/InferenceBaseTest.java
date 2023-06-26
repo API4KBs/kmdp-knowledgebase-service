@@ -1,6 +1,6 @@
 package edu.mayo.kmdp.kbase.inference;
 
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.artifactId;
@@ -69,8 +69,8 @@ public abstract class InferenceBaseTest {
 
     KnowledgeCarrier carrier = AbstractCarrier
         .of(getBytes(path))
-        .withAssetId(assetId(BASE_UUID_URN_URI, modelId.toString(), version))
-        .withArtifactId(artifactId(BASE_UUID_URN_URI, UUID.randomUUID().toString(), VTAG))
+        .withAssetId(assetId(DID_URN_URI, modelId.toString(), version))
+        .withArtifactId(artifactId(DID_URN_URI, UUID.randomUUID().toString(), VTAG))
         .withLevel(Encoded_Knowledge_Expression)
         .withRepresentation(rep);
 

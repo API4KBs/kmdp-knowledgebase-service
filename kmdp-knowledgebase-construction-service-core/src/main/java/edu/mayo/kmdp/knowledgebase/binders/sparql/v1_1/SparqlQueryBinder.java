@@ -22,6 +22,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSe
 
 import edu.mayo.kmdp.knowledgebase.AbstractKnowledgeBaseOperator;
 import edu.mayo.kmdp.language.parsers.sparql.SparqlLifter;
+import edu.mayo.kmdp.registry.Registry;
 import java.util.UUID;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -111,7 +112,7 @@ public class SparqlQueryBinder
 
   private boolean isURI(Object value) {
     String s = value.toString();
-    return s.startsWith("http") || s.startsWith("urn");
+    return Registry.isHttpIdentifier(s) || Registry.isGlobalIdentifier(s);
   }
 
 }

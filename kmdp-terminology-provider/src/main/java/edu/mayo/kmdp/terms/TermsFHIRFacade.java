@@ -360,7 +360,7 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
   private Pointer toPointer(CodeSystem codeSystem) {
     URI u = URI.create(codeSystem.getUrl());
     var p = newId(
-        URI.create(u.getScheme() + u.getSchemeSpecificPart()),
+        URI.create(u.getScheme() + ":" + u.getSchemeSpecificPart()),
         u.getFragment(),
         codeSystem.getVersion())
         .toPointer()

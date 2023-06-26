@@ -2,6 +2,7 @@ package edu.mayo.kmdp.language.translators;
 
 import static edu.mayo.kmdp.language.common.dmn.v1_2.DMN12Utils.idToRef;
 import static edu.mayo.kmdp.language.common.fhir.stu3.FHIRPlanDefinitionUtils.getSubActions;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static edu.mayo.kmdp.util.StreamUtil.filterAs;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -149,7 +150,7 @@ class DMNToPlanDefTranslatorTest {
     DmnToPlanDef translator = new DmnToPlanDef();
     ResourceIdentifier assetId = randomId();
     ResourceIdentifier srcArtifactId =
-        newId(Registry.BASE_UUID_URN_URI, UUID.randomUUID(), "42.0.0");
+        newId(DID_URN_URI, UUID.randomUUID(), "42.0.0");
     ResourceIdentifier tgtArtifactId =
         defaultArtifactId(assetId, FHIR_STU3, srcArtifactId.getVersionTag());
     PlanDefinition planDef = translator.transform(assetId, srcArtifactId, tgtArtifactId, dmn);

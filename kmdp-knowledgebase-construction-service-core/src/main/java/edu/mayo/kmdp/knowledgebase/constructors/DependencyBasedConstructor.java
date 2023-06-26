@@ -193,7 +193,7 @@ public class DependencyBasedConstructor
       "^([A-Fa-f0-9]{8})-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{12})$");
 
   public static String beautifyTuples(String s) {
-    s = s.replace(Registry.BASE_UUID_URN, "");
+    s = s.replace(Registry.DID_URN, "");
     s = s.replace(Registry.MAYO_ARTIFACTS_BASE_URI, "a:");
     s = s.replace(Registry.MAYO_ASSETS_BASE_URI, "x:");
     s = s.replace("https://www.omg.org/spec/API4KP/api4kp-kao/", "x:");

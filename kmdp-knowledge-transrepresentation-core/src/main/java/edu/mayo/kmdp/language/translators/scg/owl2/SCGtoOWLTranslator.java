@@ -58,7 +58,7 @@ public class SCGtoOWLTranslator extends
     return onto.axioms(AxiomType.EQUIVALENT_CLASSES).findFirst()
         .flatMap(eq -> eq.classExpressions()
             .filter(x -> x.isAnonymous()
-                || !x.asOWLClass().getIRI().toString().startsWith(Registry.BASE_UUID_URN))
+                || !x.asOWLClass().getIRI().toString().startsWith(Registry.UUID_URN))
             .findFirst());
   }
 
@@ -145,7 +145,7 @@ public class SCGtoOWLTranslator extends
    * @return the pre-coordinated {@link OWLClass}
    */
   private OWLClass getAnonymous(SCGExpression scgExpression, OWLDataFactory df) {
-    return df.getOWLClass(IRI.create(Registry.BASE_UUID_URN + Util.uuid(scgExpression.toString())));
+    return df.getOWLClass(IRI.create(Registry.UUID_URN + Util.uuid(scgExpression.toString())));
   }
 
   /**

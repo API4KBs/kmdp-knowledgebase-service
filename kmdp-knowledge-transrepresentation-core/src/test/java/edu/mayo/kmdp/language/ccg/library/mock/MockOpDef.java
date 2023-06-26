@@ -17,7 +17,7 @@ package edu.mayo.kmdp.language.ccg.library.mock;
 
 import static edu.mayo.kmdp.language.ccg.library.mock.MockVocabulary.Has_Hypertension;
 import static edu.mayo.kmdp.language.ccg.library.mock.MockVocabulary.Has_Hypertension_Is;
-import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.registry.Registry.DID_URN_URI;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.newSurrogate;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateHelper.toAnonymousCompositeAsset;
 import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Effectuates;
@@ -47,13 +47,13 @@ import org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetT
 public class MockOpDef {
 
   public static final ResourceIdentifier artifactId =
-      SurrogateBuilder.artifactId(BASE_UUID_URN_URI, "469dc12b-f20c-4c1f-9636-ac12caf1e38d", "0.0.1");
+      SurrogateBuilder.artifactId(DID_URN_URI, "469dc12b-f20c-4c1f-9636-ac12caf1e38d", "0.0.1");
 
   public static final ResourceIdentifier assetId =
-      SurrogateBuilder.assetId(BASE_UUID_URN_URI, "05aec46b-05f3-483b-b283-6a2b76af1d8f", "0.0.0");
+      SurrogateBuilder.assetId(DID_URN_URI, "05aec46b-05f3-483b-b283-6a2b76af1d8f", "0.0.0");
 
   public static final ResourceIdentifier coreId =
-      SurrogateBuilder.assetId(BASE_UUID_URN_URI, "0a61814a-a274-489a-8a48-4b66c5edf79f", "0.0.1");
+      SurrogateBuilder.assetId(DID_URN_URI, "0a61814a-a274-489a-8a48-4b66c5edf79f", "0.0.1");
 
   Term theFocalConcept = Term.sct("Hypertension (disorder)", "xyz");
 
