@@ -23,6 +23,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSe
 
 import edu.mayo.kmdp.knowledgebase.binders.sparql.v1_1.SparqlQueryBinder;
 import edu.mayo.kmdp.util.Util;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +43,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
+import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.inference.v4.server.ReasoningApiInternal._askQuery;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
@@ -69,6 +71,11 @@ public class JenaQuery implements _askQuery {
   public static KnowledgeCarrier ofSparqlQuery(String query) {
     return AbstractCarrier.of(query)
         .withRepresentation(rep(SPARQL_1_1, TXT, Charset.defaultCharset()));
+  }
+
+  public static KnowledgeCarrier ofSparqlQuery(InputStream queryStream) {
+    return AbstractCarrier.of(queryStream)
+        .withRepresentation(rep(SPARQL_1_1, TXT, Charset.defaultCharset(), Encodings.DEFAULT));
   }
 
   public static Answer<KnowledgeCarrier> bind(KnowledgeCarrier query, Bindings binds) {
