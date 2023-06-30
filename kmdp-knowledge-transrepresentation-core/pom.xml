@@ -171,6 +171,11 @@
       <version>${kmdp.impl.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-spring-ws-utils</artifactId>
+      <scope>test</scope>
+    </dependency>
 
 
   </dependencies>
