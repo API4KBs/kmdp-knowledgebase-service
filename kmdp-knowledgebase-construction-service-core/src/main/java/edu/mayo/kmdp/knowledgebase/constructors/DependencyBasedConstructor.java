@@ -3,6 +3,7 @@ package edu.mayo.kmdp.knowledgebase.constructors;
 import static java.util.Objects.requireNonNullElseGet;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.ofAst;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
+import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newKey;
 import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Depends_On;
 import static org.omg.spec.api4kp._20200801.taxonomy.dependencyreltype.DependencyTypeSeries.Imports;
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Knowledge_Resource_Construction_Task;
@@ -14,6 +15,8 @@ import edu.mayo.kmdp.registry.Registry;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.StreamUtil;
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -26,6 +29,7 @@ import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._getKnowledgeBaseStructure;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
+import org.omg.spec.api4kp._20200801.id.KeyIdentifier;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KPComponent;
@@ -75,7 +79,7 @@ public class DependencyBasedConstructor
   public Answer<KnowledgeCarrier> getKnowledgeBaseStructure(UUID rootId,
       String rootVersionTag, String params) {
 
-    var assetClosure = getClosure(rootId, rootVersionTag, repo)
+    var assetClosure = getClosure(rootId, rootVersionTag, repo, new HashSet<>())
         .flatMap(Answer::trimStream)
         .collect(Collectors.groupingBy(ka -> ka.getAssetId().asKey()))
         .values().stream()
@@ -123,17 +127,26 @@ public class DependencyBasedConstructor
 
   private Stream<Answer<KnowledgeAsset>> getClosure(
       UUID rootId, String rootVersionTag,
-      KnowledgeAssetCatalogApiInternal repo) {
+      KnowledgeAssetCatalogApiInternal repo,
+      Set<KeyIdentifier> taboo) {
+    var key = newKey(rootId, rootVersionTag);
+    if (taboo.contains(key)) {
+      return Stream.empty();
+    } else {
+      taboo.add(key);
+    }
+
     var surr = repo.getKnowledgeAssetVersion(rootId, rootVersionTag);
     if (surr.isFailure()) {
       return Stream.empty();
     }
+
     return Stream.concat(
         Stream.of(surr),
         surr.get().getLinks().stream()
             .flatMap(StreamUtil.filterAs(Dependency.class))
             .map(Dependency::getHref)
-            .flatMap(ref -> getClosure(ref.getUuid(), ref.getVersionTag(), repo))
+            .flatMap(ref -> getClosure(ref.getUuid(), ref.getVersionTag(), repo, taboo))
     );
   }
 
