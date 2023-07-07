@@ -35,6 +35,8 @@ import org.omg.spec.api4kp._20200801.services.KPOperation;
 import org.omg.spec.api4kp._20200801.services.KPSupport;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @KPOperation(Knowledge_Resource_Composition_Task)
@@ -47,6 +49,8 @@ public class GraphBasedAssembler
 
   public static final UUID id = UUID.fromString("284e63d4-84ff-42a1-b4ea-5e27a434d3c0");
   public static final String version = "1.0.0";
+
+  private static final Logger logger = LoggerFactory.getLogger(GraphBasedAssembler.class);
 
   // TODO this should be a parameter of the operation
   private static final String ASSET_BASE_URI = Registry.MAYO_ASSETS_BASE_URI;
@@ -81,7 +85,7 @@ public class GraphBasedAssembler
         .orElse(Collections.emptySet());
 
     Model m = struct.as(Model.class).orElseThrow();
-    ResourceIdentifier rootId = m.listSubjects()
+    var roots  = m.listSubjects()
         .filterKeep(
             s -> m.contains(
                 s,
@@ -92,7 +96,11 @@ public class GraphBasedAssembler
                 null,
                 createProperty(Imports.getReferentId().toString()),
                 s))
-        .toList().stream()
+        .toList();
+    if (roots.size() != 1) {
+      logger.error("Unable to detect a unique root: {}", roots);
+    }
+    var rootId = roots.stream()
         .map(Resource::getURI)
         .map(URI::create)
         .map(SemanticIdentifier::newVersionId)
@@ -113,8 +121,8 @@ public class GraphBasedAssembler
     Set<Resource> resources = getResources(graph);
 
     return resources.stream()
-        .filter(res -> res.getURI().startsWith(ASSET_BASE_URI))
         .map(Resource::getURI)
+        .filter(uri -> uri.startsWith(ASSET_BASE_URI))
         .map(URI::create)
         .map(SemanticIdentifier::newVersionId)
         .collect(Collectors.toSet());
