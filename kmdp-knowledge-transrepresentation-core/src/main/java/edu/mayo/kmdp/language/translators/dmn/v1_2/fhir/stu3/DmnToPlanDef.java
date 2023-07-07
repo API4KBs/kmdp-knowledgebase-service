@@ -77,6 +77,7 @@ import org.omg.spec.api4kp._20200801.id.ConceptIdentifier;
 import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.Term;
 import org.omg.spec.api4kp._20200801.surrogate.Annotation;
+import org.omg.spec.api4kp._20200801.taxonomy.clinicalknowledgeassettype.ClinicalKnowledgeAssetTypeSeries;
 import org.omg.spec.api4kp._20200801.taxonomy.knowledgeassettype.KnowledgeAssetTypeSeries;
 import org.omg.spec.api4kp._20200801.taxonomy.krserialization.KnowledgeRepresentationLanguageSerializationSeries;
 import org.omg.spec.dmn._20180521.model.TAuthorityRequirement;
@@ -462,6 +463,8 @@ public class DmnToPlanDef {
     if (types.isEmpty()) {
       inferType(knowledgeSource.getType())
           .ifPresent(types::add);
+    } else {
+      types.replaceAll(this::resolveType);
     }
 
     if (!types.isEmpty()) {
@@ -481,6 +484,14 @@ public class DmnToPlanDef {
     }
 
     cpm.addContained(lib);
+  }
+
+  private Term resolveType(Term t) {
+    // normalize 'type' annotation to their controlled term, which has a non-UUID based Tag
+    return  KnowledgeAssetTypeSeries.resolveId(t.getConceptId())
+        .or(() -> ClinicalKnowledgeAssetTypeSeries.resolveId(t.getConceptId()))
+        .map(Term.class::cast)
+        .orElse(t);
   }
 
   private Optional<Term> inferType(String type) {
