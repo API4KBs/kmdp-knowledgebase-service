@@ -19,6 +19,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.Knowledg
 import static org.omg.spec.api4kp._20200801.taxonomy.knowledgeoperation.KnowledgeProcessingOperationSeries.Lowering_Task;
 
 import edu.mayo.kmdp.language.exceptions.ParsingException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -57,7 +58,9 @@ public class LanguageDeSerializer implements KnowledgePlatformComponent<Deserial
     this.deserializers = deserializers.stream()
         .collect(Collectors.toMap(
             det -> det.getOperatorId().asKey(),
-            det -> det
+            det -> det,
+            (x, y) -> y,
+            LinkedHashMap::new
         ));
 
     this.descriptor = toKPComponent(getComponentId());
