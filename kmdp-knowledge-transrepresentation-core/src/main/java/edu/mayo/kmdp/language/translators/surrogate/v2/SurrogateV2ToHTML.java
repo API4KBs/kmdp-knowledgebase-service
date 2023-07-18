@@ -173,6 +173,8 @@ public class SurrogateV2ToHTML {
         String t = trm.getLabel();
         if (trm.getReferentId() != null && trm.getReferentId().toString().startsWith("http")) {
           t = a(trm.getReferentId().toString(), t);
+        } else if (trm.getConceptId() != null) {
+          t = a(trm.getConceptId().toString().replace('#','/'), t);
         }
         buffer.append(t);
       }
