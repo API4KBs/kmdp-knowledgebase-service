@@ -1,8 +1,10 @@
 package edu.mayo.kmdp.language.translators.surrogate.v2;
 
+import static edu.mayo.kmdp.util.Util.isNotEmpty;
 import static edu.mayo.kmdp.util.Util.isUUID;
 
 import edu.mayo.kmdp.util.DateTimeUtil;
+import edu.mayo.kmdp.util.NameUtils;
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,6 +18,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.omg.spec.api4kp._20200801.id.Pointer;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.id.Term;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
@@ -136,13 +139,24 @@ public class SurrogateV2ToHTML {
         if (idRef.startsWith("http")) {
           idRef = a(idRef, isUUID(id.getTag()) ? id.asKey().toString() : idRef);
         }
-        buffer.append(labeled(idRef, id.getName()));
+        URI type = null;
+        if (id instanceof Pointer) {
+          type = ((Pointer) id).getType();
+        }
+        buffer.append(labeled(idRef, id.getName(), type));
       }
 
-      private String labeled(String ref, String name) {
-        return Util.isEmpty(name)
-            ? ref
-            : ref + " | " + name + " |";
+      private String labeled(String ref, String name, URI type) {
+        var sb = new StringBuilder(ref);
+        if (isNotEmpty(name) || type != null) {
+          sb.append(" | ");
+          sb.append(name != null ? name : "");
+          sb.append(" (");
+          sb.append(type != null ? NameUtils.getTrailingPart(type.toString()) : "");
+          sb.append(") ");
+          sb.append(" | ");
+        }
+        return sb.toString();
       }
 
       private String a(String url, String text) {
