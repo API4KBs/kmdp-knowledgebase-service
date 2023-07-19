@@ -43,15 +43,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class TransrepresentationExecutor implements KnowledgePlatformComponent<Transrepresentator>,
     TransxionApiInternal, _getTxComponent, _listTxComponents {
 
-  private UUID id = UUID.randomUUID();
-  private Transrepresentator descriptor;
+  private final UUID id = UUID.randomUUID();
+  private final Transrepresentator descriptor;
 
-  private Map<KeyIdentifier, TransionApiOperator> translators;
+  private final Map<KeyIdentifier, TransionApiOperator> translators;
 
   @Named
   public TransrepresentationExecutor(
       @Autowired(required = false)
-      @KPOperation(Transcreation_Task)
       @KPOperation(Syntactic_Translation_Task)
           List<TransionApiOperator> translators) {
 
@@ -87,14 +86,14 @@ public class TransrepresentationExecutor implements KnowledgePlatformComponent<T
   @Override
   public Answer<KnowledgeCarrier> applyNamedTransrepresent(UUID operatorId,
       KnowledgeCarrier sourceArtifact, String xAccept, String cfg) {
-    return Answer.of(getTransrepresentator(operatorId))
+    return Answer.ofTry(getTransrepresentator(operatorId))
         .flatOpt(TransionApiOperator::as_applyNamedTransrepresent)
         .flatMap(a -> a.applyNamedTransrepresent(operatorId, sourceArtifact, xAccept, cfg));
   }
 
   @Override
   public Answer<TransrepresentationOperator> getTxionOperator(UUID operatorId) {
-    return Answer.of(getTransrepresentator(operatorId)
+    return Answer.ofTry(getTransrepresentator(operatorId)
         .map(TransionApiOperator::getDescriptor));
   }
 
