@@ -22,6 +22,7 @@ import static org.omg.spec.api4kp._20200801.AbstractCarrier.codedRep;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newId;
 import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newKey;
+import static org.omg.spec.api4kp._20200801.id.SemanticIdentifier.newVersionId;
 import static org.omg.spec.api4kp._20200801.services.transrepresentation.ModelMIMECoder.decodeAll;
 import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.JSON;
 import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.TXT;
@@ -57,6 +58,7 @@ import org.hl7.fhir.dstu3.model.CodeSystem;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionComponent;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionDesignationComponent;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
@@ -101,7 +103,7 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
   protected KnowledgeAssetRepositoryApi repo;
   protected AtomicBoolean online = new AtomicBoolean(false);
 
-  protected final Map<KeyIdentifier, CodeSystem> schemeIndex = new ConcurrentHashMap<>();
+  protected final Map<UUID, CodeSystem> schemeIndex = new ConcurrentHashMap<>();
   protected final Map<UUID, ConceptDefinitionComponent> conceptIndex = new ConcurrentHashMap<>();
 
   protected TermsSearcher searchEngine;
@@ -188,10 +190,10 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
     }
 
     var vocId = newId(vocabularyId, versionTag);
-    if (!schemeIndex.containsKey(vocId.asKey())) {
+    if (!schemeIndex.containsKey(vocabularyId)) {
       return Answer.notFound();
     }
-    var cs = schemeIndex.get(vocId.asKey());
+    var cs = schemeIndex.get(vocabularyId);
 
     if (negotiateHTML(xAccept)) {
       var carrier = AbstractCarrier.ofAst(cs)
@@ -216,7 +218,7 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
       return Answer.<ConceptDescriptor>failed(ServiceUnavailable).withExplanation(OFFLINE_MSG);
     }
 
-    return schemeIndex.containsKey(newKey(vocabularyId, versionTag))
+    return schemeIndex.containsKey(vocabularyId)
         ? lookupTerm(conceptId)
         : Answer.notFound();
   }
@@ -229,7 +231,7 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
       return Answer.<List<ConceptDescriptor>>failed(ServiceUnavailable).withExplanation(OFFLINE_MSG);
     }
 
-    return Answer.ofNullable(schemeIndex.get(newKey(vocabularyId, versionTag)))
+    return Answer.ofNullable(schemeIndex.get(vocabularyId))
         .map(cs -> cs.getConcept().stream()
             .map(cd -> toConceptDescriptor(cd, cs))
             .collect(Collectors.toList()));
@@ -326,10 +328,10 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
   }
 
   private void indexCodeSystem(KeyIdentifier key, CodeSystem cs, Index collector) {
-    collector.tempSchemeIndex.put(key, cs);
+    collector.tempSchemeIndex.put(key.getUuid(), cs);
     cs.getConcept()
         .forEach(cd -> {
-          cd.addExtension().setValue(cs.getUrlElement());
+          cd.addExtension().setValue(new StringType(key.getUuid().toString()));
           collector.tempConceptIndex.put(
               Util.ensureUUID(cd.getCode()).orElseGet(() -> Util.uuid(cd.getCode())),
               cd);
@@ -387,8 +389,8 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
 
 
   private ConceptDescriptor toConceptDescriptor(ConceptDefinitionComponent cscd) {
-    var ref = (UriType) cscd.getExtensionFirstRep().getValue();
-    var cs = schemeIndex.get(newId(URI.create(ref.getValueAsString())).asKey());
+    var ref = (StringType) cscd.getExtensionFirstRep().getValue();
+    var cs = schemeIndex.get(UUID.fromString(ref.toString()));
     return toConceptDescriptor(cscd, cs);
   }
 
@@ -476,7 +478,7 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
 
 
   private static class Index {
-    final Map<KeyIdentifier, CodeSystem> tempSchemeIndex = new HashMap<>();
+    final Map<UUID, CodeSystem> tempSchemeIndex = new HashMap<>();
     final Map<UUID, ConceptDefinitionComponent> tempConceptIndex = new HashMap<>();
 
     public void clear() {

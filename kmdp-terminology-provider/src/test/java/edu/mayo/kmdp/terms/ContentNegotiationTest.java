@@ -25,7 +25,7 @@ class ContentNegotiationTest {
     var server = new TermsFHIRFacade() {
       @Override
       void init() {
-        schemeIndex.put(SemanticIdentifier.newKey(csId,csVersion), cs);
+        schemeIndex.put(csId, cs);
         online.set(true);
       }
     };
