@@ -57,6 +57,7 @@ import org.hl7.fhir.dstu3.model.CodeSystem;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionComponent;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionDesignationComponent;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.UriType;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetCatalogApi;
@@ -328,7 +329,7 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
     collector.tempSchemeIndex.put(key, cs);
     cs.getConcept()
         .forEach(cd -> {
-          cd.addExtension().setValue(new Reference(cs));
+          cd.addExtension().setValue(cs.getUrlElement());
           collector.tempConceptIndex.put(
               Util.ensureUUID(cd.getCode()).orElseGet(() -> Util.uuid(cd.getCode())),
               cd);
@@ -386,8 +387,8 @@ public class TermsFHIRFacade implements TermsApiInternal, CompositeTermsServer, 
 
 
   private ConceptDescriptor toConceptDescriptor(ConceptDefinitionComponent cscd) {
-    var ref = (Reference)cscd.getExtensionFirstRep().getValue();
-    var cs = (CodeSystem) ref.getResource();
+    var ref = (UriType) cscd.getExtensionFirstRep().getValue();
+    var cs = schemeIndex.get(newId(URI.create(ref.getValueAsString())).asKey());
     return toConceptDescriptor(cscd, cs);
   }
 
