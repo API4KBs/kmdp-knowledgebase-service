@@ -14,11 +14,6 @@
 
   <name>KMDP :: Terminology Broker :: Provider</name>
 
-  <properties>
-    <kmdp.servers.impl>12.0.1-SNAPSHOT</kmdp.servers.impl>
-  </properties>
-
-
   <dependencies>
 
     <dependency>
@@ -41,7 +36,7 @@
     <dependency>
       <artifactId>kmdp-knowledge-transrepresentation-core</artifactId>
       <groupId>edu.mayo.kmdp</groupId>
-      <version>${kmdp.servers.impl}</version>
+      <version>${kmdp.impl.version}</version>
     </dependency>
 
     <dependency>
